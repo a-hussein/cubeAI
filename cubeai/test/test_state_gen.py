@@ -20,7 +20,6 @@ def test_generate_states():
             'red': ['r']*9,
             'orange': ['o']*9
         }
-        
         cube = Cube(solved)
         _cube_moves = []
         
