@@ -117,3 +117,14 @@ class Cube:
     
     def get_moves(self):
         return self.moves
+
+    def get_edge_count(self) -> Dict[str, int]:
+        edge_counts = {}
+        edge_values = {1,3,5,7}
+        
+        for face in self.cube_state:
+            edge_counts[face] = 0
+            for i, sticker in enumerate(self.cube_state[face]):
+                if sticker == face[0] and i in edge_values:
+                    edge_counts[face] +=1
+        return edge_counts
