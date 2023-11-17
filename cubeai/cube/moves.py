@@ -128,3 +128,28 @@ class Cube:
                 if sticker == face[0] and i in edge_values:
                     edge_counts[face] +=1
         return edge_counts
+
+    def cross_oriented(self, face='white'):
+        r"""
+        insert
+        """
+
+        orientation = ['green', 'red', 'blue', 'orange']
+        
+        oriented = [
+            ['g', 'r', 'b', 'o'], 
+            ['r', 'b', 'o', 'g'],
+            ['b', 'o', 'g', 'r'],
+            ['o','g', 'r', 'b']
+        ]
+        
+        _oriented = []
+                
+        if self.get_edge_count()[face] != 4:
+            return False
+        else:
+            for i in range(len(oriented[0])):
+                _oriented.append(self.cube_state[orientation[i]][5])
+        if _oriented in oriented:
+            return True
+        return False

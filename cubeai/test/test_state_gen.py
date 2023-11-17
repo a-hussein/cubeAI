@@ -60,3 +60,31 @@ def test_edge_count():
 
     assert cube.get_edge_count() == {'white': 1, 'yellow': 0, 'green': 2, 'blue': 0, 'red': 0, 'orange': 1}
     
+def test_cross_orientation():
+    moves = [
+        ['R', 'Dp', 'Rp', 'D', 'R'], # False
+        ['D'], # True
+        ['R', 'D', 'Lp', 'Dp', 'Rp', 'D', 'L'] # True
+    ]
+    
+    cubes = []
+    
+    for state in range(3):
+        solved = {
+            'white': ['w']*9,
+            'yellow': ['y']*9,
+            'green': ['g']*9,
+            'blue': ['b']*9,
+            'red': ['r']*9,
+            'orange': ['o']*9
+        }
+        cube = Cube(solved)
+        
+        for move in range(len(moves[state])):
+            getattr(cube, moves[state][move])()
+        
+        cubes.append(cube)
+    
+    assert cubes[0].cross_oriented() == False
+    assert cubes[1].cross_oriented() == True
+    assert cubes[2].cross_oriented() == True
