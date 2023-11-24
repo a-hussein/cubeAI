@@ -1,5 +1,6 @@
 import random
 from cubeai.cube.moves import Cube
+from cubeai.test.testing_functions import iterate_through_scrambles_for_testing
 
 
 def test_generate_states():
@@ -88,3 +89,58 @@ def test_cross_orientation():
     assert cubes[0].cross_oriented() == False
     assert cubes[1].cross_oriented() == True
     assert cubes[2].cross_oriented() == True
+
+
+def test_identify_cross_edge_type():
+    scrambles = [
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L', 'Rp'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Lp', 'Up', 'B']
+    ]
+    
+    cubes = iterate_through_scrambles_for_testing(scrambles)
+    
+    test_set = []
+    for cube in cubes:
+        test_set.append(cube.identify_cross_edge_type('white'))
+    #return test_set
+        
+    assert test_set[0] == [
+        {'_seven_type': {'orange': 'r'}},
+        {'_three_type': {'orange': 'g'}},
+        {'_one_type': {'orange': 'b'}},
+        {'_five_type': {}},
+        {'_top_type': {}},
+        {'bottum_type': {'red_layer': 'o'}}
+    ]
+        
+    assert test_set[1] == [
+        {'_seven_type': {'orange': 'r'}},
+        {'_three_type': {'orange': 'g'}},
+        {'_one_type': {'orange': 'b'}},
+        {'_five_type': {}},
+        {'_top_type': {'red_layer': 'o'}},
+        {'bottum_type': {}}
+    ]
+        
+        
+    assert test_set[2] == [
+        {'_seven_type': {'orange': 'b'}},
+        {'_three_type': {}},
+        {'_one_type': {'orange': 'g'}},
+        {'_five_type': {'orange': 'r'}},
+        {'_top_type': {'red_layer': 'o'}},
+        {'bottum_type': {}}
+    ]
+    
+    assert test_set[3] == [
+        {'_seven_type': {'green': 'o', 'orange': 'r'}},
+        {'_three_type': {'blue': 'b'}},
+        {'_one_type': {}},
+        {'_five_type': {}},
+        {'_top_type': {'blue_layer': 'g'}},
+        {'bottum_type': {}}
+    ]
+    
+    
