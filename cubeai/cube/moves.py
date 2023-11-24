@@ -153,3 +153,82 @@ class Cube:
         if _oriented in oriented:
             return True
         return False
+    
+    # making a function to identify what type of white cross edge (in this case, white) do i have
+    def identify_cross_edge_type(self, face='white'):    
+        _edge_count = 0
+        orientation = ['green', 'red', 'blue', 'orange', 'green'] # including green second time so that list not out of index
+
+        _seven_type, _three_type, _one_type, _five_type, _top_type, _bottum_type = {}, {}, {}, {}, {}, {}
+
+        _edges = {1,3,5,7}
+
+        # easy type, ie in the 7 slot of non-yelloow face
+        if self.get_edge_count()[face] < 4:
+            for i in range(4):
+                if self.cube_state[orientation[i]][7] == 'w':
+                    _seven_type[orientation[i]] = self.cube_state[orientation[i+1]][3]
+        
+        # easy type, ie in the 7 slot of non-yelloow face
+        if self.get_edge_count()[face] < 4:
+            for i in range(4):
+                if self.cube_state[orientation[i]][3] == 'w':
+                    _three_type[orientation[i]] = self.cube_state[orientation[i-1]][7]
+        
+        # one move away from easy type, ie in the one/five slot of non-yellow face
+        if self.get_edge_count()[face] < 4:
+            if self.cube_state['green'][1] == 'w':
+                _one_type['green'] = self.cube_state['yellow'][5]
+            if self.cube_state['red'][1] == 'w':
+                _one_type['red'] = self.cube_state['yellow'][7]
+            if self.cube_state['blue'][1] == 'w':
+                _one_type['blue'] = self.cube_state['yellow'][1]
+            if self.cube_state['orange'][1] == 'w':
+                _one_type['orange'] = self.cube_state['yellow'][3]
+        
+        # one move away from easy type, ie in the one/five slot of non-yellow face
+        if self.get_edge_count()[face] < 4:
+            if self.cube_state['green'][5] == 'w':
+                _five_type['green'] = self.cube_state['white'][1]
+            if self.cube_state['red'][5] == 'w':
+                _five_type['red'] = self.cube_state['white'][7]
+            if self.cube_state['blue'][5] == 'w':
+                _five_type['blue'] = self.cube_state['white'][5]
+            if self.cube_state['orange'][5] == 'w':
+                _five_type['orange'] = self.cube_state['white'][3]
+        
+        # top faced white edges - notice that this returns the face that has the color of the white edge, not the face containing the white edge, which will be yellow in this case
+        if self.get_edge_count()[face] < 4:
+            for i, color in enumerate(self.cube_state['yellow']):
+                if i in _edges and color == 'w':
+                    if i == 1:
+                        _top_type['blue_layer'] = self.cube_state['blue'][1]
+                    if i == 3:
+                        _top_type['orange_layer'] = self.cube_state['orange'][1]
+                    if i == 5:
+                        _top_type['green_layer'] = self.cube_state['green'][1]
+                    if i == 7:
+                        _top_type['red_layer'] = self.cube_state['red'][1]
+                        
+        # bottum faced white edges - notice that this returns the face that has the color of the white edge, not the face containing the white edge, which will be white in this case
+        if self.get_edge_count()[face] < 4:
+            for i, color in enumerate(self.cube_state['white']):
+                if i in _edges and color == 'w':
+                    if i == 1:
+                        _bottum_type['green_layer'] = self.cube_state['green'][5]
+                    if i == 3:
+                        _bottum_type['orange_layer'] = self.cube_state['orange'][5]
+                    if i == 5:
+                        _bottum_type['blue_layer'] = self.cube_state['blue'][5]
+                    if i == 7:
+                        _bottum_type['red_layer'] = self.cube_state['red'][5]    
+        
+        cross_edge_types = [
+            {'_seven_type': _seven_type}, 
+            {'_three_type': _three_type}, 
+            {'_one_type': _one_type}, 
+            {'_five_type': _five_type},
+            {'_top_type': _top_type},
+            {'bottum_type': _bottum_type}
+        ]
+        return cross_edge_types 
