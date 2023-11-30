@@ -167,61 +167,61 @@ class Cube:
         if self.get_edge_count()[face] < 4:
             for i in range(4):
                 if self.cube_state[orientation[i]][7] == 'w':
-                    _seven_type[orientation[i]] = self.cube_state[orientation[i+1]][3]
+                    _seven_type[orientation[i]] = [self.cube_state[orientation[i+1]][8], self.cube_state[orientation[i+1]][3]]
         
         # easy type, ie in the 7 slot of non-yelloow face
         if self.get_edge_count()[face] < 4:
             for i in range(4):
                 if self.cube_state[orientation[i]][3] == 'w':
-                    _three_type[orientation[i]] = self.cube_state[orientation[i-1]][7]
+                    _three_type[orientation[i]] = [self.cube_state[orientation[i-1]][8], self.cube_state[orientation[i-1]][7]]
         
         # one move away from easy type, ie in the one/five slot of non-yellow face
         if self.get_edge_count()[face] < 4:
             if self.cube_state['green'][1] == 'w':
-                _one_type['green'] = self.cube_state['yellow'][5]
+                _one_type['green'] = [self.cube_state['yellow'][8], self.cube_state['yellow'][5]]
             if self.cube_state['red'][1] == 'w':
-                _one_type['red'] = self.cube_state['yellow'][7]
+                _one_type['red'] = [self.cube_state['yellow'][8], self.cube_state['yellow'][7]]
             if self.cube_state['blue'][1] == 'w':
-                _one_type['blue'] = self.cube_state['yellow'][1]
+                _one_type['blue'] = [self.cube_state['yellow'][8], self.cube_state['yellow'][1]]
             if self.cube_state['orange'][1] == 'w':
-                _one_type['orange'] = self.cube_state['yellow'][3]
+                _one_type['orange'] = [self.cube_state['yellow'][8], self.cube_state['yellow'][3]]
         
         # one move away from easy type, ie in the one/five slot of non-yellow face
         if self.get_edge_count()[face] < 4:
             if self.cube_state['green'][5] == 'w':
-                _five_type['green'] = self.cube_state['white'][1]
+                _five_type['green'] = [self.cube_state['white'][8], self.cube_state['white'][1]]
             if self.cube_state['red'][5] == 'w':
-                _five_type['red'] = self.cube_state['white'][7]
+                _five_type['red'] = [self.cube_state['white'][8], self.cube_state['white'][7]]
             if self.cube_state['blue'][5] == 'w':
-                _five_type['blue'] = self.cube_state['white'][5]
+                _five_type['blue'] = [self.cube_state['white'][8], self.cube_state['white'][5]]
             if self.cube_state['orange'][5] == 'w':
-                _five_type['orange'] = self.cube_state['white'][3]
+                _five_type['orange'] = [self.cube_state['white'][8], self.cube_state['white'][3]]
         
         # top faced white edges - notice that this returns the face that has the color of the white edge, not the face containing the white edge, which will be yellow in this case
         if self.get_edge_count()[face] < 4:
             for i, color in enumerate(self.cube_state['yellow']):
                 if i in _edges and color == 'w':
                     if i == 1:
-                        _top_type['blue_layer'] = self.cube_state['blue'][1]
+                        _top_type['yellow_b'] = [self.cube_state['blue'][8], self.cube_state['blue'][1]]
                     if i == 3:
-                        _top_type['orange_layer'] = self.cube_state['orange'][1]
+                        _top_type['yellow_o'] = [self.cube_state['orange'][8], self.cube_state['orange'][1]]
                     if i == 5:
-                        _top_type['green_layer'] = self.cube_state['green'][1]
+                        _top_type['yellow_g'] = [self.cube_state['green'][8], self.cube_state['green'][1]]
                     if i == 7:
-                        _top_type['red_layer'] = self.cube_state['red'][1]
+                        _top_type['yellow_r'] = [self.cube_state['red'][8], self.cube_state['red'][1]]
                         
         # bottum faced white edges - notice that this returns the face that has the color of the white edge, not the face containing the white edge, which will be white in this case
         if self.get_edge_count()[face] < 4:
             for i, color in enumerate(self.cube_state['white']):
                 if i in _edges and color == 'w':
                     if i == 1:
-                        _bottum_type['green_layer'] = self.cube_state['green'][5]
+                        _bottum_type['white_g'] = [self.cube_state['green'][8], self.cube_state['green'][5]]
                     if i == 3:
-                        _bottum_type['orange_layer'] = self.cube_state['orange'][5]
+                        _bottum_type['white_o'] = [self.cube_state['orange'][8], self.cube_state['orange'][5]]
                     if i == 5:
-                        _bottum_type['blue_layer'] = self.cube_state['blue'][5]
+                        _bottum_type['white_b'] = [self.cube_state['blue'][8], self.cube_state['blue'][5]]
                     if i == 7:
-                        _bottum_type['red_layer'] = self.cube_state['red'][5]    
+                        _bottum_type['white_r'] = [self.cube_state['red'][8], self.cube_state['red'][5]]   
         
         cross_edge_types = [
             {'_seven_type': _seven_type}, 
