@@ -107,40 +107,41 @@ def test_identify_cross_edge_type():
     #return test_set
         
     assert test_set[0] == [
-        {'_seven_type': {'orange': 'r'}},
-        {'_three_type': {'orange': 'g'}},
-        {'_one_type': {'orange': 'b'}},
+        {'_seven_type': {'orange': ['g', 'r']}},
+        {'_three_type': {'orange': ['b', 'g']}},
+        {'_one_type': {'orange': ['y', 'b']}},
         {'_five_type': {}},
         {'_top_type': {}},
-        {'bottum_type': {'red_layer': 'o'}}
+        {'bottum_type': {'white_r': ['r', 'o']}}
     ]
         
     assert test_set[1] == [
-        {'_seven_type': {'orange': 'r'}},
-        {'_three_type': {'orange': 'g'}},
-        {'_one_type': {'orange': 'b'}},
+        {'_seven_type': {'orange': ['g', 'r']}},
+        {'_three_type': {'orange': ['b', 'g']}},
+        {'_one_type': {'orange': ['y', 'b']}},
         {'_five_type': {}},
-        {'_top_type': {'red_layer': 'o'}},
+        {'_top_type': {'yellow_r': ['r', 'o']}},
         {'bottum_type': {}}
     ]
         
         
     assert test_set[2] == [
-        {'_seven_type': {'orange': 'b'}},
+        {'_seven_type': {'orange': ['g', 'b']}},
         {'_three_type': {}},
-        {'_one_type': {'orange': 'g'}},
-        {'_five_type': {'orange': 'r'}},
-        {'_top_type': {'red_layer': 'o'}},
+        {'_one_type': {'orange': ['y', 'g']}},
+        {'_five_type': {'orange': ['w', 'r']}},
+        {'_top_type': {'yellow_r': ['r', 'o']}},
         {'bottum_type': {}}
     ]
     
     assert test_set[3] == [
-        {'_seven_type': {'green': 'o', 'orange': 'r'}},
-        {'_three_type': {'blue': 'b'}},
+        {'_seven_type': {'green': ['r', 'o'], 'orange': ['g', 'r']}},
+        {'_three_type': {'blue': ['r', 'b']}},
         {'_one_type': {}},
         {'_five_type': {}},
-        {'_top_type': {'blue_layer': 'g'}},
+        {'_top_type': {'yellow_b': ['b', 'g']}},
         {'bottum_type': {}}
     ]
+
     
     
