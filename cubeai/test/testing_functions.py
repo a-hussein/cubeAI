@@ -21,8 +21,6 @@ def do_scramble(moves):
     cube = solved_cube()
         
     for move in range(len(moves)):
-        if move == '':
-            pass
         getattr(cube, moves[move])()
 
     return cube

@@ -20,6 +20,9 @@ class Cube:
         arr[2],arr[3],arr[4],arr[5],arr[6],arr[7],arr[0],arr[1] = arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],arr[7]
         return arr      
  
+    def I(self):
+        pass
+
     def R(self):
         self.cube_state['yellow'][2], self.cube_state['yellow'][3], self.cube_state['yellow'][4], \
         self.cube_state['blue'][6], self.cube_state['blue'][7], self.cube_state['blue'][0], \
