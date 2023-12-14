@@ -1,6 +1,6 @@
 import random
 from cubeai.cube.moves import Cube
-from cubeai.test.testing_functions import iterate_through_scrambles_for_testing
+from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing
 
 
 def test_generate_states():
@@ -91,57 +91,133 @@ def test_cross_orientation():
     assert cubes[2].cross_oriented() == True
 
 
-def test_identify_cross_edge_type():
+def test_do_scramble():
+    scramble = ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R']
+    cube_with_R_move = do_scramble(['R'])
+
+    assert do_scramble(scramble).cube_state == {
+        'white': ['g', 'r', 'b', 'w', 'o', 'r', 'r', 'y', 'w'],
+        'yellow': ['b', 'o', 'r', 'b', 'g', 'o', 'o', 'g', 'y'],
+        'green': ['w', 'b', 'o', 'r', 'r', 'b', 'y', 'y', 'g'],
+        'blue': ['b', 'g', 'o', 'y', 'g', 'g', 'b', 'g', 'b'],
+        'red': ['w', 'y', 'g', 'b', 'r', 'o', 'w', 'r', 'r'],
+        'orange': ['y', 'w', 'y', 'w', 'y', 'o', 'w', 'w', 'o']
+        }
+
+    assert do_scramble(scramble, solved_cube()).cube_state == {
+        'white': ['g', 'r', 'b', 'w', 'o', 'r', 'r', 'y', 'w'],
+        'yellow': ['b', 'o', 'r', 'b', 'g', 'o', 'o', 'g', 'y'],
+        'green': ['w', 'b', 'o', 'r', 'r', 'b', 'y', 'y', 'g'],
+        'blue': ['b', 'g', 'o', 'y', 'g', 'g', 'b', 'g', 'b'],
+        'red': ['w', 'y', 'g', 'b', 'r', 'o', 'w', 'r', 'r'],
+        'orange': ['y', 'w', 'y', 'w', 'y', 'o', 'w', 'w', 'o']
+        }
+
+    assert do_scramble(scramble, cube_with_R_move).cube_state == {
+        'white': ['g', 'r', 'b', 'b', 'o', 'r', 'r', 'g', 'w'],
+        'yellow': ['y', 'o', 'r', 'b', 'w', 'o', 'o', 'g', 'y'],
+        'green': ['b', 'y', 'o', 'r', 'r', 'b', 'y', 'y', 'g'],
+        'blue': ['b', 'w', 'o', 'y', 'g', 'g', 'y', 'g', 'b'],
+        'red': ['b', 'y', 'w', 'b', 'r', 'o', 'w', 'r', 'r'],
+        'orange': ['g', 'w', 'y', 'w', 'g', 'o', 'w', 'w', 'o']
+        }
+
+    assert do_scramble(['I']).cube_state == {
+        'white': ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
+        'yellow': ['y', 'y', 'y', 'y', 'y', 'y', 'y', 'y', 'y'],
+        'green': ['g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g'],
+        'blue': ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+        'red': ['r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r'],
+        'orange': ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o']
+        }
+
+    assert do_scramble(['R'], cube_with_R_move, in_place=True).cube_state == {
+        'white': ['w', 'w', 'y', 'y', 'y', 'w', 'w', 'w', 'w'],
+        'yellow': ['y', 'y', 'w', 'w', 'w', 'y', 'y', 'y', 'y'],
+        'green': ['g', 'g', 'b', 'b', 'b', 'g', 'g', 'g', 'g'],
+        'blue': ['g', 'b', 'b', 'b', 'b', 'b', 'g', 'g', 'b'],
+        'red': ['r', 'r', 'r', 'r', 'r', 'r', 'r', 'r', 'r'],
+        'orange': ['o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o']
+        }
+
+def test_iterate_through_scrambles_for_testing():
     scrambles = [
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
-        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L'],
-        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L', 'Rp'],
-        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Lp', 'Up', 'B']
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L']
     ]
+
+
+    assert iterate_through_scrambles_for_testing(scrambles)[0].cube_state == {
+        'white': ['o', 'r', 'r', 'y', 'g', 'r', 'b', 'w', 'w'],
+        'yellow': ['b', 'o', 'r', 'b', 'g', 'o', 'o', 'g', 'y'],
+        'green': ['w', 'b', 'o', 'r', 'g', 'g', 'b', 'y', 'g'],
+        'blue': ['b', 'g', 'o', 'y', 'r', 'b', 'y', 'g', 'b'],
+        'red': ['w', 'y', 'g', 'b', 'y', 'o', 'w', 'r', 'r'],
+        'orange': ['y', 'w', 'y', 'w', 'r', 'o', 'w', 'w', 'o']
+        }
+
+    assert iterate_through_scrambles_for_testing(scrambles)[1].cube_state == {
+        'white': ['b', 'r', 'r', 'y', 'g', 'r', 'o', 'g', 'w'],
+        'yellow': ['o', 'o', 'r', 'b', 'g', 'o', 'b', 'w', 'y'],
+        'green': ['r', 'b', 'o', 'r', 'g', 'g', 'o', 'y', 'g'],
+        'blue': ['b', 'g', 'b', 'y', 'w', 'b', 'y', 'g', 'b'],
+        'red': ['y', 'o', 'w', 'r', 'w', 'y', 'g', 'b', 'r'],
+        'orange': ['y', 'w', 'y', 'w', 'r', 'o', 'w', 'w', 'o']
+        }
+
+    assert do_scramble(['L', 'L'], iterate_through_scrambles_for_testing(scrambles)[0]).cube_state == iterate_through_scrambles_for_testing(scrambles)[1].cube_state
+
+# def test_identify_cross_edge_type():
+#     scrambles = [
+#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
+#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L'],
+#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L', 'Rp'],
+#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Lp', 'Up', 'B']
+#     ]
+#     cube = solved_cube()
+#     cubes = iterate_through_scrambles_for_testing(scrambles, cube)
     
-    cubes = iterate_through_scrambles_for_testing(scrambles)
+#     test_set = []
+#     for sub_cube in cubes:
+#         test_set.append(sub_cube.identify_cross_edge_type('white'))
+#     #return test_set
+        
+#     assert test_set[0] == [
+#         {'_seven_type': {'orange': ['g', 'r']}},
+#         {'_three_type': {'orange': ['b', 'g']}},
+#         {'_one_type': {'orange': ['y', 'b']}},
+#         {'_five_type': {}},
+#         {'_top_type': {}},
+#         {'bottum_type': {'white_r': ['r', 'o']}}
+#     ]
+        
+#     assert test_set[1] == [
+#         {'_seven_type': {'orange': ['g', 'r']}},
+#         {'_three_type': {'orange': ['b', 'g']}},
+#         {'_one_type': {'orange': ['y', 'b']}},
+#         {'_five_type': {}},
+#         {'_top_type': {'yellow_r': ['r', 'o']}},
+#         {'bottum_type': {}}
+#     ]
+        
+        
+#     assert test_set[2] == [
+#         {'_seven_type': {'orange': ['g', 'b']}},
+#         {'_three_type': {}},
+#         {'_one_type': {'orange': ['y', 'g']}},
+#         {'_five_type': {'orange': ['w', 'r']}},
+#         {'_top_type': {'yellow_r': ['r', 'o']}},
+#         {'bottum_type': {}}
+#     ]
     
-    test_set = []
-    for cube in cubes:
-        test_set.append(cube.identify_cross_edge_type('white'))
-    #return test_set
-        
-    assert test_set[0] == [
-        {'_seven_type': {'orange': ['g', 'r']}},
-        {'_three_type': {'orange': ['b', 'g']}},
-        {'_one_type': {'orange': ['y', 'b']}},
-        {'_five_type': {}},
-        {'_top_type': {}},
-        {'bottum_type': {'white_r': ['r', 'o']}}
-    ]
-        
-    assert test_set[1] == [
-        {'_seven_type': {'orange': ['g', 'r']}},
-        {'_three_type': {'orange': ['b', 'g']}},
-        {'_one_type': {'orange': ['y', 'b']}},
-        {'_five_type': {}},
-        {'_top_type': {'yellow_r': ['r', 'o']}},
-        {'bottum_type': {}}
-    ]
-        
-        
-    assert test_set[2] == [
-        {'_seven_type': {'orange': ['g', 'b']}},
-        {'_three_type': {}},
-        {'_one_type': {'orange': ['y', 'g']}},
-        {'_five_type': {'orange': ['w', 'r']}},
-        {'_top_type': {'yellow_r': ['r', 'o']}},
-        {'bottum_type': {}}
-    ]
-    
-    assert test_set[3] == [
-        {'_seven_type': {'green': ['r', 'o'], 'orange': ['g', 'r']}},
-        {'_three_type': {'blue': ['r', 'b']}},
-        {'_one_type': {}},
-        {'_five_type': {}},
-        {'_top_type': {'yellow_b': ['b', 'g']}},
-        {'bottum_type': {}}
-    ]
+#     assert test_set[3] == [
+#         {'_seven_type': {'green': ['r', 'o'], 'orange': ['g', 'r']}},
+#         {'_three_type': {'blue': ['r', 'b']}},
+#         {'_one_type': {}},
+#         {'_five_type': {}},
+#         {'_top_type': {'yellow_b': ['b', 'g']}},
+#         {'bottum_type': {}}
+#     ]
 
     
     

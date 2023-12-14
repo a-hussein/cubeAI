@@ -1,3 +1,4 @@
+from copy import deepcopy
 from cubeai.cube.moves import Cube
 
 
@@ -15,15 +16,18 @@ def solved_cube():
     
     return solved_cube
 
-def do_scramble(moves):
-    cubes = []
+def do_scramble(moves, cube=solved_cube(), in_place=False):
+ 
+    if in_place == False:
+        cube_copy = deepcopy(cube)    
+        for move in range(len(moves)):
+            getattr(cube_copy, moves[move])()
+        return cube_copy
 
-    cube = solved_cube()
-        
-    for move in range(len(moves)):
-        getattr(cube, moves[move])()
-
-    return cube
+    else:
+        for move in range(len(moves)):
+            getattr(cube, moves[move])()
+        return cube
 
 def iterate_through_scrambles_for_testing(many_scrambles):
     cubes = []
