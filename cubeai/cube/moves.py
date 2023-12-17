@@ -235,3 +235,160 @@ class Cube:
             {'bottum_type': _bottum_type}
         ]
         return cross_edge_types 
+
+    def combo(self):
+        cross_dict = self.identify_cross_edge_type()
+
+        _combo = []
+        _combos = [[]]*4
+        for i, _type in enumerate(cross_dict):
+            for face_with_white_edge in list(cross_dict[i][list(cross_dict[i].keys())[0]].keys()):
+                _combo.append(list(cross_dict[i].keys())[0])
+                _combo.append(face_with_white_edge)
+                _combo.append(list(cross_dict[i].values())[0].get(face_with_white_edge)[0])
+                _combo.append(list(cross_dict[i].values())[0].get(face_with_white_edge)[1])
+
+        _combos[0] = (_combo[0:4])
+        _combos[1] = (_combo[4:8])
+        _combos[2] = (_combo[8:12])
+        _combos[3] = (_combo[12:16])
+
+        return _combos
+
+    def orientation_delta(self, i, j, which_layer='bottum'):
+        g,r,b,o = 0,1,2,3
+        color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
+
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
+        top_mapping = {0: ['I'], 1: ['Up'], 2: ['U','U'], 3:['U']}
+
+        _combo = self.combo()
+            
+        layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
+        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]])
+        
+        new_delta = 0
+        if layer_delta != sticker_delta:
+            new_delta = (layer_delta - sticker_delta)%4
+        
+        if which_layer == 'bottum':
+            return bottum_mapping[new_delta]
+        else:
+            return top_mapping[new_delta]
+
+    def seven_type_cross_solver(self):
+        _cross_dict = self.identify_cross_edge_type()
+        if list(_cross_dict[0]['_seven_type'].keys()) == []: # edge case if no seven types
+            return
+        
+        _faces = ['green', 'red', 'blue', 'orange']
+
+        _combo = self.combo()
+        
+        _move = []
+        _orientation_move = []
+        _combo_plus_move = []
+                    
+        if self.cross_oriented() == False:
+            for i, edge in enumerate(_combo): 
+                if edge[0] == '_seven_type':
+                    if edge[1] == 'green':
+                        _move.append('L')
+                    elif edge[1] == 'red':
+                        _move.append('B')                    
+                    elif edge[1] == 'blue':
+                        _move.append('R')    
+                    elif edge[1] == 'orange':
+                        _move.append('F')  
+        
+        ####################################
+        # this should potentially be its own function
+        sevens = []
+        for i, edge in enumerate(_combo):
+            if edge[0] == '_seven_type':
+                sevens.append(i)
+            
+        bottums = []
+        for i, edge in enumerate(_combo):
+            if edge[0] == 'bottum_type':
+                bottums.append(i)
+        
+        _i_j = []
+        for seven in sevens:
+            for bottum in bottums:
+                _i_j.append([seven, bottum])
+        
+        ####################################
+
+        for i, seven_bottums in enumerate(_i_j):
+            _orientation_move.append(self.orientation_delta(_i_j[i][0], _i_j[i][1]))
+        
+        
+        for i, move in enumerate(_move):
+            for j, (seven, bottum) in enumerate(_i_j):
+                if i == seven:
+                    _combo_plus_move.append(_orientation_move[j] + [move])
+        
+        return _combo_plus_move   
+
+    def three_type_cross_solver(self):
+        _cross_dict = self.identify_cross_edge_type()
+        if list(_cross_dict[1]['_three_type'].keys()) == []:
+            return
+        
+        _faces = ['green', 'red', 'blue', 'orange']
+
+        _combo = self.combo()
+        
+        _move = []
+        _orientation_move = []
+        _combo_plus_move = []
+        
+        
+        # one move to solve _three_type
+        if self.cross_oriented() == False:
+            for face_with_white_edge in list(_cross_dict[1]['_three_type'].keys()):
+                if face_with_white_edge == 'green':
+                    _move.append('Rp')
+                elif face_with_white_edge == 'red':
+                    _move.append('Fp')                    
+                elif face_with_white_edge == 'blue':
+                    _move.append('Lp')    
+                elif face_with_white_edge == 'orange':
+                    _move.append('Bp')   
+        
+        ####################################
+        # this should potentially be its own function
+        threes = []
+        for i, edge in enumerate(_combo):
+            if edge[0] == '_three_type':
+                threes.append(i)
+            
+        bottums = []
+        for i, edge in enumerate(_combo):
+            if edge[0] == 'bottum_type':
+                bottums.append(i)
+        
+        _i_j = []
+        for three in threes:
+            for bottum in bottums:
+                _i_j.append([three, bottum])
+        
+        ####################################
+
+        for i, three_bottums in enumerate(_i_j):
+            _orientation_move.append(self.orientation_delta(_i_j[i][0], _i_j[i][1]))
+        
+        # this takse care of edge case where one three, one seven and one bottum
+        if len(_i_j) == 1:
+            _combo_plus_move.append(_orientation_move[0] + [_move][0])
+
+        # otherwise take "cross-product"
+        else:
+            for i, move in enumerate(_move):
+                for j, (three, bottum) in enumerate(_i_j):
+                    if i == three:
+                        _combo_plus_move.append(_orientation_move[j] + [move])
+                    
+
+        return _combo_plus_move
