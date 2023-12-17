@@ -174,13 +174,8 @@ def test_identify_cross_edge_type():
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L', 'Rp'],
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Lp', 'Up', 'B']
     ]
-    # cube = solved_cube()
+
     cubes = iterate_through_scrambles_for_testing(scrambles)
-    
-    test_set = []
-    for cube in cubes:
-        test_set.append(cube.identify_cross_edge_type('white'))
-    #return test_set
         
     assert cubes[0].identify_cross_edge_type() == [
         {'_seven_type': {'orange': ['g', 'r']}},
@@ -219,5 +214,62 @@ def test_identify_cross_edge_type():
         {'bottum_type': {}}
     ]
 
+def test_combo():
+    scrambles = [
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B', 'Rp', 'F','R'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Bp'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'F', 'F'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Fp']
+    ]
+
+    cubes = iterate_through_scrambles_for_testing(scrambles)
+        
+    assert cubes[0].combo() == [
+        ['_seven_type', 'orange', 'g', 'r'],
+        ['_three_type', 'orange', 'b', 'g'],
+        ['_one_type', 'orange', 'y', 'b'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]
+        
+    assert cubes[1].combo() == [
+        ['_seven_type', 'red', 'b', 'g'],
+        ['_seven_type', 'orange', 'g', 'r'],
+        ['bottum_type', 'white_g', 'g', 'b'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]
+        
+    assert cubes[2].combo() == [
+        ['_seven_type', 'orange', 'g', 'r'],
+        ['_one_type', 'orange', 'y', 'b'],
+        ['bottum_type', 'white_b', 'b', 'g'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]
+
+    assert cubes[3].combo() == [
+        ['_seven_type', 'red', 'b', 'g'],
+        ['_seven_type', 'orange', 'g', 'r'],
+        ['_one_type', 'orange', 'y', 'b'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]
     
-    
+    assert cubes[4].combo() == [
+        ['_seven_type', 'orange', 'g', 'r'],
+        ['_one_type', 'orange', 'y', 'b'],
+        ['_top_type', 'yellow_b', 'b', 'g'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]
+    assert cubes[5].combo() == [
+        ['_three_type', 'red', 'g', 'r'],
+        ['_three_type', 'orange', 'b', 'g'],
+        ['_one_type', 'orange', 'y', 'b'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]
+    assert cubes[6].combo() == [
+        ['_three_type', 'orange', 'b', 'g'],
+        ['_one_type', 'orange', 'y', 'b'],
+        ['_top_type', 'yellow_g', 'g', 'r'],
+        ['bottum_type', 'white_r', 'r', 'o']
+        ]

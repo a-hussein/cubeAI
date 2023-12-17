@@ -235,3 +235,22 @@ class Cube:
             {'bottum_type': _bottum_type}
         ]
         return cross_edge_types 
+
+    def combo(self):
+        cross_dict = self.identify_cross_edge_type()
+
+        _combo = []
+        _combos = [[]]*4
+        for i, _type in enumerate(cross_dict):
+            for face_with_white_edge in list(cross_dict[i][list(cross_dict[i].keys())[0]].keys()):
+                _combo.append(list(cross_dict[i].keys())[0])
+                _combo.append(face_with_white_edge)
+                _combo.append(list(cross_dict[i].values())[0].get(face_with_white_edge)[0])
+                _combo.append(list(cross_dict[i].values())[0].get(face_with_white_edge)[1])
+
+        _combos[0] = (_combo[0:4])
+        _combos[1] = (_combo[4:8])
+        _combos[2] = (_combo[8:12])
+        _combos[3] = (_combo[12:16])
+
+        return _combos
