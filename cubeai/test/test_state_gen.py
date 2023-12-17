@@ -273,3 +273,19 @@ def test_combo():
         ['_top_type', 'yellow_g', 'g', 'r'],
         ['bottum_type', 'white_r', 'r', 'o']
         ]
+
+def test_orientation_delta():
+    many_scrambles = [
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D'],
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'F', 'B', 'B']
+        ]
+    
+    cubes = iterate_through_scrambles_for_testing(many_scrambles)
+    
+    assert cubes[0].orientation_delta(0,3) == ['Dp']
+    assert cubes[0].orientation_delta(1,3) == ['I']
+    assert cubes[1].orientation_delta(0,3) == ['D', 'D']
+    assert cubes[1].orientation_delta(1,3) == ['Dp']
+    assert cubes[2].orientation_delta(0,3) == ['D']
+    assert cubes[2].orientation_delta(1,3) == ['D', 'D']

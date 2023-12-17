@@ -254,3 +254,24 @@ class Cube:
         _combos[3] = (_combo[12:16])
 
         return _combos
+
+    def orientation_delta(self, i, j, which_layer='bottum'):
+        g,r,b,o = 0,1,2,3
+        color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
+
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
+        top_mapping = {0: ['I'], 1: ['Up'], 2: ['U','U'], 3:['U']}
+
+        _combo = self.combo()
+            
+        layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
+        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]])
+        
+        new_delta = 0
+        if layer_delta != sticker_delta:
+            new_delta = (layer_delta - sticker_delta)%4
+        
+        if which_layer == 'bottum':
+            return bottum_mapping[new_delta]
+        else:
+            return top_mapping[new_delta]
