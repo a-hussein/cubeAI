@@ -254,27 +254,42 @@ class Cube:
         _combos[3] = (_combo[12:16])
 
         return _combos
-
-    def orientation_delta(self, i, j, which_layer='bottum'):
+        
+    def seven_three_orientation_delta(self, i, j, which_layer):
         g,r,b,o = 0,1,2,3
         color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
 
         bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
-        top_mapping = {0: ['I'], 1: ['Up'], 2: ['U','U'], 3:['U']}
+        top_mapping = {0: ['I'], 1: ['U'], 2: ['U','U'], 3:['Up']}
 
         _combo = self.combo()
+        
+        # this is an edge case when we are doing U_delta for one_type/five_type for seven/three
+        if _combo[j][2] == 'y' or _combo[j][2] == 'w':
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][1][0]]) # need face of one_type/five_type
+        else:
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
             
-        layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
         sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]])
         
-        new_delta = 0
-        if layer_delta != sticker_delta:
-            new_delta = (layer_delta - sticker_delta)%4
-        
+        # D delta
         if which_layer == 'bottum':
-            return bottum_mapping[new_delta]
+            new_delta=0
+            # for seven/three to bottum
+            if _combo[j][0] == 'bottum_type':
+                if layer_delta != sticker_delta:
+                    new_delta = (layer_delta - sticker_delta)%4
+                    return bottum_mapping[new_delta]
+            # for seven and three for five
+            elif _combo[j][0] == '_five_type':
+                new_delta = (layer_delta)%4
+                return bottum_mapping[new_delta]
+        # U delta
+        # for seven/three to top/one
         else:
+            new_delta = (layer_delta)%4
             return top_mapping[new_delta]
+
 
     def seven_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
@@ -302,7 +317,8 @@ class Cube:
                         _move.append('F')  
         
         ####################################
-        # this should potentially be its own function
+        # this should potentially be its own function since it decided the i and j in orientation_delta function and exits in three_solver
+        # determing which types to check orientation for
         sevens = []
         for i, edge in enumerate(_combo):
             if edge[0] == '_seven_type':
@@ -321,7 +337,7 @@ class Cube:
         ####################################
 
         for i, seven_bottums in enumerate(_i_j):
-            _orientation_move.append(self.orientation_delta(_i_j[i][0], _i_j[i][1]))
+            _orientation_move.append(self.seven_three_orientation_delta(_i_j[i][0], _i_j[i][1], 'bottum'))
         
         
         for i, move in enumerate(_move):
@@ -358,7 +374,7 @@ class Cube:
                     _move.append('Bp')   
         
         ####################################
-        # this should potentially be its own function
+        # this should potentially be its own function since it decided the i and j in orientation_delta function
         threes = []
         for i, edge in enumerate(_combo):
             if edge[0] == '_three_type':
@@ -377,7 +393,7 @@ class Cube:
         ####################################
 
         for i, three_bottums in enumerate(_i_j):
-            _orientation_move.append(self.orientation_delta(_i_j[i][0], _i_j[i][1]))
+            _orientation_move.append(self.seven_three_orientation_delta(_i_j[i][0], _i_j[i][1], 'bottum'))
         
         # this takse care of edge case where one three, one seven and one bottum
         if len(_i_j) == 1:
