@@ -276,19 +276,26 @@ def test_combo():
 
 def test_orientation_delta():
     many_scrambles = [
-            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
-            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D'],
-            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'F', 'B', 'B']
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'], # seven/three/one/bottum
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B'], # seven/one/top/bottum
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D'] # seven/five/top/bottum
         ]
     
     cubes = iterate_through_scrambles_for_testing(many_scrambles)
     
-    assert cubes[0].orientation_delta(0,3) == ['Dp']
-    assert cubes[0].orientation_delta(1,3) == ['I']
-    assert cubes[1].orientation_delta(0,3) == ['D', 'D']
-    assert cubes[1].orientation_delta(1,3) == ['Dp']
-    assert cubes[2].orientation_delta(0,3) == ['D']
-    assert cubes[2].orientation_delta(1,3) == ['D', 'D']
+    assert cubes[0].seven_three_orientation_delta(0, 3, 'bottum') == ['Dp']
+    assert cubes[0].seven_three_orientation_delta(0, 2, 'top') == ['U']
+    assert cubes[0].seven_three_orientation_delta(1, 3, 'bottum') == ['I']
+    assert cubes[0].seven_three_orientation_delta(1, 2, 'top') == ['Up']
+
+    assert cubes[1].seven_three_orientation_delta(0, 3, 'bottum') == ['D', 'D']
+    assert cubes[1].seven_three_orientation_delta(0, 1, 'top') == ['U']
+    assert cubes[1].seven_three_orientation_delta(0, 2, 'top') == ['U', 'U']
+
+    assert cubes[2].seven_three_orientation_delta(0, 3, 'bottum') == ['D', 'D']
+    assert cubes[2].seven_three_orientation_delta(0, 1, 'bottum') == ['D', 'D']
+    assert cubes[2].seven_three_orientation_delta(0, 2, 'top') == ['U', 'U']
+
 
 def test_seven_type_cross_solver():
     scrambles = [
@@ -331,7 +338,3 @@ def test_three_type_cross_solver():
     assert cubes[4].three_type_cross_solver() == None
     assert cubes[5].three_type_cross_solver() == [['Dp', 'Fp'], ['I', 'Bp']]
     assert cubes[6].three_type_cross_solver() == [['I', 'Bp']]
-
-
-
-
