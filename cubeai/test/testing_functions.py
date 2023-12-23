@@ -29,6 +29,7 @@ def do_scramble(moves, cube=solved_cube(), in_place=False):
             getattr(cube, moves[move])()
         return cube
 
+# use multiple scrambles - useful for testing
 def iterate_through_scrambles_for_testing(many_scrambles):
     cubes = []
     for scramble in range(len(many_scrambles)):
