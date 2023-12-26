@@ -1,5 +1,5 @@
 from typing import Dict, List
-
+from itertools import product
 
 class Cube:
     def __init__(self, cube_state: Dict[str, List[str]]):
@@ -255,7 +255,7 @@ class Cube:
 
         return _combos
         
-    def seven_three_orientation_delta(self, i, j, which_layer):
+    def seven_three_orientation_delta(self, i, j):
         g,r,b,o = 0,1,2,3
         color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
 
@@ -272,8 +272,11 @@ class Cube:
             
         sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]])
         
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
         # D delta
-        if which_layer == 'bottum':
+        if _combo[j][0] in bottums:
             new_delta=0
             # for seven/three to bottum
             if _combo[j][0] == 'bottum_type':
@@ -288,9 +291,20 @@ class Cube:
                 return bottum_mapping[new_delta]
         # U delta
         # for seven/three to top/one
-        else:
+        elif _combo[j][0] in tops:
             new_delta = (layer_delta)%4
             return top_mapping[new_delta]
+        
+    def combine_seven_three_orientation_delta(self, i, j, k):
+        if self.seven_three_orientation_delta(i,j) != None and self.seven_three_orientation_delta(i,k) != None:
+            return self.seven_three_orientation_delta(i,j) + self.seven_three_orientation_delta(i,k)
+        elif self.seven_three_orientation_delta(i,j) != None:
+            return self.seven_three_orientation_delta(i,j)
+        elif self.seven_three_orientation_delta(i,k) != None:
+            return self.seven_three_orientation_delta(i,k)
+        else:
+            return ['I']
+        # this way we can give one type/top/bottum scenario and return combined top/bottum set up moves
 
     def seven_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
@@ -318,16 +332,21 @@ class Cube:
                         _move.append('R')    
                     elif edge[1] == 'orange':
                         _move.append('F')  
-                        
+
         ####################################
         tops = ['_top_type', '_one_type']
         bottums = ['_five_type', 'bottum_type']
-        
+
         # check how many sevens
         sevens_counter = 0
         for types in _combo:
             if types[0] == '_seven_type':
                 sevens_counter +=1
+                
+        threes_counter = 0
+        for types in _combo:
+            if types[0] == '_three_type':
+                threes_counter +=1
 
         tops_that_seven_will_interact_with_counter = 0
         bottums_that_seven_will_interact_with_counter = 0
@@ -336,65 +355,37 @@ class Cube:
                 tops_that_seven_will_interact_with_counter +=1
             elif types[0] in bottums:
                 bottums_that_seven_will_interact_with_counter +=1
-                
-        # the amount of moves to do will be sevens and their corresponding valid downstreams
-        nums = max(tops_that_seven_will_interact_with_counter, bottums_that_seven_will_interact_with_counter, 1)
-        number_of_orientation_deltas = sevens_counter*nums
-        
-        result = [[] for _ in range(number_of_orientation_deltas)]
-        
-        counter=0
-        for index1, types1 in enumerate(_combo):
-            if types1[0] == '_seven_type' and sevens_counter != 4: # checking to make sure that not all 4 or seven type
-                for index2 in range(index1+1, len(_combo)):
+        ####new
+        # 2: [0,1]
+        # 1: [2]
+        # 1: [3]
+        x,y,z = [],[],[]
+        for i in range(sevens_counter):
+            x.append(i)
+        for i in range(sevens_counter+threes_counter, sevens_counter+threes_counter+tops_that_seven_will_interact_with_counter):
+            y.append(i)
+        for i in range(sevens_counter+threes_counter+tops_that_seven_will_interact_with_counter, sevens_counter+threes_counter+tops_that_seven_will_interact_with_counter+bottums_that_seven_will_interact_with_counter):
+            z.append(i)
             
-                    print(result)
-                
-                    if _combo[index2][0] == '_seven_type':
-                        continue
-                    
-                    # U moves
-                    elif _combo[index2][0] in tops:
-                        # how to know when to stop
-                        if counter>=len(result):
-                            break
-                        else:
-                            _top = self.seven_three_orientation_delta(index1, index2, 'top')
-
-                            for index3 in range(index2+1, len(_combo)): # dont need to replicate this part because when it gets to bottums, no more tops and ones left
-                                if _combo[index3][0] in bottums:
-                                    _bottum = self.seven_three_orientation_delta(index1, index3, 'bottum')
-                                    result[counter].extend(_top)
-                                    result[counter].extend(_bottum)
-                                    result[counter].append(_move[index1])
-                                    counter+=1
-                                    continue
-
-                    # D moves
-                    elif _combo[index2][0] in bottums:
-                        # how to know when to stop
-                        if counter>=len(result):
-                            break
-                        if sevens_counter == 2 and _combo[index2-1][0] in tops: # this is here for a weird bug... in particular seven/seven/(one or top)/bottum
-                            break
-                        else:
-                            _bottum = self.seven_three_orientation_delta(index1, index2, 'bottum')
-                            result[counter].extend(_bottum)
-                            
-                            for index3 in range(index2+1, len(_combo)):
-                                if _combo[index3][0] in tops:
-                                    _top = self.seven_three_orientation_delta(index1, index3, 'top')
-                                    result[counter].extend(_top)
-                                    continue
-                            result[counter].extend(_move[index1])
-                            counter+=1
-
-            # this happens when all 4 types are seven
-            elif sevens_counter == 4:
-                result[counter].append(_move[index1])
-                counter+=1
-
-        return result
+        if len(x) == 0:
+            x = [0]
+        if len(y) == 0:
+            y = [0]
+        if len(z) == 0:
+            z = [0]
+        a = [x,y,z]
+        b=list(product(*a))
+        c=[list(i) for i in b]
+        
+        result_new = [[] for _ in range(len(c))]
+        counter=0
+        for (i,j,k) in c:
+            result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k))
+            result_new[counter].extend(_move[i])
+            counter+=1
+        
+        
+        return result_new
 
     def three_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
