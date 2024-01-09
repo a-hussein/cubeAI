@@ -355,6 +355,11 @@ class Cube:
                 tops_that_seven_will_interact_with_counter +=1
             elif types[0] in bottums:
                 bottums_that_seven_will_interact_with_counter +=1
+
+        # the amount of moves to do will be sevens and their corresponding valid downstreams
+        # nums = max(tops_that_seven_will_interact_with_counter, bottums_that_seven_will_interact_with_counter, 1)
+        # number_of_orientation_deltas = sevens_counter*nums
+
         ####new
         # 2: [0,1]
         # 1: [2]
@@ -381,7 +386,7 @@ class Cube:
         counter=0
         for (i,j,k) in c:
             result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k))
-            result_new[counter].extend(_move[i])
+            result_new[counter].append(_move[i])
             counter+=1
         
         
@@ -389,62 +394,87 @@ class Cube:
 
     def three_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
-        if list(_cross_dict[1]['_three_type'].keys()) == []:
+        if list(_cross_dict[1]['_three_type'].keys()) == []: # edge case if no three types
             return
-        
+
         _faces = ['green', 'red', 'blue', 'orange']
 
         _combo = self.combo()
-        
+
         _move = []
-        _orientation_move = []
+        _orientation_move_D = []
+        _orientation_move_U = []
+
         _combo_plus_move = []
-        
-        
-        # one move to solve _three_type
+
         if self.cross_oriented() == False:
-            for face_with_white_edge in list(_cross_dict[1]['_three_type'].keys()):
-                if face_with_white_edge == 'green':
-                    _move.append('Rp')
-                elif face_with_white_edge == 'red':
-                    _move.append('Fp')                    
-                elif face_with_white_edge == 'blue':
-                    _move.append('Lp')    
-                elif face_with_white_edge == 'orange':
-                    _move.append('Bp')   
-        
+            for i, edge in enumerate(_combo): 
+                if edge[0] == '_three_type':
+                    if edge[1] == 'green':
+                        _move.append('Rp')
+                    elif edge[1] == 'red':
+                        _move.append('Fp')                    
+                    elif edge[1] == 'blue':
+                        _move.append('Lp')    
+                    elif edge[1] == 'orange':
+                        _move.append('Bp')  
+
         ####################################
-        # this should potentially be its own function since it decided the i and j in orientation_delta function
-        threes = []
-        for i, edge in enumerate(_combo):
-            if edge[0] == '_three_type':
-                threes.append(i)
-            
-        bottums = []
-        for i, edge in enumerate(_combo):
-            if edge[0] == 'bottum_type':
-                bottums.append(i)
-        
-        _i_j = []
-        for three in threes:
-            for bottum in bottums:
-                _i_j.append([three, bottum])
-        
-        ####################################
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
 
-        for i, three_bottums in enumerate(_i_j):
-            _orientation_move.append(self.seven_three_orientation_delta(_i_j[i][0], _i_j[i][1], 'bottum'))
-        
-        # this takse care of edge case where one three, one seven and one bottum
-        if len(_i_j) == 1:
-            _combo_plus_move.append(_orientation_move[0] + [_move][0])
+        # check how many sevens
+        sevens_counter = 0
+        for types in _combo:
+            if types[0] == '_seven_type':
+                sevens_counter +=1
 
-        # otherwise take "cross-product"
-        else:
-            for i, move in enumerate(_move):
-                for j, (three, bottum) in enumerate(_i_j):
-                    if i == three:
-                        _combo_plus_move.append(_orientation_move[j] + [move])
-                    
+        threes_counter = 0
+        for types in _combo:
+            if types[0] == '_three_type':
+                threes_counter +=1
 
-        return _combo_plus_move
+        tops_that_three_will_interact_with_counter = 0
+        bottums_that_three_will_interact_with_counter = 0
+        for types in _combo:
+            if types[0] in tops:
+                tops_that_three_will_interact_with_counter +=1
+            elif types[0] in bottums:
+                bottums_that_three_will_interact_with_counter +=1
+        ####new
+        # 2: [0,1] threes
+        # 1: [2] tops
+        # 1: [3] bottums
+        x,y,z = [],[],[]
+        for i in range(threes_counter):
+            x.append(i)
+        for i in range(sevens_counter+threes_counter, sevens_counter+threes_counter+tops_that_three_will_interact_with_counter):
+            y.append(i)
+        for i in range(sevens_counter+threes_counter+tops_that_three_will_interact_with_counter, sevens_counter+threes_counter+tops_that_three_will_interact_with_counter+bottums_that_three_will_interact_with_counter):
+            z.append(i)
+
+        if len(x) == 0:
+            x = [0]
+        if len(y) == 0:
+            y = [0]
+        if len(z) == 0:
+            z = [0]
+        a = [x,y,z]
+        b=list(product(*a))
+        c=[list(i) for i in b]
+
+        result_new = [[] for _ in range(len(c))]
+        counter=0
+        for (i,j,k) in c:
+            # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
+            if sevens_counter == 0:
+                result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k))
+                result_new[counter].append(_move[i])
+                counter+=1
+            elif sevens_counter > 0:
+                result_new[counter].extend(self.combine_seven_three_orientation_delta(i+sevens_counter,j,k))
+                result_new[counter].append(_move[i])
+                counter+=1
+
+
+        return result_new
