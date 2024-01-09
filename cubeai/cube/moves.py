@@ -161,8 +161,9 @@ class Cube:
     def identify_cross_edge_type(self, face='white'):    
         _edge_count = 0
         orientation = ['green', 'red', 'blue', 'orange', 'green'] # including green second time so that list not out of index
+        orientation_adjust = ['green', 'red', 'blue', 'orange'] # including green above was a dangerous way to handle this...smh, coming back months later to find out why some three_type combo cases yielding "y".. and this is was the reason why. adding this "adjust" variable for now, but this needs to be fixed. includeing an update unit test asap to include three type for orange layer
 
-        _seven_type, _three_type, _one_type, _five_type, _top_type, _bottum_type = {}, {}, {}, {}, {}, {}
+        _seven_type, _three_type, _one_type, _top_type, _five_type, _bottum_type = {}, {}, {}, {}, {}, {}
 
         _edges = {1,3,5,7}
 
@@ -175,8 +176,8 @@ class Cube:
         # easy type, ie in the 7 slot of non-yelloow face
         if self.get_edge_count()[face] < 4:
             for i in range(4):
-                if self.cube_state[orientation[i]][3] == 'w':
-                    _three_type[orientation[i]] = [self.cube_state[orientation[i-1]][8], self.cube_state[orientation[i-1]][7]]
+                if self.cube_state[orientation_adjust[i]][3] == 'w':
+                    _three_type[orientation_adjust[i]] = [self.cube_state[orientation_adjust[i-1]][8], self.cube_state[orientation_adjust[i-1]][7]]
         
         # one move away from easy type, ie in the one/five slot of non-yellow face
         if self.get_edge_count()[face] < 4:
@@ -230,8 +231,8 @@ class Cube:
             {'_seven_type': _seven_type}, 
             {'_three_type': _three_type}, 
             {'_one_type': _one_type}, 
-            {'_five_type': _five_type},
             {'_top_type': _top_type},
+            {'_five_type': _five_type},
             {'bottum_type': _bottum_type}
         ]
         return cross_edge_types 
@@ -270,7 +271,7 @@ class Cube:
         else:
             layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
             
-        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]])
+        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]) # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
         
         tops = ['_top_type', '_one_type']
         bottums = ['_five_type', 'bottum_type']

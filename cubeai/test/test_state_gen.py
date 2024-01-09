@@ -172,7 +172,8 @@ def test_identify_cross_edge_type():
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L'],
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'L', 'L', 'Rp'],
-        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Lp', 'Up', 'B']
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Lp', 'Up', 'B'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D', 'Rp', 'D', 'R', 'R']
     ]
 
     cubes = iterate_through_scrambles_for_testing(scrambles)
@@ -181,8 +182,8 @@ def test_identify_cross_edge_type():
         {'_seven_type': {'orange': ['g', 'r']}},
         {'_three_type': {'orange': ['b', 'g']}},
         {'_one_type': {'orange': ['y', 'b']}},
-        {'_five_type': {}},
         {'_top_type': {}},
+        {'_five_type': {}},
         {'bottum_type': {'white_r': ['r', 'o']}}
     ]
         
@@ -190,8 +191,8 @@ def test_identify_cross_edge_type():
         {'_seven_type': {'orange': ['g', 'r']}},
         {'_three_type': {'orange': ['b', 'g']}},
         {'_one_type': {'orange': ['y', 'b']}},
-        {'_five_type': {}},
         {'_top_type': {'yellow_r': ['r', 'o']}},
+        {'_five_type': {}},
         {'bottum_type': {}}
     ]
         
@@ -200,8 +201,8 @@ def test_identify_cross_edge_type():
         {'_seven_type': {'orange': ['g', 'b']}},
         {'_three_type': {}},
         {'_one_type': {'orange': ['y', 'g']}},
-        {'_five_type': {'orange': ['w', 'r']}},
         {'_top_type': {'yellow_r': ['r', 'o']}},
+        {'_five_type': {'orange': ['w', 'r']}},
         {'bottum_type': {}}
     ]
     
@@ -209,8 +210,17 @@ def test_identify_cross_edge_type():
         {'_seven_type': {'green': ['r', 'o'], 'orange': ['g', 'r']}},
         {'_three_type': {'blue': ['r', 'b']}},
         {'_one_type': {}},
-        {'_five_type': {}},
         {'_top_type': {'yellow_b': ['b', 'g']}},
+        {'_five_type': {}},
+        {'bottum_type': {}}
+    ]
+
+    assert cubes[4].identify_cross_edge_type() == [
+        {'_seven_type': {}},
+        {'_three_type': {'green': ['o', 'o']}},
+        {'_one_type': {}},
+        {'_top_type': {'yellow_b': ['b', 'g']}},
+        {'_five_type': {'red': ['w', 'r'], 'blue': ['w', 'b']}},
         {'bottum_type': {}}
     ]
 
@@ -222,7 +232,9 @@ def test_combo():
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B'],
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B'],
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'F', 'F'],
-        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Fp']
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Fp'],
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D', 'Rp', 'D', 'R', 'R']
+
     ]
 
     cubes = iterate_through_scrambles_for_testing(scrambles)
@@ -274,11 +286,20 @@ def test_combo():
         ['bottum_type', 'white_r', 'r', 'o']
         ]
 
+    assert cubes[7].combo() == [
+        ['_three_type', 'green', 'o', 'o'],
+        ['_top_type', 'yellow_b', 'b', 'g'],
+        ['_five_type', 'red', 'w', 'r'],
+        ['_five_type', 'blue', 'w', 'b']
+        ]
+    
+
+
 def test_seven_three_orientation_delta():
     many_scrambles = [
             ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'], # seven/three/one/bottum
             ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B'], # seven/one/top/bottum
-            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D'] # seven/five/top/bottum
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D'] # seven/top/five/bottum
         ]
     
     cubes = iterate_through_scrambles_for_testing(many_scrambles)
@@ -293,14 +314,16 @@ def test_seven_three_orientation_delta():
     assert cubes[1].seven_three_orientation_delta(0, 2) == ['U', 'U']
 
     assert cubes[2].seven_three_orientation_delta(0, 3) == ['D', 'D']
-    assert cubes[2].seven_three_orientation_delta(0, 1) == ['D', 'D']
-    assert cubes[2].seven_three_orientation_delta(0, 2) == ['U', 'U']
+    assert cubes[2].seven_three_orientation_delta(0, 1) == ['U', 'U']
+    assert cubes[2].seven_three_orientation_delta(0, 2) == ['D', 'D']
 
 def test_combine_seven_three_orientation_delta():
     many_scrambles = [
             ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'], # seven/three/one/bottum
             ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B'], # seven/one/top/bottum
-            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D'] # seven/five/top/bottum
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D'], # seven/top/five/bottum
+            ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D', 'Rp', 'D', 'R', 'R'] # three/top/five/five
+
         ]
     
     cubes = iterate_through_scrambles_for_testing(many_scrambles)
@@ -311,9 +334,11 @@ def test_combine_seven_three_orientation_delta():
     assert cubes[1].combine_seven_three_orientation_delta(0, 3, 1) == ['D', 'D', 'U']
     assert cubes[1].combine_seven_three_orientation_delta(0, 3, 2) == ['D', 'D', 'U', 'U']
 
-    assert cubes[2].combine_seven_three_orientation_delta(0, 3, 2) == ['D', 'D', 'U', 'U']
-    assert cubes[2].combine_seven_three_orientation_delta(0, 1, 2) == ['D', 'D', 'U', 'U']
+    assert cubes[2].combine_seven_three_orientation_delta(0, 1, 2) == ['U', 'U', 'D', 'D']
+    assert cubes[2].combine_seven_three_orientation_delta(0, 1, 3) == ['U', 'U', 'D', 'D']
 
+    assert cubes[3].combine_seven_three_orientation_delta(0, 1, 2) == ['U', 'D', 'D']
+    assert cubes[3].combine_seven_three_orientation_delta(0, 1, 3) == ['U', 'Dp']
 
 def test_seven_type_cross_solver():
     scrambles = [
@@ -323,7 +348,8 @@ def test_seven_type_cross_solver():
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Bp'], # seven/one/bottum/bottum
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'], # seven/three/one/bottum
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B'], # seven/one/top/bottum
-        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B'] # seven/seven/one/bottum
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B'], # seven/seven/one/bottum
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D'] # seven/top/five/bottum
     ]
 
     cubes = iterate_through_scrambles_for_testing(scrambles)
@@ -335,6 +361,8 @@ def test_seven_type_cross_solver():
     assert cubes[4].seven_type_cross_solver() == [['U', 'Dp', 'F']]
     assert cubes[5].seven_type_cross_solver() == [['U', 'Dp', 'F'], ['U', 'U', 'Dp', 'F']]
     assert cubes[6].seven_type_cross_solver() == [['Up', 'I', 'B'], ['U', 'Dp', 'F']]
+    assert cubes[7].seven_type_cross_solver() == [['U', 'U', 'D', 'D', 'F'], ['U', 'U', 'D', 'D', 'F']]
+
 
 
 def test_three_type_cross_solver():
@@ -345,7 +373,8 @@ def test_three_type_cross_solver():
         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'U', 'Fp', 'L', 'F', 'Lp'], # seven/seven/three/bottum
         ['Fp', 'R', 'Fp', 'Bp', 'L', 'Bp'], # one/one/one/one
         ['Fp', 'R', 'Fp', 'Bp', 'L', 'Bp', 'Fp', 'Rp', 'Bp', 'Fp', 'Lp', 'F', 'F', 'F', 'B', 'B'], # three/three/three/three
-        ['D', 'Fp', 'Lp', 'B', 'D', 'D', 'L', 'B', 'Lp', 'Bp'] # seven/seven/seven/three
+        ['D', 'Fp', 'Lp', 'B', 'D', 'D', 'L', 'B', 'Lp', 'Bp'], # seven/seven/seven/three
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'D', 'B', 'Rp', 'D', 'Rp', 'D', 'R', 'R'] # three/top/five/five
     ]
 
     cubes = iterate_through_scrambles_for_testing(scrambles)
@@ -357,3 +386,6 @@ def test_three_type_cross_solver():
     assert cubes[4].three_type_cross_solver() == None
     assert cubes[5].three_type_cross_solver() == [['I', 'Rp'], ['I', 'Fp'], ['I', 'Lp'], ['I', 'Bp']]
     assert cubes[6].three_type_cross_solver() == [['I', 'Lp'], ['I', 'Bp']]
+    assert cubes[7].three_type_cross_solver() == [['U', 'D', 'D', 'Rp'], ['U', 'Dp', 'Rp']]
+
+
