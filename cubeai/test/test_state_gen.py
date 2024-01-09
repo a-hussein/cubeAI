@@ -337,23 +337,23 @@ def test_seven_type_cross_solver():
     assert cubes[6].seven_type_cross_solver() == [['Up', 'I', 'B'], ['U', 'Dp', 'F']]
 
 
-# def test_three_type_cross_solver():
-#     scrambles = [
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'],
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B', 'Rp', 'F','R'],
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Bp'],
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B', 'B'],
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'B'],
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'F', 'F'],
-#         ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Fp']
-#     ]
+def test_three_type_cross_solver():
+    scrambles = [
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'F', 'F'], # three/three/one/bottum
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'Fp'], # three/one/top/bottum
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'], # seven/three/one/bottum
+        ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D', 'U', 'Fp', 'L', 'F', 'Lp'], # seven/seven/three/bottum
+        ['Fp', 'R', 'Fp', 'Bp', 'L', 'Bp'], # one/one/one/one
+        ['Fp', 'R', 'Fp', 'Bp', 'L', 'Bp', 'Fp', 'Rp', 'Bp', 'Fp', 'Lp', 'F', 'F', 'F', 'B', 'B'], # three/three/three/three
+        ['D', 'Fp', 'Lp', 'B', 'D', 'D', 'L', 'B', 'Lp', 'Bp'] # seven/seven/seven/three
+    ]
 
-#     cubes = iterate_through_scrambles_for_testing(scrambles)
+    cubes = iterate_through_scrambles_for_testing(scrambles)
 
-#     assert cubes[0].three_type_cross_solver() == [['I', 'Bp']]
-#     assert cubes[1].three_type_cross_solver() == None
-#     assert cubes[2].three_type_cross_solver() == None
-#     assert cubes[3].three_type_cross_solver() == None
-#     assert cubes[4].three_type_cross_solver() == None
-#     assert cubes[5].three_type_cross_solver() == [['Dp', 'Fp'], ['I', 'Bp']]
-#     assert cubes[6].three_type_cross_solver() == [['I', 'Bp']]
+    assert cubes[0].three_type_cross_solver() == [['U', 'Dp', 'Fp'], ['Up', 'I', 'Bp']]
+    assert cubes[1].three_type_cross_solver() == [['Up', 'I', 'Bp'], ['U', 'U', 'I', 'Bp']]
+    assert cubes[2].three_type_cross_solver() == [['Up', 'I', 'Bp']]
+    assert cubes[3].three_type_cross_solver() == [['I', 'Bp']]
+    assert cubes[4].three_type_cross_solver() == None
+    assert cubes[5].three_type_cross_solver() == [['I', 'Rp'], ['I', 'Fp'], ['I', 'Lp'], ['I', 'Bp']]
+    assert cubes[6].three_type_cross_solver() == [['I', 'Lp'], ['I', 'Bp']]
