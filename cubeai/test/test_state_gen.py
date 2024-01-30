@@ -293,8 +293,6 @@ def test_combo():
         ['_five_type', 'blue', 'w', 'b']
         ]
     
-
-
 def test_seven_three_orientation_delta():
     many_scrambles = [
             ['R', 'R', 'Fp', 'Dp', 'B', 'D', 'D', 'Lp', 'Fp', 'D', 'F', 'R', 'R', 'D', 'D'], # seven/three/one/bottum
@@ -417,3 +415,31 @@ def test_top_orientation_delta():
     assert cubes[4].top_orientation_delta(0,1) == ['I']
     assert cubes[4].top_orientation_delta(0,2) == ['Dp']
     assert cubes[4].top_orientation_delta(0,3) == ['Dp']
+
+def test_one_orientation_delta():
+    scrambles = [
+        ['F', 'F', 'Rp', 'D', 'Bp', 'Fp', 'Rp', 'L', 'L', 'R', 'B', 'B', 'F', 'D', 'D', 'R'], # one/top/five/bottum
+        ['R', 'F', 'L', 'Bp', 'U', 'B'], # one/five/five/bottum
+        ['R', 'F', 'L', 'Bp', 'U', 'B', 'Dp'], # one/five/five/bottum
+        ['R', 'F', 'L', 'Bp', 'U', 'B', 'Dp', 'Dp'] # one/five/five/bottum
+    ]
+
+    cubes = iterate_through_scrambles_for_testing(scrambles)
+
+    assert cubes[0].one_orientation_delta(0,1) == None
+    assert cubes[0].one_orientation_delta(0,2) == ['D']
+    assert cubes[0].one_orientation_delta(0,3) == [['D'], ['Dp']]
+
+    assert cubes[1].one_orientation_delta(0,1) == ['D']
+    assert cubes[1].one_orientation_delta(0,2) == ['D', 'D']
+    assert cubes[1].one_orientation_delta(0,3) == ['I']
+
+
+    assert cubes[2].one_orientation_delta(0,1) == ['D', 'D']
+    assert cubes[2].one_orientation_delta(0,2) == ['Dp']
+    assert cubes[2].one_orientation_delta(0,3) == [['D'], ['Dp']]
+
+    assert cubes[3].one_orientation_delta(0,1) == ['Dp']
+    assert cubes[3].one_orientation_delta(0,2) == ['I']
+    assert cubes[3].one_orientation_delta(0,3) == ['I']
+
