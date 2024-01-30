@@ -517,3 +517,48 @@ class Cube:
             # just bring it under it, the solver will do both moves aand add to trie and see what is better
             
         # no U delta
+            
+    def one_orientation_delta(self, i, j):
+        g,r,b,o = 0,1,2,3
+        color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
+
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
+
+        _combo = self.combo()
+
+        # this is an edge case when we are doing D_delta for five_type for top/one
+        if (_combo[i][2] == 'y' or _combo[i][2] == 'w') and (_combo[j][2] == 'y' or _combo[j][2] == 'w'): # one to five case
+            layer_delta = (color_mapping[_combo[i][1][0]] - color_mapping[_combo[j][1][0]]) # need face because that will tell me layer of one_type/five_type
+        elif _combo[j][2] == 'y' or _combo[j][2] == 'w':
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][1][0]]) # need face because that will tell me layer of one_type/five_type
+        
+        elif _combo[i][2] == 'y' or _combo[i][2] == 'w':
+            layer_delta = (color_mapping[_combo[i][1][0]] - color_mapping[_combo[j][2]]) # need face because that will tell me layer of one_type/five_type
+        else:
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
+
+        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]) # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
+        # D delta
+        if _combo[j][0] in bottums:
+            new_delta=0
+            # for one to bottum (the logic here will be to clear the bottum (provide both one move away if already there, else do nothing, and then do F or Fp, provide both and let tree decide))
+            if _combo[j][0] == 'bottum_type':
+                if layer_delta == 0:
+    #                 new_delta = (layer_delta - sticker_delta)%4
+    #                 return bottum_mapping[new_delta]
+                    return [['D'], ['Dp']]
+                else:
+                    return ['I'] # added for case when delta are the same and thus no move needed
+            # just bring to right location
+            # for top and one to five (bring under when doing F swing)
+            elif _combo[j][0] == '_five_type':
+                new_delta = (layer_delta)%4
+                return bottum_mapping[new_delta]
+            # just bring it under it, the solver will do both moves aand add to trie and see what is better
+            
+        # no U delta
+
