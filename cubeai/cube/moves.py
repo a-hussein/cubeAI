@@ -309,6 +309,7 @@ class Cube:
 
     def seven_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
+        # change number here
         if list(_cross_dict[0]['_seven_type'].keys()) == []: # edge case if no seven types
             return
 
@@ -395,6 +396,7 @@ class Cube:
 
     def three_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
+        # change number here
         if list(_cross_dict[1]['_three_type'].keys()) == []: # edge case if no three types
             return
 
@@ -479,44 +481,6 @@ class Cube:
 
 
         return result_new
-    
-    def top_orientation_delta(self, i, j):
-        g,r,b,o = 0,1,2,3
-        color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
-
-        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
-
-        _combo = self.combo()
-
-        # this is an edge case when we are doing D_delta for five_type for top/one
-        if _combo[j][2] == 'y' or _combo[j][2] == 'w':
-            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][1][0]]) # need face because that will tell me layer of one_type/five_type
-        else:
-            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
-
-        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]) # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
-
-        tops = ['_top_type', '_one_type']
-        bottums = ['_five_type', 'bottum_type']
-
-        # D delta
-        if _combo[j][0] in bottums:
-            new_delta=0
-            # for top/one to bottum
-            if _combo[j][0] == 'bottum_type':
-                if layer_delta != sticker_delta:
-                    new_delta = (layer_delta - sticker_delta)%4
-                    return bottum_mapping[new_delta]
-                else:
-                    return ['I'] # added for case when delta are the same and thus no move needed
-            # just bring to right location
-            # for top and one to five
-            elif _combo[j][0] == '_five_type':
-                new_delta = (layer_delta)%4
-                return bottum_mapping[new_delta]
-            # just bring it under it, the solver will do both moves aand add to trie and see what is better
-            
-        # no U delta
             
     def one_orientation_delta(self, i, j):
         g,r,b,o = 0,1,2,3
@@ -543,6 +507,7 @@ class Cube:
         bottums = ['_five_type', 'bottum_type']
 
         # D delta
+        res = ['I']
         if _combo[j][0] in bottums:
             new_delta=0
             # for one to bottum (the logic here will be to clear the bottum (provide both one move away if already there, else do nothing, and then do F or Fp, provide both and let tree decide))
@@ -550,15 +515,157 @@ class Cube:
                 if layer_delta == 0:
     #                 new_delta = (layer_delta - sticker_delta)%4
     #                 return bottum_mapping[new_delta]
-                    return [['D'], ['Dp']]
+                    res = [['D', 'Dp']]
                 else:
-                    return ['I'] # added for case when delta are the same and thus no move needed
+                    res = ['I'] # added for case when delta are the same and thus no move needed; dont need to do anything becuase it will happen in seven/three
             # just bring to right location
             # for top and one to five (bring under when doing F swing)
             elif _combo[j][0] == '_five_type':
                 new_delta = (layer_delta)%4
-                return bottum_mapping[new_delta]
+                res = bottum_mapping[new_delta]
             # just bring it under it, the solver will do both moves aand add to trie and see what is better
-            
+        return res
+        # no U delta
+    
+    def top_orientation_delta(self, i, j):
+        g,r,b,o = 0,1,2,3
+        color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
+
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
+
+        _combo = self.combo()
+
+        # this is an edge case when we are doing D_delta for five_type for top/one
+        if _combo[j][2] == 'y' or _combo[j][2] == 'w':
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][1][0]]) # need face because that will tell me layer of one_type/five_type
+        else:
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
+
+        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]) # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
+        # D delta
+        res = ['I']
+        if _combo[j][0] in bottums:
+            new_delta=0
+            # for top/one to bottum
+            if _combo[j][0] == 'bottum_type':
+                if layer_delta != sticker_delta:
+                    new_delta = (layer_delta - sticker_delta)%4
+                    res = bottum_mapping[new_delta]
+                else:
+                    res = ['I'] # added for case when delta are the same and thus no move needed
+            # just bring to right location
+            # for top and one to five
+            elif _combo[j][0] == '_five_type':
+                new_delta = (layer_delta)%4
+                res = bottum_mapping[new_delta]
+            # just bring it under it, the solver will do both moves aand add to trie and see what is better
+        return res
         # no U delta
 
+    def one_type_cross_solver(self):
+        _cross_dict = self.identify_cross_edge_type()
+        # change number here
+        if list(_cross_dict[2]['_one_type'].keys()) == []: # edge case if no three types
+            return
+
+        _faces = ['green', 'red', 'blue', 'orange']
+
+        _combo = self.combo()
+
+        _move = []
+        _orientation_move_D = []
+    #     _orientation_move_U = []
+
+        _combo_plus_move = []
+
+        if self.cross_oriented() == False:
+            for i, edge in enumerate(_combo): 
+                if edge[0] == '_one_type':
+                    if edge[1] == 'green':
+                        _move.append(['F', 'Fp'])
+                    elif edge[1] == 'red':
+                        _move.append(['L', 'Lp'])                    
+                    elif edge[1] == 'blue':
+                        _move.append(['B', 'Bp'])    
+                    elif edge[1] == 'orange':
+                        _move.append(['R', 'Rp'])  
+
+        ####################################
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
+        # needed to offset below
+        sevens_threes_counter = 0
+        for types in _combo:
+            if types[0] == '_seven_type' or types[0] == '_three_type':
+                sevens_threes_counter +=1
+        
+        
+        # check how many tops/ones
+        ones_counter = 0
+        for types in _combo:
+            if types[0] == '_one_type':
+                ones_counter +=1
+
+        tops_counter = 0
+        for types in _combo:
+            if types[0] == '_top_type':
+                tops_counter +=1
+
+    #     tops_that_three_will_interact_with_counter = 0
+        bottums_that_one_will_interact_with_counter = 0
+        for types in _combo:
+    #         if types[0] in tops:
+    #             tops_that_three_will_interact_with_counter +=1
+            if types[0] in bottums:
+                bottums_that_one_will_interact_with_counter +=1
+        ####new
+        # 2: [0,1] threes
+        # 1: [2] tops
+        # 1: [3] bottums
+        x,y,z = [],[],[]
+        for i in range(ones_counter):
+            x.append(i)
+        for i in range(sevens_threes_counter+ones_counter+tops_counter, sevens_threes_counter+ones_counter+tops_counter+bottums_that_one_will_interact_with_counter):
+            y.append(i)
+    #     for i in range(sevens_counter+threes_counter+tops_that_three_will_interact_with_counter, sevens_counter+threes_counter+tops_that_three_will_interact_with_counter+bottums_that_three_will_interact_with_counter):
+    #         z.append(i)
+
+        if len(x) == 0:
+            x = [0]
+        if len(y) == 0:
+            y = [0]
+    #     if len(z) == 0:
+    #         z = [0]
+    #     a = [x,y,z]
+        a = [x,y]
+        b=list(product(*a))
+        c=[list(i) for i in b]
+
+        result_new = [[] for _ in range(len(c))]
+        counter=0
+        for (i,j) in c:
+            # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
+            if sevens_threes_counter == 0:
+                result_new[counter].extend(self.one_orientation_delta(i,j))
+                result_new[counter].append(_move[i])
+                counter+=1
+            elif sevens_threes_counter > 0:
+                result_new[counter].extend(self.one_orientation_delta(i+sevens_threes_counter,j))
+                result_new[counter].append(_move[i])
+                counter+=1
+        
+        # this part is to take distrubutive property of set up and solve part now there can be multipe options
+        result_new_iterate = []
+        for (setup, solver) in result_new:
+            if len(setup) > 1 or len(solver) > 1:
+                _x = [setup, solver]
+                _y = list(product(*_x))
+                _z = [list(i) for i in _y]
+                result_new_iterate.append(_z)
+        final = [item for sublist in result_new_iterate for item in sublist]
+        return final
