@@ -659,6 +659,8 @@ class Cube:
                 result_new[counter].append(_move[i])
                 counter+=1
         
+        print(result_new)
+
         # this part is to take distrubutive property of set up and solve part now there can be multipe options
         result_new_iterate = []
         for (setup, solver) in result_new:
@@ -668,4 +670,8 @@ class Cube:
                 _z = [list(i) for i in _y]
                 result_new_iterate.append(_z)
         final = [item for sublist in result_new_iterate for item in sublist]
+
+        # final = [[item[0], sub_item] for sublist in result_new for item in (sublist if isinstance(sublist[0], list) else [sublist]) for sub_item in item[1]]
+
+
         return final
