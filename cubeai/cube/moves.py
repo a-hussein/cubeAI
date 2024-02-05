@@ -114,6 +114,42 @@ class Cube:
             self.B()
             self.moves -= 1
         self.moves += 1
+
+    def R2(self):
+        for _ in range(2):
+            self.R()
+            self.moves -= 1
+        self.moves += 2
+
+    def U2(self):
+        for _ in range(2):
+            self.U()
+            self.moves -= 1
+        self.moves += 2
+
+    def L2(self):
+        for _ in range(2):
+            self.L()
+            self.moves -= 1
+        self.moves += 2
+
+    def D2(self):
+        for _ in range(2):
+            self.D()
+            self.moves -= 1
+        self.moves += 2
+
+    def F2(self):
+        for _ in range(2):
+            self.F()
+            self.moves -= 1
+        self.moves += 2
+
+    def B2(self):
+        for _ in range(2):
+            self.B()
+            self.moves -= 1
+        self.moves += 2
        
     def get_state(self):
         return self.cube_state
@@ -260,8 +296,8 @@ class Cube:
         g,r,b,o = 0,1,2,3
         color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
 
-        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
-        top_mapping = {0: ['I'], 1: ['U'], 2: ['U','U'], 3:['Up']}
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D2'], 3:['D']}
+        top_mapping = {0: ['I'], 1: ['U'], 2: ['U2'], 3:['Up']}
 
         _combo = self.combo()
         
@@ -486,7 +522,7 @@ class Cube:
         g,r,b,o = 0,1,2,3
         color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
 
-        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D2'], 3:['D']}
 
         _combo = self.combo()
 
@@ -531,7 +567,7 @@ class Cube:
         g,r,b,o = 0,1,2,3
         color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
 
-        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D','D'], 3:['D']}
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D2'], 3:['D']}
 
         _combo = self.combo()
 
