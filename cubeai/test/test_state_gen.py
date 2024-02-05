@@ -428,7 +428,7 @@ def test_one_orientation_delta():
 
     assert cubes[0].one_orientation_delta(0,1) == ['I']
     assert cubes[0].one_orientation_delta(0,2) == ['D']
-    assert cubes[0].one_orientation_delta(0,3) == [['D', 'Dp']]
+    assert cubes[0].one_orientation_delta(0,3) == ['D', 'Dp']
 
     assert cubes[1].one_orientation_delta(0,1) == ['D']
     assert cubes[1].one_orientation_delta(0,2) == ['D2']
@@ -437,7 +437,7 @@ def test_one_orientation_delta():
 
     assert cubes[2].one_orientation_delta(0,1) == ['D2']
     assert cubes[2].one_orientation_delta(0,2) == ['Dp']
-    assert cubes[2].one_orientation_delta(0,3) == [['D', 'Dp']]
+    assert cubes[2].one_orientation_delta(0,3) == ['D', 'Dp']
 
     assert cubes[3].one_orientation_delta(0,1) == ['Dp']
     assert cubes[3].one_orientation_delta(0,2) == ['I']
