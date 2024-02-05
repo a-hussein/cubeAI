@@ -511,7 +511,7 @@ class Cube:
                 result_new[counter].append(_move[i])
                 counter+=1
             elif sevens_counter > 0:
-                result_new[counter].extend(self.combine_seven_three_orientation_delta(i+sevens_counter,j,k))
+                result_new[counter].extend(self.combine_seven_three_orientation_delta(i+sevens_counter,j,k)) # need to offest by sevens due to combo order
                 result_new[counter].append(_move[i])
                 counter+=1
 
@@ -689,12 +689,12 @@ class Cube:
         counter=0
         for (i,j) in c:
             # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
-            if sevens_threes_counter == 0:
+            if sevens_threes_counter == 0: # offset due to order of combo
                 result_new[counter].extend([self.one_orientation_delta(i,j)]) # added as a list so that the itertool distributive property works per list; this is especitlaly needed since we have or_moves
                 result_new[counter].append(_move[i])
                 counter+=1
             elif sevens_threes_counter > 0:
-                result_new[counter].extend([self.one_orientation_delta(i+sevens_threes_counter,j)])
+                result_new[counter].extend([self.one_orientation_delta(i+sevens_threes_counter,j)]) # need to offset by sevens_threes due to combo order
                 result_new[counter].append(_move[i])
                 counter+=1
         
@@ -799,11 +799,11 @@ class Cube:
         for (i,j) in c:
             # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
             if sevens_threes_counter == 0:
-                result_new[counter].extend([self.top_orientation_delta(i+ones_counter,j)])
+                result_new[counter].extend([self.top_orientation_delta(i+ones_counter,j)]) # need to offset by ones_counter due to combo order
                 result_new[counter].append(_move[i])
                 counter+=1
             elif sevens_threes_counter > 0:
-                result_new[counter].extend([self.top_orientation_delta(i+sevens_threes_counter+ones_counter,j)])
+                result_new[counter].extend([self.top_orientation_delta(i+sevens_threes_counter+ones_counter,j)]) # need to offset by sevens_tthree and ones due to combo order
                 result_new[counter].append(_move[i])
                 counter+=1
 
@@ -820,3 +820,39 @@ class Cube:
         final = [item for sublist in result_new_iterate for item in sublist]
 
         return final
+    
+    def five_orientation_delta(self, i, j):
+        # anywhere it says "either, not both... it should be in the form of [[alpha], [beta]]... not [alpha, beta]"
+        g,r,b,o = 0,1,2,3
+        color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
+
+        bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D2'], 3:['D']}
+        top_mapping = {0: ['I'], 1: ['U'], 2: ['U2'], 3:['Up']}
+
+        _combo = self.combo()
+
+        # this is an edge case when we are doing D_delta for five_type for top/one
+        if (_combo[i][2] == 'y' or _combo[i][2] == 'w') and (_combo[j][2] == 'y' or _combo[j][2] == 'w'): # one to five case
+            layer_delta = (color_mapping[_combo[i][1][0]] - color_mapping[_combo[j][1][0]]) # need face because that will tell me layer of one_type/five_type
+        elif _combo[j][2] == 'y' or _combo[j][2] == 'w':
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][1][0]]) # need face because that will tell me layer of one_type/five_type
+
+        elif _combo[i][2] == 'y' or _combo[i][2] == 'w':
+            layer_delta = (color_mapping[_combo[i][1][0]] - color_mapping[_combo[j][2]]) # need face because that will tell me layer of one_type/five_type
+        else:
+            layer_delta = (color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]])
+
+        sticker_delta = (color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]) # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
+        # no D delta
+        res = ['I']
+        # U delta
+        if _combo[j][0] in tops:
+            new_delta = (layer_delta)%4
+            res = top_mapping[new_delta]
+        
+        return res
+

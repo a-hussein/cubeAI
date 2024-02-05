@@ -476,3 +476,19 @@ def test_top_type_cross_solver():
     assert cubes[1].top_type_cross_solver() == [['I', 'B'], ['I', 'Bp']]
     assert cubes[2].top_type_cross_solver() == [['Dp', 'R'], ['Dp', 'Rp'], ['D', 'R'], ['D', 'Rp'], ['D2', 'F'], ['D2', 'Fp'], ['D2', 'F'], ['D2', 'Fp']]
     assert cubes[3].top_type_cross_solver() == [['D2', 'R'], ['D2', 'Rp'], ['I', 'R'], ['I', 'Rp'], ['D', 'F'], ['D', 'Fp'], ['D', 'F'], ['D', 'Fp']]
+
+def test_five_orientation_delta():
+    scrambles = [
+        ['R', 'F', 'Dp', 'F', 'R2'], # top/top/five/bottum
+        ['R', 'F', 'Bp', 'L', 'U2', 'L'] # seven/one/top/five
+    ]
+
+    cubes = iterate_through_scrambles_for_testing(scrambles)
+
+    assert cubes[0].five_orientation_delta(2,0) == ['U2']
+    assert cubes[0].five_orientation_delta(2,1) == ['U']
+    assert cubes[0].five_orientation_delta(2,3) == ['I']
+
+    assert cubes[1].five_orientation_delta(3,0) == ['I']
+    assert cubes[1].five_orientation_delta(3,1) == ['U']
+    assert cubes[1].five_orientation_delta(3,2) == ['Up']
