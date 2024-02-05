@@ -423,7 +423,7 @@ class Cube:
         result_new = [[] for _ in range(len(c))]
         counter=0
         for (i,j,k) in c:
-            result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k))
+            result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k)) # not needed to add as list since no or_moves
             result_new[counter].append(_move[i])
             counter+=1
         
@@ -507,7 +507,7 @@ class Cube:
         for (i,j,k) in c:
             # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
             if sevens_counter == 0:
-                result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k))
+                result_new[counter].extend(self.combine_seven_three_orientation_delta(i,j,k)) # not needed to add as list since no or_moves...
                 result_new[counter].append(_move[i])
                 counter+=1
             elif sevens_counter > 0:
@@ -519,6 +519,7 @@ class Cube:
         return result_new
             
     def one_orientation_delta(self, i, j):
+        # anywhere it says "either, not both... it should be in the form of [[alpha], [beta]]... not [alpha, beta]"
         g,r,b,o = 0,1,2,3
         color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
 
@@ -551,7 +552,7 @@ class Cube:
                 if layer_delta == 0:
     #                 new_delta = (layer_delta - sticker_delta)%4
     #                 return bottum_mapping[new_delta]
-                    res = [['D', 'Dp']]
+                    res = ['D', 'Dp'] # either, not both
                 else:
                     res = ['I'] # added for case when delta are the same and thus no move needed; dont need to do anything becuase it will happen in seven/three
             # just bring to right location
@@ -603,6 +604,8 @@ class Cube:
         # no U delta
 
     def one_type_cross_solver(self):
+        # anywhere it says "either, not both... it should be in the form of [[alpha], [beta]]... not [alpha, beta]"
+
         _cross_dict = self.identify_cross_edge_type()
         # change number here
         if list(_cross_dict[2]['_one_type'].keys()) == []: # edge case if no three types
@@ -622,13 +625,13 @@ class Cube:
             for i, edge in enumerate(_combo): 
                 if edge[0] == '_one_type':
                     if edge[1] == 'green':
-                        _move.append(['F', 'Fp'])
+                        _move.append(['F', 'Fp']) # either , not both
                     elif edge[1] == 'red':
-                        _move.append(['L', 'Lp'])                    
+                        _move.append(['L', 'Lp']) # either , not both               
                     elif edge[1] == 'blue':
-                        _move.append(['B', 'Bp'])    
+                        _move.append(['B', 'Bp']) # either , not both
                     elif edge[1] == 'orange':
-                        _move.append(['R', 'Rp'])  
+                        _move.append(['R', 'Rp']) # either , not both
 
         ####################################
         tops = ['_top_type', '_one_type']
@@ -687,11 +690,11 @@ class Cube:
         for (i,j) in c:
             # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
             if sevens_threes_counter == 0:
-                result_new[counter].extend(self.one_orientation_delta(i,j))
+                result_new[counter].extend([self.one_orientation_delta(i,j)]) # added as a list so that the itertool distributive property works per list; this is especitlaly needed since we have or_moves
                 result_new[counter].append(_move[i])
                 counter+=1
             elif sevens_threes_counter > 0:
-                result_new[counter].extend(self.one_orientation_delta(i+sevens_threes_counter,j))
+                result_new[counter].extend([self.one_orientation_delta(i+sevens_threes_counter,j)])
                 result_new[counter].append(_move[i])
                 counter+=1
         
@@ -706,8 +709,5 @@ class Cube:
                 _z = [list(i) for i in _y]
                 result_new_iterate.append(_z)
         final = [item for sublist in result_new_iterate for item in sublist]
-
-        # final = [[item[0], sub_item] for sublist in result_new for item in (sublist if isinstance(sublist[0], list) else [sublist]) for sub_item in item[1]]
-
 
         return final
