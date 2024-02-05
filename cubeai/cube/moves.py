@@ -587,10 +587,10 @@ class Cube:
         res = ['I']
         if _combo[j][0] in bottums:
             new_delta=0
-            # for top/one to bottum
+            # for top to bottum
             if _combo[j][0] == 'bottum_type':
                 if layer_delta != sticker_delta:
-                    new_delta = (layer_delta - sticker_delta)%4
+                    new_delta = (layer_delta - sticker_delta)%4 # for now, keeping same logic of seven/three and moving to corrrect orientation, and not following one_type logic and just moving to either side... might revist if need be?
                     res = bottum_mapping[new_delta]
                 else:
                     res = ['I'] # added for case when delta are the same and thus no move needed
@@ -698,6 +698,115 @@ class Cube:
                 result_new[counter].append(_move[i])
                 counter+=1
         
+        print(result_new)
+
+        # this part is to take distrubutive property of set up and solve part now there can be multipe options
+        result_new_iterate = []
+        for (setup, solver) in result_new:
+            if len(setup) > 1 or len(solver) > 1:
+                _x = [setup, solver]
+                _y = list(product(*_x))
+                _z = [list(i) for i in _y]
+                result_new_iterate.append(_z)
+        final = [item for sublist in result_new_iterate for item in sublist]
+
+        return final
+
+    def top_type_cross_solver(self):
+        # anywhere it says "either, not both... it should be in the form of [[alpha], [beta]]... not [alpha, beta]"
+
+        _cross_dict = self.identify_cross_edge_type()
+        # change number here
+        if list(_cross_dict[3]['_top_type'].keys()) == []: # edge case if no three types
+            return
+
+        _faces = ['green', 'red', 'blue', 'orange']
+
+        _combo = self.combo()
+
+        _move = []
+        _orientation_move_D = []
+    #     _orientation_move_U = []
+
+        _combo_plus_move = []
+
+        if self.cross_oriented() == False:
+            for i, edge in enumerate(_combo): 
+                if edge[0] == '_top_type':
+                    if edge[1] == 'yellow_g':
+                        _move.append(['F', 'Fp']) # either , not both
+                    elif edge[1] == 'yellow_r':
+                        _move.append(['L', 'Lp']) # either , not both                  
+                    elif edge[1] == 'yellow_b':
+                        _move.append(['B', 'Bp']) # either , not both   
+                    elif edge[1] == 'yellow_o':
+                        _move.append(['R', 'Rp']) # either , not both 
+
+        ####################################
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
+        # needed to offset below
+        sevens_threes_counter = 0
+        for types in _combo:
+            if types[0] == '_seven_type' or types[0] == '_three_type':
+                sevens_threes_counter +=1
+
+
+        # check how many tops/ones
+        ones_counter = 0
+        for types in _combo:
+            if types[0] == '_one_type':
+                ones_counter +=1
+
+        tops_counter = 0
+        for types in _combo:
+            if types[0] == '_top_type':
+                tops_counter +=1
+
+    #     tops_that_three_will_interact_with_counter = 0
+        bottums_that_top_will_interact_with_counter = 0
+        for types in _combo:
+    #         if types[0] in tops:
+    #             tops_that_three_will_interact_with_counter +=1
+            if types[0] in bottums:
+                bottums_that_top_will_interact_with_counter +=1
+        ####new
+        # 2: [0,1] threes
+        # 1: [2] tops
+        # 1: [3] bottums
+        x,y,z = [],[],[]
+        for i in range(tops_counter):
+            x.append(i)
+        for i in range(sevens_threes_counter+ones_counter+tops_counter, sevens_threes_counter+ones_counter+tops_counter+bottums_that_top_will_interact_with_counter):
+            y.append(i)
+    #     for i in range(sevens_counter+threes_counter+tops_that_three_will_interact_with_counter, sevens_counter+threes_counter+tops_that_three_will_interact_with_counter+bottums_that_three_will_interact_with_counter):
+    #         z.append(i)
+
+        if len(x) == 0:
+            x = [0]
+        if len(y) == 0:
+            y = [0]
+    #     if len(z) == 0:
+    #         z = [0]
+    #     a = [x,y,z]
+        a = [x,y]
+        b=list(product(*a))
+        c=[list(i) for i in b]
+
+        result_new = [[] for _ in range(len(c))]
+        counter=0
+        for (i,j) in c:
+            # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
+            if sevens_threes_counter == 0:
+                result_new[counter].extend([self.top_orientation_delta(i+ones_counter,j)])
+                result_new[counter].append(_move[i])
+                counter+=1
+            elif sevens_threes_counter > 0:
+                result_new[counter].extend([self.top_orientation_delta(i+sevens_threes_counter+ones_counter,j)])
+                result_new[counter].append(_move[i])
+                counter+=1
+
         print(result_new)
 
         # this part is to take distrubutive property of set up and solve part now there can be multipe options
