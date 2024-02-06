@@ -669,6 +669,8 @@ class Cube:
         x,y,z = [],[],[]
         for i in range(ones_counter):
             x.append(i)
+        # current catgeory plus prior to previos + things it will interact with
+        # plus since it will check prior
         for i in range(sevens_threes_counter+ones_counter+tops_counter, sevens_threes_counter+ones_counter+tops_counter+bottums_that_one_will_interact_with_counter):
             y.append(i)
     #     for i in range(sevens_counter+threes_counter+tops_that_three_will_interact_with_counter, sevens_counter+threes_counter+tops_that_three_will_interact_with_counter+bottums_that_three_will_interact_with_counter):
@@ -855,4 +857,121 @@ class Cube:
             res = top_mapping[new_delta]
         
         return res
+        
+    def five_type_cross_solver(self):
+        # anywhere it says "either, not both... it should be in the form of [[alpha], [beta]]... not [alpha, beta]"
+
+        _cross_dict = self.identify_cross_edge_type()
+        # change number here
+        if list(_cross_dict[4]['_five_type'].keys()) == []: # edge case if no three types
+            return
+
+        _faces = ['green', 'red', 'blue', 'orange']
+
+        _combo = self.combo()
+
+        _move = []
+        _orientation_move_D = []
+    #     _orientation_move_U = []
+
+        _combo_plus_move = []
+
+        if self.cross_oriented() == False:
+            for i, edge in enumerate(_combo): 
+                if edge[0] == '_five_type':
+                    if edge[1] == 'green':
+                        _move.append(['F', 'Fp']) # either , not both
+                    elif edge[1] == 'red':
+                        _move.append(['L', 'Lp']) # either , not both                  
+                    elif edge[1] == 'blue':
+                        _move.append(['B', 'Bp']) # either , not both   
+                    elif edge[1] == 'orange':
+                        _move.append(['R', 'Rp']) # either , not both 
+
+        ####################################
+        tops = ['_top_type', '_one_type']
+        bottums = ['_five_type', 'bottum_type']
+
+        # needed to offset below
+        sevens_threes_counter = 0
+        for types in _combo:
+            if types[0] == '_seven_type' or types[0] == '_three_type':
+                sevens_threes_counter +=1
+        
+        ones_tops_counter = 0
+        for types in _combo:
+            if types[0] == '_one_type' or types[0] == '_top_type':
+                ones_tops_counter +=1
+        
+
+        # check how many fives/bottums
+        fives_counter = 0
+        for types in _combo:
+            if types[0] == '_five_type':
+                fives_counter +=1
+                
+        bottums_counter = 0
+        for types in _combo:
+            if types[0] == 'bottum_type':
+                bottums_counter +=1
+
+        tops_that_five_will_interact_with_counter = 0
+        for types in _combo:
+            if types[0] in tops:
+                tops_that_five_will_interact_with_counter +=1
+    #         if types[0] in bottums:
+    #             bottums_that_top_will_interact_with_counter +=1
+        ####new
+        # 2: [0,1] threes
+        # 1: [2] tops
+        # 1: [3] bottums
+        x,y,z = [],[],[]
+        for i in range(fives_counter): #itself
+            x.append(i)
+        # current catgeory minus prior to previos + things interacting with
+        # minus since it will check prior; take mod 4 - 
+        for i in range((sevens_threes_counter), (sevens_threes_counter+ones_tops_counter)):
+            y.append(i)
+    #     for i in range((fives_counter+bottums_counter)-(sevens_threes_counter+ones_tops_counter), (fives_counter+bottums_counter)-(sevens_threes_counter+ones_tops_counter)+tops_that_five_will_interact_with_counter):
+
+    #     for i in range(sevens_counter+threes_counter+tops_that_three_will_interact_with_counter, sevens_counter+threes_counter+tops_that_three_will_interact_with_counter+bottums_that_three_will_interact_with_counter):
+    #         z.append(i)
+
+        if len(x) == 0:
+            x = [0]
+        if len(y) == 0:
+            y = [0]
+    #     if len(z) == 0:
+    #         z = [0]
+    #     a = [x,y,z]
+        a = [x,y]
+        b=list(product(*a))
+        c=[list(i) for i in b]
+        
+        result_new = [[] for _ in range(len(c))]
+        counter=0
+        for (i,j) in c:
+            # include edge case for sevens_counter, since if this is > 1, the counters for _move will work, but not for orietnatoin delta, thus needs to offset by seven_counters amount 
+            if (sevens_threes_counter+ones_tops_counter) == 0:
+                result_new[counter].extend([self.five_orientation_delta(i,j)])
+                result_new[counter].append(_move[i])
+                counter+=1
+            elif (sevens_threes_counter+ones_tops_counter) > 0:
+    #             result_new[counter].extend([self.five_orientation_delta(i+(sevens_threes_counter+ones_tops_counter),(j%(4-(fives_counter+bottums_counter))))]) # offset by everyrthing prior
+                result_new[counter].extend([self.five_orientation_delta(i+(sevens_threes_counter+ones_tops_counter),j)]) # offset by everyrthing prior
+                result_new[counter].append(_move[i])
+                counter+=1
+
+
+        # this part is to take distrubutive property of set up and solve part now there can be multipe options
+        result_new_iterate = []
+        for (setup, solver) in result_new:
+            if len(setup) > 1 or len(solver) > 1:
+                _x = [setup, solver]
+                _y = list(product(*_x))
+                _z = [list(i) for i in _y]
+                result_new_iterate.append(_z)
+        final = [item for sublist in result_new_iterate for item in sublist]
+
+        return final
 
