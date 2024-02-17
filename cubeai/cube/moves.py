@@ -251,18 +251,19 @@ class Cube:
                         _top_type['yellow_r'] = [self.cube_state['red'][8], self.cube_state['red'][1]]
                         
         # bottum faced white edges - notice that this returns the face that has the color of the white edge, not the face containing the white edge, which will be white in this case
-        if self.get_edge_count()[face] < 4:
-            for i, color in enumerate(self.cube_state['white']):
-                if i in _edges and color == 'w':
-                    if i == 1:
-                        _bottum_type['white_g'] = [self.cube_state['green'][8], self.cube_state['green'][5]]
-                    if i == 3:
-                        _bottum_type['white_o'] = [self.cube_state['orange'][8], self.cube_state['orange'][5]]
-                    if i == 5:
-                        _bottum_type['white_b'] = [self.cube_state['blue'][8], self.cube_state['blue'][5]]
-                    if i == 7:
-                        _bottum_type['white_r'] = [self.cube_state['red'][8], self.cube_state['red'][5]]   
-        
+        # if self.get_edge_count()[face] < 4: # need to check oriented instead
+        # if not self.cross_oriented(): # actually, i need combo to show even when oriented, but not permuted
+        for i, color in enumerate(self.cube_state['white']):
+            if i in _edges and color == 'w':
+                if i == 1:
+                    _bottum_type['white_g'] = [self.cube_state['green'][8], self.cube_state['green'][5]]
+                if i == 3:
+                    _bottum_type['white_o'] = [self.cube_state['orange'][8], self.cube_state['orange'][5]]
+                if i == 5:
+                    _bottum_type['white_b'] = [self.cube_state['blue'][8], self.cube_state['blue'][5]]
+                if i == 7:
+                    _bottum_type['white_r'] = [self.cube_state['red'][8], self.cube_state['red'][5]]   
+    
         cross_edge_types = [
             {'_seven_type': _seven_type}, 
             {'_three_type': _three_type}, 
