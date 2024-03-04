@@ -993,3 +993,19 @@ class Cube:
         
         else:
             return None
+
+    def cross_permuted(self):
+        # this function is used so that we can identify which bottum algo to use
+        # we want to orient the bottum layer before applying the algo, so we must first know how many are permuted
+        # this is a shortcut becuase knowing how many are permuted when not oriented lets us know which bottum algo to use
+        # usually we would not permute and then orient, but will do for bottum type
+        # thus function will let us know how many bottum pieces are permuted and is useful when assuming NOT oriented
+        _combo = self.combo()
+        
+        _permuted = []
+        for i in range(4):
+            if _combo[i][2] == _combo[i][3]:
+                _permuted.append(i)
+            
+        return _permuted
+

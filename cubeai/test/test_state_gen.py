@@ -531,6 +531,34 @@ def test_bottum_orientation_delta():
     assert cubes[3].bottum_orientation_delta() == ['D']
     assert cubes[4].bottum_orientation_delta() == None
 
+def test_cross_permuted():
+    scrambles = [
+        ['F2', 'R2', 'Up', 'R2', 'U2', 'F2'], # bottum/bottum/bottum/bottum
+        ['F2', 'R2', 'Up', 'R2', 'U2', 'F2', 'D'], # bottum/bottum/bottum/bottum
+        ['F2', 'R2', 'Up', 'R2', 'U2', 'F2', 'D2'], # bottum/bottum/bottum/bottum
+        ['F2', 'R2', 'Up', 'R2', 'U2', 'F2', 'Dp'], # bottum/bottum/bottum/bottum
+        ['D'], # bottum/bottum/bottum/bottum
+        ['D2'], # bottum/bottum/bottum/bottum
+        ['Dp'], # bottum/bottum/bottum/bottum
+        ['F', 'B', 'D2', 'Fp', 'Bp'], # bottum/bottum/bottum/bottum
+        ['F', 'B', 'D2', 'Fp', 'Bp', 'D'], # bottum/bottum/bottum/bottum
+        ['F', 'B', 'D2', 'Fp', 'Bp', 'D2'] # bottum/bottum/bottum/bottum
+    ]
+
+    cubes = iterate_through_scrambles_for_testing(scrambles)
+
+    assert cubes[0].cross_permuted() == [2, 3] # blue and red
+    assert cubes[1].cross_permuted() == [1] # orange
+    assert cubes[2].cross_permuted() == [] # none
+    assert cubes[3].cross_permuted() == [0] # green
+    assert cubes[4].cross_permuted() == [] # none
+    assert cubes[5].cross_permuted() == [] # none
+    assert cubes[6].cross_permuted() == [] # none
+    assert cubes[7].cross_permuted() == [0, 2] # green and blue
+    assert cubes[8].cross_permuted() == [] # none
+    assert cubes[9].cross_permuted() == [1, 3] # red and orange
+
+
 
 
 
