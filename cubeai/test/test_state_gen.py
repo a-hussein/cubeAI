@@ -513,3 +513,24 @@ def test_five_type_cross_solver():
     assert cubes[4].five_type_cross_solver() == [['U', 'F'], ['U', 'Fp'], ['U2', 'L'], ['U2', 'Lp']]
     assert cubes[5].five_type_cross_solver() == [['U2', 'R'], ['U2', 'Rp']]
     assert cubes[6].five_type_cross_solver() == [['U', 'B'], ['U', 'Bp'], ['U2', 'R'], ['U2', 'Rp']]
+
+def test_bottum_orientation_delta():
+    scrambles = [
+        ['F2', 'R2', 'Up', 'R2', 'U2', 'F2', 'D'], # bottum/bottum/bottum/bottum
+        ['D'], # bottum/bottum/bottum/bottum
+        ['D2'], # bottum/bottum/bottum/bottum
+        ['Dp'], # bottum/bottum/bottum/bottum
+        ['F', 'B', 'D2', 'Fp', 'Bp'] # bottum/bottum/bottum/bottum
+    ]
+
+    cubes = iterate_through_scrambles_for_testing(scrambles)
+
+    assert cubes[0].bottum_orientation_delta() == None
+    assert cubes[1].bottum_orientation_delta() == ['Dp']
+    assert cubes[2].bottum_orientation_delta() == ['D2']
+    assert cubes[3].bottum_orientation_delta() == ['D']
+    assert cubes[4].bottum_orientation_delta() == None
+
+
+
+
