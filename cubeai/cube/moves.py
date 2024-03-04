@@ -976,3 +976,20 @@ class Cube:
 
         return final
 
+    def bottum_orientation_delta(self):
+        # only use this function when cross is oriented
+        
+        if self.cross_oriented():
+            g,r,b,o = 0,1,2,3
+            color_mapping = {'g': g, 'r': r, 'b': b, 'o':o}
+
+            bottum_mapping = {0: ['I'], 1: ['Dp'], 2: ['D2'], 3:['D']}
+
+            _combo = self.combo()
+
+            sticker_delta = (color_mapping[self.cube_state['green'][5]] - color_mapping[self.cube_state['green'][8]]) # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+
+            return bottum_mapping[sticker_delta]
+        
+        else:
+            return None
