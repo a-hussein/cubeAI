@@ -1,5 +1,6 @@
 from typing import Dict, List
 from itertools import product
+import random
 
 class Cube:
     def __init__(self, cube_state: Dict[str, List[str]]):
@@ -999,7 +1000,7 @@ class Cube:
         # we want to orient the bottum layer before applying the algo, so we must first know how many are permuted
         # this is a shortcut becuase knowing how many are permuted when not oriented lets us know which bottum algo to use
         # usually we would not permute and then orient, but will do for bottum type
-        # thus function will let us know how many bottum pieces are permuted and is useful when assuming NOT oriented
+        # thus function will let us know how many bottum pieces are permuted and is useful when assuming NOT oriented AND 4 white edges in bottum layers
         _combo = self.combo()
         
         _permuted = []
@@ -1009,3 +1010,188 @@ class Cube:
             
         return _permuted
 
+    def bottum_type_cross_solver(self):
+        from cubeai.test.testing_functions import do_scramble
+
+        _cross_dict = self.identify_cross_edge_type()
+        # change number here
+    #     if list(_cross_dict[5]['bottum_type'].keys()) == []: # edge case if no three types
+    #         return
+
+        _faces = ['green', 'red', 'blue', 'orange']
+
+        _combo = self.combo()
+
+        _set_up_move = []
+        _move = []
+        
+        # case for for white edges in white face, they are oriented, but there remains D moves, ie, not permuted
+        if self.get_edge_count()['white'] == 4 and self.cross_oriented() and (self.combo()[0][2] != self.combo()[0][3]):
+            return self.bottum_orientation_delta()
+            # evetnually can use this on top layer for AUF
+        
+        # case that the cross does not have 4 bottum types left or oriented, but because above condition, thus solved 
+        elif self.get_edge_count()['white'] != 4 or self.cross_oriented():
+            print('not a bottum solver case')
+        
+        
+        # if not all 4 oriented and 1 permuted:
+        if self.get_edge_count()['white'] == 4 and not self.cross_oriented() and (len(self.cross_permuted()) == 1):
+            # do D:
+            _cube_ = do_scramble(['D'], self)
+            # if we now have 2 permuted next to each other:
+                # go to ALPHA with D as set up move
+            # check if the two permuted are next to each other
+            if (len(_cube_.cross_permuted()) == 2) and ((_cube_.cross_permuted()[1]-_cube_.cross_permuted()[0] == 1)%2):
+                _move.append(['D'])
+                ####ALPHA####
+    #             if self.get_edge_count()['white'] == 4 and not self.cross_oriented() and (len(self.cross_permuted()) == 2) and ((cross_permuted(self)[1]-cross_permuted(self)[0] == 1)%2):
+                    # do R,D,Rp,Dp,R with one of the non-permuted faces in right layer 
+                    # green front
+                if _cube_.cross_permuted() == [2,3]:
+                    _move.append(['R', 'D', 'Rp', 'Dp', 'R'])
+                # orange front
+                elif _cube_.cross_permuted() == [0,3]:
+                    _move.append(['B', 'D', 'Bp', 'Dp', 'B'])                 
+                # blue front
+                elif _cube_.cross_permuted() == [0,1]:
+                    _move.append(['L', 'D', 'Lp', 'Dp', 'L'])     
+                # red front
+                elif _cube_.cross_permuted() == [1,2]:
+                    _move.append(['F', 'D', 'Fp', 'Dp', 'F'])  
+            ####ALPHA####
+                return [[item for sublist in _move for item in sublist]]
+
+        
+            # elif we now have 2 permuted across each other:
+                # go to beta with D as set up move
+            elif (len(_cube_.cross_permuted()) == 2) and ((_cube_.cross_permuted()[1]-_cube_.cross_permuted()[0] == 2)%2):
+                _move.append(['D'])
+                ####BETA####
+                # green front
+                if _cube_.cube_state['orange'][5] !=  _cube_.cube_state['orange'][8]:
+                    _move.append(['F', 'B', 'D2', 'Fp', 'Bp'])
+                # red front
+                elif _cube_.cube_state['green'][5] !=  _cube_.cube_state['green'][8]:
+                    _move.append(['L', 'R', 'D2', 'Lp', 'Rp'])    
+                ####BETA####
+                return [[item for sublist in _move for item in sublist]]
+
+        
+            # elif now we have exactly 4 un-permuted
+                # go to gamma (may need to reduce count of moves later)
+            elif (len(_cube_.cross_permuted()) == 0):
+                _cube_ = do_scramble(['D2'], _cube_)
+                _move.append(['Dp'])
+
+                ####ALPHA####
+                    # do R,D,Rp,Dp,R with one of the non-permuted faces in right layer 
+                    # green front
+                if _cube_.cross_permuted() == [2,3]:
+                    _move.append(['R', 'D', 'Rp', 'Dp', 'R'])
+                # orange front
+                elif _cube_.cross_permuted() == [0,3]:
+                    _move.append(['B', 'D', 'Bp', 'Dp', 'B'])                 
+                # blue front
+                elif _cube_.cross_permuted() == [0,1]:
+                    _move.append(['L', 'D', 'Lp', 'Dp', 'L'])     
+                # red front
+                elif _cube_.cross_permuted() == [1,2]:
+                    _move.append(['F', 'D', 'Fp', 'Dp', 'F'])  
+                ####ALPHA####
+                return [[item for sublist in _move for item in sublist]]
+
+            
+            
+            
+            
+        # GAMMA
+        # if not all 4 oriented and 0 permuted:
+        if self.get_edge_count()['white'] == 4 and not self.cross_oriented() and (len(self.cross_permuted()) == 0):# and ((cross_permuted(self)[1]-cross_permuted(self)[0] != 1)%2):
+            # can have either alpha or beta case. if alpha, must do D2. if beta, can do either D or Dp
+            either_move = random.choice(['D', 'Dp'])
+            _cube_ = do_scramble(either_move, self)
+            if (len(_cube_.cross_permuted()) == 2) and ((_cube_.cross_permuted()[1]-_cube_.cross_permuted()[0] == 2)%2):
+                
+                _move.append([either_move])
+                ####BETA####
+                # green front
+                if _cube_.cube_state['orange'][5] !=  _cube_.cube_state['orange'][8]:
+                    _move.append(['F', 'B', 'D2', 'Fp', 'Bp'])
+                # red front
+                elif _cube_.cube_state['green'][5] !=  _cube_.cube_state['green'][8]:
+                    _move.append(['L', 'R', 'D2', 'Lp', 'Rp'])    
+                ####BETA####
+                return [[item for sublist in _move for item in sublist]]
+
+            
+
+            
+            # do D2
+                # should now have 2 permuted next to each other:
+                    # go to alpha with D2 as set up move
+
+            else:
+                __cube__ = do_scramble(['D2'], self)
+                _move.append(['D2'])
+            ####ALPHA####
+                # do R,D,Rp,Dp,R with one of the non-permuted faces in right layer 
+                # green front
+                if __cube__.cross_permuted() == [2,3]:
+                    _move.append(['R', 'D', 'Rp', 'Dp', 'R'])
+                # orange front
+                elif __cube__.cross_permuted() == [0,3]:
+                    _move.append(['B', 'D', 'Bp', 'Dp', 'B'])                 
+                # blue front
+                elif __cube__.cross_permuted() == [0,1]:
+                    _move.append(['L', 'D', 'Lp', 'Dp', 'L'])     
+                # red front
+                elif __cube__.cross_permuted() == [1,2]:
+                    _move.append(['F', 'D', 'Fp', 'Dp', 'F'])  
+            ####ALPHA####insert
+                return [[item for sublist in _move for item in sublist]]
+
+            
+        
+        # ALPHA
+        # if not all 4 oriented and 2 permuted next to each other:
+        if self.get_edge_count()['white'] == 4 and not self.cross_oriented() and (len(self.cross_permuted()) == 2) and ((self.cross_permuted()[1]-self.cross_permuted()[0] == 1)%2):
+            # do R,D,Rp,Dp,R with one of the non-permuted faces in right layer 
+            # green front
+            if self.cross_permuted() == [2,3]:
+                _move.append(['R', 'D', 'Rp', 'Dp', 'R'])
+            # orange front
+            elif self.cross_permuted() == [0,3]:
+                _move.append(['B', 'D', 'Bp', 'Dp', 'B'])                 
+            # blue front
+            elif self.cross_permuted() == [0,1]:
+                _move.append(['L', 'D', 'Lp', 'Dp', 'L'])     
+            # red front
+            elif self.cross_permuted() == [1,2]:
+                _move.append(['F', 'D', 'Fp', 'Dp', 'F'])     
+            return _move
+            
+        
+        # BETA
+        # if not all 4 oriented and 2 permuted across each other:
+        if self.get_edge_count()['white'] == 4 and not self.cross_oriented() and (len(self.cross_permuted()) == 2) and ((self.cross_permuted()[1]-self.cross_permuted()[0] == 2)%2):
+            # do F,B,D2, Fp, Bp with one of the non-permuted faces in right layer 
+            # green front
+            if self.cube_state['orange'][5] !=  self.cube_state['orange'][8]:
+                _move.append(['F', 'B', 'D2', 'Fp', 'Bp'])
+        
+            # red front
+            elif self.cube_state['green'][5] !=  self.cube_state['green'][8]:
+                _move.append(['L', 'R', 'D2', 'Lp', 'Rp'])  
+            return _move
+
+                    
+        # in all of these cases, how do i translate the algo to othe rfaces, i think just hard code lol for the 4 cases
+            # idealy would do "x"/"y"/"z", do algo, then un "x"/"y"/"z"
+                # R --> B --> L --> F
+                # F --> R --> B --> L
+            # or i do F on layer and thrrow into my solver from prior cross types
+        
+        # could have determed if any oriented next to each other and then applied algo then D moves
+        
+        # i guess i could have gotten edges in white layer and then did one of the above, but it would be less efficient, but i thought of this in beginning with 3-cycle
