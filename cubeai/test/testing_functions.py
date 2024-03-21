@@ -36,3 +36,16 @@ def iterate_through_scrambles_for_testing(many_scrambles):
         cube = do_scramble(many_scrambles[scramble])
         cubes.append(cube)
     return cubes
+
+def sanitize(moves):
+    unique_list = []
+    seen = set()
+
+    for sublist in moves:
+        cleaned_sublist = [item for item in sublist if item != 'I']
+        cleaned_tuple = tuple(cleaned_sublist)
+        if cleaned_tuple not in seen:
+            unique_list.append(cleaned_sublist)
+            seen.add(cleaned_tuple)
+
+    return unique_list
