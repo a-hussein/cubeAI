@@ -1,6 +1,6 @@
 import random
 from cubeai.cube.moves import Cube
-from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing
+from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing, sanitize
 
 
 def test_generate_states():
@@ -572,24 +572,33 @@ def test_bottum_type_cross_solver():
         ['Dp'], # bottum/bottum/bottum/bottum
         ['F2', 'B2', 'U2', 'F2', 'B2'], # bottum/bottum/bottum/bottum
         ['F2', 'B2', 'U2', 'F2', 'B2', 'D2'], # bottum/bottum/bottum/bottum
-        ['F2', 'B2', 'U2', 'F2', 'B2', 'Dp'] # bottum/bottum/bottum/bottum
+        ['F2', 'B2', 'U2', 'F2', 'B2', 'Dp'], # bottum/bottum/bottum/bottum
+        ['F2', 'B2', 'U2', 'F2', 'B2', 'D'] # bottum/bottum/bottum/bottum
+
     ]
 
     cubes = iterate_through_scrambles_for_testing(scrambles)
 
     assert cubes[0].bottum_type_cross_solver() == [['R', 'D', 'Rp', 'Dp', 'R']] # alpha green
     assert cubes[1].bottum_type_cross_solver() == [['Dp', 'R', 'D', 'Rp', 'Dp', 'R']] # alpha green
-    # assert cubes[2].bottum_type_cross_solver() == [['D2', 'R', 'D', 'Rp', 'Dp', 'R']] # alpha green
-    # assert cubes[3].bottum_type_cross_solver() == [['D', 'R', 'D', 'Rp', 'Dp', 'R']] # alpha green
-    # assert cubes[4].bottum_type_cross_solver() == [['F', 'D', 'Fp', 'Dp', 'F']] # alpha red
-    # assert cubes[5].bottum_type_cross_solver() == [['D', 'F', 'D', 'Fp', 'Dp', 'F']] # alpha red
-    # assert cubes[6].bottum_type_cross_solver() == [['Dp']]
-    # assert cubes[7].bottum_type_cross_solver() == [['D2']]
-    # assert cubes[8].bottum_type_cross_solver() == [['D']]
-    # assert cubes[9].bottum_type_cross_solver() == [['L', 'R', 'D2', 'Lp', 'Rp']] # beta
-    # assert cubes[10].bottum_type_cross_solver() == [['F', 'B', 'D2', 'Fp', 'Bp']] # beta
-    # assert cubes[11].bottum_type_cross_solver() == [['Dp', 'F', 'B', 'D2', 'Fp', 'Bp']] # beta
+    assert cubes[2].bottum_type_cross_solver() == [['D2', 'R', 'D', 'Rp', 'Dp', 'R']] # alpha green
+    assert cubes[3].bottum_type_cross_solver() == [['D', 'R', 'D', 'Rp', 'Dp', 'R']] # alpha green
+    assert cubes[4].bottum_type_cross_solver() == [['F', 'D', 'Fp', 'Dp', 'F']] # alpha red
+    assert cubes[5].bottum_type_cross_solver() == [['D', 'F', 'D', 'Fp', 'Dp', 'F']] # alpha red
+    assert cubes[6].bottum_type_cross_solver() == [['Dp']]
+    assert cubes[7].bottum_type_cross_solver() == [['D2']]
+    assert cubes[8].bottum_type_cross_solver() == [['D']]
+    assert cubes[9].bottum_type_cross_solver() == [['L', 'R', 'D2', 'Lp', 'Rp']] # beta
+    assert cubes[10].bottum_type_cross_solver() == [['F', 'B', 'D2', 'Fp', 'Bp']] # beta
+    assert cubes[11].bottum_type_cross_solver() == [['Dp', 'F', 'B', 'D2', 'Fp', 'Bp']] # gamma
+    assert cubes[12].bottum_type_cross_solver() == [['D', 'F', 'B', 'D2', 'Fp', 'Bp']] # gamma
 
+def test_sanitize():
+    moves = [
+        [['Dp', 'I'], ['Dp'], ['D', 'R'], ['D', 'Rp'], ['D2', 'F'], ['D2', 'Fp'], ['D2', 'F'], ['D2', 'Fp']],
+        [['Dp'], ['D']]
+    ]
 
-
+    assert sanitize(moves[0]) == [['Dp'], ['D', 'R'], ['D', 'Rp'], ['D2', 'F'], ['D2', 'Fp']]
+    assert sanitize(moves[1]) == [['Dp'], ['D']]
 

@@ -1027,7 +1027,7 @@ class Cube:
         
         # case for for white edges in white face, they are oriented, but there remains D moves, ie, not permuted
         if self.get_edge_count()['white'] == 4 and self.cross_oriented() and (self.combo()[0][2] != self.combo()[0][3]):
-            return self.bottum_orientation_delta()
+            return [self.bottum_orientation_delta()]
             # evetnually can use this on top layer for AUF
         
         # case that the cross does not have 4 bottum types left or oriented, but because above condition, thus solved 
@@ -1110,7 +1110,7 @@ class Cube:
         if self.get_edge_count()['white'] == 4 and not self.cross_oriented() and (len(self.cross_permuted()) == 0):# and ((cross_permuted(self)[1]-cross_permuted(self)[0] != 1)%2):
             # can have either alpha or beta case. if alpha, must do D2. if beta, can do either D or Dp
             either_move = random.choice(['D', 'Dp'])
-            _cube_ = do_scramble(either_move, self)
+            _cube_ = do_scramble([either_move], self)
             if (len(_cube_.cross_permuted()) == 2) and ((_cube_.cross_permuted()[1]-_cube_.cross_permuted()[0] == 2)%2):
                 
                 _move.append([either_move])
