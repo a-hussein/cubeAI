@@ -1,6 +1,6 @@
 import random
 from cubeai.cube.moves import Cube
-from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing, sanitize
+from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing, sanitize, generate_random_scramble
 
 
 def test_generate_states():
@@ -602,3 +602,16 @@ def test_sanitize():
     assert sanitize(moves[0]) == [['Dp'], ['D', 'R'], ['D', 'Rp'], ['D2', 'F'], ['D2', 'Fp']]
     assert sanitize(moves[1]) == [['Dp'], ['D']]
 
+def test_generate_random_scramble():
+    random.seed(0)
+    random_scrambles = []
+    for i in range(5):
+        random_scrambles.append(generate_random_scramble())
+
+    assert random_scrambles[0] == ['R2', 'U2', 'Fp', 'L2', 'D2', 'R2', 'Dp', 'Bp', 'Rp', 'L2'] 
+    assert random_scrambles[1] == ['L', 'Dp', 'L', 'D', 'Fp', 'B2', 'L', 'Dp', 'F', 'Lp']
+    assert random_scrambles[2] == ['D2', 'B2', 'D', 'Bp', 'U2', 'Lp', 'Rp', 'B2', 'D2', 'F2']
+    assert random_scrambles[3] == ['L2', 'Fp', 'U', 'B2', 'R', 'F', 'R2', 'D2', 'Lp', 'Up']
+    assert random_scrambles[4] == ['Lp', 'F', 'Rp', 'Up', 'L', 'B2', 'F2', 'Lp', 'D2', 'B2']
+
+    
