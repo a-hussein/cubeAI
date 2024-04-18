@@ -1,5 +1,6 @@
 from copy import deepcopy
 from cubeai.cube.moves import Cube
+import random
 
 
 def solved_cube():
@@ -50,3 +51,16 @@ def sanitize(moves):
     else:
         pass
     return unique_list
+
+def generate_random_scramble(num_moves=10):
+    moves = ['R', 'U', 'F', 'D', 'L', 'B', 'Rp', 'Up', 'Fp', 'Dp', 'Lp', 'Bp', 'R2', 'U2', 'F2', 'D2', 'L2', 'B2']
+    scramble = []
+    while len(scramble) < num_moves:
+        mv = random.choice(moves)
+        if len(scramble) == 0:
+            scramble.append(mv)
+        elif len(scramble) > 0 and mv[0] != scramble[-1][0]: # check if first subletter of the moveset (F2 is a move set) is same as prior (you dont want F2 followed by F for example)
+            scramble.append(mv)
+        else:
+            continue
+    return scramble
