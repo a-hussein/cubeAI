@@ -702,7 +702,7 @@ class Cube:
                 result_new[counter].append(_move[i])
                 counter+=1
         
-        print(result_new)
+        # print(result_new)
 
         # this part is to take distrubutive property of set up and solve part now there can be multipe options
         result_new_iterate = []
@@ -811,7 +811,7 @@ class Cube:
                 result_new[counter].append(_move[i])
                 counter+=1
 
-        print(result_new)
+        # print(result_new)
 
         # this part is to take distrubutive property of set up and solve part now there can be multipe options
         result_new_iterate = []
@@ -1032,7 +1032,8 @@ class Cube:
         
         # case that the cross does not have 4 bottum types left or oriented, but because above condition, thus solved 
         elif self.get_edge_count()['white'] != 4 or self.cross_oriented():
-            print('not a bottum solver case')
+            # print('not a bottum solver case')
+            pass
         
         
         # if not all 4 oriented and 1 permuted:
@@ -1195,3 +1196,70 @@ class Cube:
         # could have determed if any oriented next to each other and then applied algo then D moves
         
         # i guess i could have gotten edges in white layer and then did one of the above, but it would be less efficient, but i thought of this in beginning with 3-cycle
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.children = [] 
+
+class CrossSolver:
+    def __init__(self):
+        self.solutions = []
+
+    def treeify(self, cube, cur_moves):
+        from cubeai.test.testing_functions import do_scramble, sanitize
+
+        _combo_dict = {
+        '_seven_type' : 'seven_type_cross_solver',
+        '_three_type' : 'three_type_cross_solver',
+        '_one_type' : 'one_type_cross_solver',
+        '_top_type' : 'top_type_cross_solver',
+        '_five_type' : 'five_type_cross_solver'
+        }
+        
+        _combo = cube.combo()
+        _combo_list = []
+        for i in _combo:
+            _combo_list.append(i[0])
+
+        level = []
+        for _combo_type in _combo_list:
+            if _combo_type != 'bottum_type':
+                level.append(TreeNode(_combo_type))
+
+        for node in level:
+            node.children = getattr(cube, _combo_dict[node.val])()
+            node.children = sanitize(node.children)
+            node.children = [TreeNode(tuple(c)) for c in node.children]
+
+        _new_cubes = []
+        for node in level:
+            for c in node.children:
+                _new_cube = do_scramble(c.val, cube)
+                c.children = [TreeNode(_new_cube)]
+                _new_cube_combo = _new_cube.combo()
+                _new_cube_combo_list = []
+                for i in _new_cube_combo:
+                    _new_cube_combo_list.append(i[0])
+                if _new_cube_combo_list.count('bottum_type') == 4:
+                    _all_moves = []
+                    for move_set in (cur_moves + [c.val]):
+                        for sub_move in move_set:
+                            _all_moves.append(sub_move)
+                    final_set_of_moves = _new_cube.bottum_type_cross_solver()
+                    if final_set_of_moves == None: # invesitage this
+                        return
+                    self.solutions.append(_all_moves+final_set_of_moves[0]) # should we return solutions?
+                else:
+                    _all_moves = []
+                    for move_set in (cur_moves + [c.val]):
+                        for sub_move in move_set:
+                            _all_moves.append(sub_move)
+                    if len(_all_moves) <= 6: 
+                        self.treeify(_new_cube, cur_moves + [c.val])  # should we return solutions?
+
+
+            
+
+
+        
