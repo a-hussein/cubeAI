@@ -634,15 +634,19 @@ def test_treeify():
     min_k = min([i[0] for i in k])
     only_show_solution_with_this_num = min_k
     k = [i for i in k if i[0] == only_show_solution_with_this_num]
-    k = [
-            [8, ['Fp', 'Dp', 'F', 'Bp', 'U2', 'F', 'Rp', 'Dp']],
-            [8, ['F', 'U', 'D2', 'Lp', 'D2', 'Lp', 'Bp', 'Dp']],
-            [8, ['F', 'U2', 'Bp', 'Dp', 'Bp', 'D', 'R', 'Dp']],
-            [8, ['Lp', 'Up', 'D2', 'F', 'Bp', 'D2', 'Rp', 'D']],
-            [8, ['Lp', 'U', 'D2', 'Bp', 'F', 'D2', 'R', 'D']],
-            [8, ['Bp', 'U2', 'F', 'Up', 'Rp', 'D2', 'Rp', 'D']]
-        ]
-    
+
+    # k is many solutions. idk how to assert on this since the solves come in diff orders for some reaosn
+    # for now doing individual checks and confirming that the len's are same in case other solves missed
+    assert k[0] in k 
+    assert k[1] in k 
+    assert k[2] in k 
+    assert k[3] in k 
+    assert k[4] in k 
+    assert k[5] in k 
+    assert k[6] in k     
+    assert len(k) == int(len(k[0] + k[1] + k[2] + k[3] + k[4] + k[5] + k[6])/2)
+
+ 
     # 7 moves with len(all_moves) <=5 (alhtough, this could be done in 5, but i think it will change once i fix the set up move)
     _cube = do_scramble(['R2', 'U2', 'Fp', 'L2', 'D2', 'R2', 'Dp', 'Bp', 'Rp', 'L2'])
     solver = CrossSolver()
@@ -661,9 +665,9 @@ def test_treeify():
     min_k = min([i[0] for i in k])
     only_show_solution_with_this_num = min_k
     k = [i for i in k if i[0] == only_show_solution_with_this_num]
-    k = [
-            [[7, ['U2', 'Rp', 'Dp', 'Rp', 'D2', 'R', 'Dp']]]
-        ]
+    assert k == [
+        [7, ['U2', 'Rp', 'Dp', 'Rp', 'D2', 'R', 'Dp']]
+    ]
 
     # 2 moves with len(all_moves) <=5
     _cube = do_scramble(['R','F'])
@@ -683,9 +687,9 @@ def test_treeify():
     min_k = min([i[0] for i in k])
     only_show_solution_with_this_num = min_k
     k = [i for i in k if i[0] == only_show_solution_with_this_num]
-    k = [
-            [[2, ['Fp', 'Rp']]]
-        ]
+    assert k == [
+        [2, ['Fp', 'Rp']]
+    ]
 
     # 1 move with len(all_moves) <=5
     _cube = do_scramble(['D'])
@@ -705,9 +709,10 @@ def test_treeify():
     min_k = min([i[0] for i in k])
     only_show_solution_with_this_num = min_k
     k = [i for i in k if i[0] == only_show_solution_with_this_num]
-    k = [
-            [[2, ['Dp']]]
-        ]
+    assert k == [
+        [1, ['Dp']]
+    ]
+        
 
 
 

@@ -1259,7 +1259,7 @@ class CrossSolver:
                     for move_set in (cur_moves + [c.val]):
                         for sub_move in move_set:
                             _all_moves.append(sub_move)
-                    if len(_all_moves) <= 5: 
+                    if len(_all_moves) <= 6: 
                         self.treeify(_new_cube, cur_moves + [c.val])  # should we return solutions?
 
         # case for just cross solver only
@@ -1270,3 +1270,6 @@ class CrossSolver:
                 pass
             self.solutions.append(final_set_of_moves[0]) # should we return solutions?
             self.solutions = sanitize(self.solutions)
+
+
+
