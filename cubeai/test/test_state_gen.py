@@ -665,6 +665,49 @@ def test_treeify():
             [[7, ['U2', 'Rp', 'Dp', 'Rp', 'D2', 'R', 'Dp']]]
         ]
 
+    # 2 moves with len(all_moves) <=5
+    _cube = do_scramble(['R','F'])
+    solver = CrossSolver()
+    solver.treeify(_cube, [])
+    _solutions = solver.solutions
+    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
+    solns = [[len(solution), solution] for solution in unique_solutions]
+    sorted_solns = sorted(solns, key=lambda x: x[0])
+
+    max_num_of_moves_in_solution = 10
+    k=[]
+    for i in sorted_solns:
+        if i[0] <= max_num_of_moves_in_solution:
+            k.append(i)
+    
+    min_k = min([i[0] for i in k])
+    only_show_solution_with_this_num = min_k
+    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = [
+            [[2, ['Fp', 'Rp']]]
+        ]
+
+    # 1 move with len(all_moves) <=5
+    _cube = do_scramble(['D'])
+    solver = CrossSolver()
+    solver.treeify(_cube, [])
+    _solutions = solver.solutions
+    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
+    solns = [[len(solution), solution] for solution in unique_solutions]
+    sorted_solns = sorted(solns, key=lambda x: x[0])
+
+    max_num_of_moves_in_solution = 10
+    k=[]
+    for i in sorted_solns:
+        if i[0] <= max_num_of_moves_in_solution:
+            k.append(i)
+    
+    min_k = min([i[0] for i in k])
+    only_show_solution_with_this_num = min_k
+    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = [
+            [[2, ['Dp']]]
+        ]
 
 
 

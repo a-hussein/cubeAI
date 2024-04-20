@@ -1250,8 +1250,10 @@ class CrossSolver:
                             _all_moves.append(sub_move)
                     final_set_of_moves = _new_cube.bottum_type_cross_solver()
                     if final_set_of_moves == None: # invesitage this
-                        return
-                    self.solutions.append(_all_moves+final_set_of_moves[0]) # should we return solutions?
+                        final_set_of_moves = [['I']]
+                        pass
+                    self.solutions.append(_all_moves+final_set_of_moves[0])
+                    self.solutions = sanitize(self.solutions) 
                 else:
                     _all_moves = []
                     for move_set in (cur_moves + [c.val]):
@@ -1260,4 +1262,11 @@ class CrossSolver:
                     if len(_all_moves) <= 5: 
                         self.treeify(_new_cube, cur_moves + [c.val])  # should we return solutions?
 
-
+        # case for just cross solver only
+        if _combo_list.count('bottum_type') == 4:
+            final_set_of_moves = cube.bottum_type_cross_solver()
+            if final_set_of_moves == None: # invesitage this
+                final_set_of_moves = [['I']]
+                pass
+            self.solutions.append(final_set_of_moves[0]) # should we return solutions?
+            self.solutions = sanitize(self.solutions)
