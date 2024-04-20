@@ -2,6 +2,7 @@ from typing import Dict, List
 from itertools import product
 import random
 
+
 class Cube:
     def __init__(self, cube_state: Dict[str, List[str]]):
         self.cube_state = cube_state
@@ -1227,6 +1228,7 @@ class CrossSolver:
             if _combo_type != 'bottum_type':
                 level.append(TreeNode(_combo_type))
 
+        # print('combo types:', [[l.val, l.children] for l in level])
         for node in level:
             node.children = getattr(cube, _combo_dict[node.val])()
             node.children = sanitize(node.children)
@@ -1255,11 +1257,7 @@ class CrossSolver:
                     for move_set in (cur_moves + [c.val]):
                         for sub_move in move_set:
                             _all_moves.append(sub_move)
-                    if len(_all_moves) <= 6: 
+                    if len(_all_moves) <= 5: 
                         self.treeify(_new_cube, cur_moves + [c.val])  # should we return solutions?
 
 
-            
-
-
-        

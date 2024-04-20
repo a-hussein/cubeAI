@@ -1,5 +1,6 @@
 import random
-from cubeai.cube.moves import Cube
+import numpy as np
+from cubeai.cube.moves import Cube, CrossSolver
 from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing, sanitize, generate_random_scramble
 
 
@@ -613,5 +614,58 @@ def test_generate_random_scramble():
     assert random_scrambles[2] == ['D2', 'B2', 'D', 'Bp', 'U2', 'Lp', 'Rp', 'B2', 'D2', 'F2']
     assert random_scrambles[3] == ['L2', 'Fp', 'U', 'B2', 'R', 'F', 'R2', 'D2', 'Lp', 'Up']
     assert random_scrambles[4] == ['Lp', 'F', 'Rp', 'Up', 'L', 'B2', 'F2', 'Lp', 'D2', 'B2']
+
+def test_treeify():
+    # 8 moves with len(all_moves) <=5
+    _cube = do_scramble(['F2', 'L', 'D2', 'Lp', 'R2', 'U2', 'B2', 'Rp', 'U2', 'F2', 'Rp', 'D', 'B2', 'R', 'F2', 'Bp', 'L', 'F', 'U', 'Dp'])
+    solver = CrossSolver()
+    solver.treeify(_cube, [])
+    _solutions = solver.solutions
+    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
+    solns = [[len(solution), solution] for solution in unique_solutions]
+    sorted_solns = sorted(solns, key=lambda x: x[0])
+
+    max_num_of_moves_in_solution = 10
+    k=[]
+    for i in sorted_solns:
+        if i[0] <= max_num_of_moves_in_solution:
+            k.append(i)
+    
+    min_k = min([i[0] for i in k])
+    only_show_solution_with_this_num = min_k
+    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = [
+            [8, ['Fp', 'Dp', 'F', 'Bp', 'U2', 'F', 'Rp', 'Dp']],
+            [8, ['F', 'U', 'D2', 'Lp', 'D2', 'Lp', 'Bp', 'Dp']],
+            [8, ['F', 'U2', 'Bp', 'Dp', 'Bp', 'D', 'R', 'Dp']],
+            [8, ['Lp', 'Up', 'D2', 'F', 'Bp', 'D2', 'Rp', 'D']],
+            [8, ['Lp', 'U', 'D2', 'Bp', 'F', 'D2', 'R', 'D']],
+            [8, ['Bp', 'U2', 'F', 'Up', 'Rp', 'D2', 'Rp', 'D']]
+        ]
+    
+    # 7 moves with len(all_moves) <=5 (alhtough, this could be done in 5, but i think it will change once i fix the set up move)
+    _cube = do_scramble(['R2', 'U2', 'Fp', 'L2', 'D2', 'R2', 'Dp', 'Bp', 'Rp', 'L2'])
+    solver = CrossSolver()
+    solver.treeify(_cube, [])
+    _solutions = solver.solutions
+    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
+    solns = [[len(solution), solution] for solution in unique_solutions]
+    sorted_solns = sorted(solns, key=lambda x: x[0])
+
+    max_num_of_moves_in_solution = 10
+    k=[]
+    for i in sorted_solns:
+        if i[0] <= max_num_of_moves_in_solution:
+            k.append(i)
+    
+    min_k = min([i[0] for i in k])
+    only_show_solution_with_this_num = min_k
+    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = [
+            [[7, ['U2', 'Rp', 'Dp', 'Rp', 'D2', 'R', 'Dp']]]
+        ]
+
+
+
 
     
