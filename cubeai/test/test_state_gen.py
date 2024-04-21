@@ -1,8 +1,10 @@
 import random
 import numpy as np
 from cubeai.cube.moves import Cube, CrossSolver
-from cubeai.test.testing_functions import solved_cube, do_scramble, iterate_through_scrambles_for_testing, sanitize, generate_random_scramble
-
+from cubeai.test.testing_functions import ( 
+    solved_cube, do_scramble, iterate_through_scrambles_for_testing, 
+    sanitize, generate_random_scramble, cross_solver
+)
 
 def test_generate_states():
     r"""
@@ -618,22 +620,7 @@ def test_generate_random_scramble():
 def test_treeify():
     # 8 moves with len(all_moves) <=5
     _cube = do_scramble(['F2', 'L', 'D2', 'Lp', 'R2', 'U2', 'B2', 'Rp', 'U2', 'F2', 'Rp', 'D', 'B2', 'R', 'F2', 'Bp', 'L', 'F', 'U', 'Dp'])
-    solver = CrossSolver()
-    solver.treeify(_cube, [])
-    _solutions = solver.solutions
-    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
-    solns = [[len(solution), solution] for solution in unique_solutions]
-    sorted_solns = sorted(solns, key=lambda x: x[0])
-
-    max_num_of_moves_in_solution = 10
-    k=[]
-    for i in sorted_solns:
-        if i[0] <= max_num_of_moves_in_solution:
-            k.append(i)
-    
-    min_k = min([i[0] for i in k])
-    only_show_solution_with_this_num = min_k
-    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = cross_solver(_cube, min_move_only=True)
 
     # k is many solutions. idk how to assert on this since the solves come in diff orders for some reaosn
     # for now doing individual checks and confirming that the len's are same in case other solves missed
@@ -649,66 +636,21 @@ def test_treeify():
  
     # 7 moves with len(all_moves) <=5 (alhtough, this could be done in 5, but i think it will change once i fix the set up move)
     _cube = do_scramble(['R2', 'U2', 'Fp', 'L2', 'D2', 'R2', 'Dp', 'Bp', 'Rp', 'L2'])
-    solver = CrossSolver()
-    solver.treeify(_cube, [])
-    _solutions = solver.solutions
-    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
-    solns = [[len(solution), solution] for solution in unique_solutions]
-    sorted_solns = sorted(solns, key=lambda x: x[0])
-
-    max_num_of_moves_in_solution = 10
-    k=[]
-    for i in sorted_solns:
-        if i[0] <= max_num_of_moves_in_solution:
-            k.append(i)
-    
-    min_k = min([i[0] for i in k])
-    only_show_solution_with_this_num = min_k
-    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = cross_solver(_cube, min_move_only=True)
     assert k == [
         [7, ['U2', 'Rp', 'Dp', 'Rp', 'D2', 'R', 'Dp']]
     ]
 
     # 2 moves with len(all_moves) <=5
     _cube = do_scramble(['R','F'])
-    solver = CrossSolver()
-    solver.treeify(_cube, [])
-    _solutions = solver.solutions
-    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
-    solns = [[len(solution), solution] for solution in unique_solutions]
-    sorted_solns = sorted(solns, key=lambda x: x[0])
-
-    max_num_of_moves_in_solution = 10
-    k=[]
-    for i in sorted_solns:
-        if i[0] <= max_num_of_moves_in_solution:
-            k.append(i)
-    
-    min_k = min([i[0] for i in k])
-    only_show_solution_with_this_num = min_k
-    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = cross_solver(_cube, min_move_only=True)
     assert k == [
         [2, ['Fp', 'Rp']]
     ]
 
     # 1 move with len(all_moves) <=5
     _cube = do_scramble(['D'])
-    solver = CrossSolver()
-    solver.treeify(_cube, [])
-    _solutions = solver.solutions
-    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
-    solns = [[len(solution), solution] for solution in unique_solutions]
-    sorted_solns = sorted(solns, key=lambda x: x[0])
-
-    max_num_of_moves_in_solution = 10
-    k=[]
-    for i in sorted_solns:
-        if i[0] <= max_num_of_moves_in_solution:
-            k.append(i)
-    
-    min_k = min([i[0] for i in k])
-    only_show_solution_with_this_num = min_k
-    k = [i for i in k if i[0] == only_show_solution_with_this_num]
+    k = cross_solver(_cube, min_move_only=True)
     assert k == [
         [1, ['Dp']]
     ]

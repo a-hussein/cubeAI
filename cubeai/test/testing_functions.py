@@ -1,5 +1,5 @@
 from copy import deepcopy
-from cubeai.cube.moves import Cube
+from cubeai.cube.moves import Cube, CrossSolver
 import random
 
 
@@ -64,3 +64,31 @@ def generate_random_scramble(num_moves=10):
         else:
             continue
     return scramble
+
+def cross_solver(cube, min_move_only=True, max_num_of_moves_in_solution=10):
+    """
+    An easier way to streamline the cross_solver. Usefulwith testing.
+    If min_move_only = True, then the next param doesn't matter.
+    Outputs a list of potential solution(s) with repeats removed and sorted.
+    """
+    solver = CrossSolver()
+    solver.treeify(cube, [])
+    _solutions = solver.solutions
+    
+    unique_solutions = [list(t) for t in set(tuple(inner_list) for inner_list in _solutions)]
+    solns = [[len(solution), solution] for solution in unique_solutions]
+    sorted_solns = sorted(solns, key=lambda x: x[0])
+    
+    k=[]
+    for i in sorted_solns:
+        if i[0] <= max_num_of_moves_in_solution:
+            k.append(i)
+            
+    min_k = min([i[0] for i in k])
+    if min_move_only == True:
+        min_move_only = min_k
+        k = [i for i in k if i[0] == min_k]
+    else:
+        k = [i for i in k if i[0]]
+        
+    return k
