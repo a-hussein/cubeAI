@@ -92,3 +92,87 @@ def cross_solver(cube, min_move_only=True, max_num_of_moves_in_solution=10):
         k = [i for i in k if i[0]]
         
     return k
+
+
+def compress_moves(moves):
+    m = moves
+    while True:
+        n = len(m)
+        moves = 0
+        tmp = []
+
+        for i,letter in enumerate(m):
+            if i == len(m)-1:
+                tmp.append(letter)
+                break
+
+            # R R -> R2
+            if letter == m[i+1] and len(letter)==1:
+                tmp.append(letter+'2')
+                if i+2 < n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+
+            # Rp Rp -> R2
+            elif letter == m[i+1] and len(letter)==2 and letter[1] == 'p':
+                tmp.append(letter[0]+'2')
+                if i+2 < n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+            # R2 R2 -> pass
+            elif letter == m[i+1] and len(letter)==2 and letter[1] == '2':
+                if i+2 < n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+            # R2 R -> Rp
+            elif (len(letter) == 2 and letter[1] == '2') and (letter[0] == m[i+1][0] and len(m[i+1])==1):
+                tmp.append(letter[0]+'p')
+                if i+2<n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+            # R R2 -> Rp
+            elif (len(letter) == 1 and m[i+1][-1] == '2') and (letter[0] == m[i+1][0] and len(m[i+1])==2):
+                tmp.append(letter[0]+'p')
+                if i+2<n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+            # Rp R -> pass
+            elif len(letter)==2 and letter[1]=='p' and letter[0] == m[i+1][0] and len(m[i+1]) == 1:
+                if i+2<n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+            # R Rp -> pass
+            elif len(letter)==1 and m[i+1][-1]=='p' and letter[0] == m[i+1][0] and len(m[i+1]) == 2:
+                if i+2<n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+            # Rp R2 -> R
+            elif len(letter)==2 and letter[1]=='p' and m[i+1][-1]=='2' and letter[0] == m[i+1][0] and len(m[i+1]) == 2:
+                tmp.append(letter[0])
+                if i+2<n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+    #         R2 Rp -> R
+            elif len(letter)==2 and letter[1]=='2' and m[i+1][-1]=='p' and letter[0] == m[i+1][0] and len(m[i+1]) == 2:
+                tmp.append(letter[0])
+                if i+2<n:
+                    tmp.extend(m[i+2:])
+                moves+=1
+                break
+
+            else:
+                tmp.append(letter)
+        if moves != 0:
+            m = tmp
+        elif m == tmp:
+            break
+        m = tmp
+    return m
