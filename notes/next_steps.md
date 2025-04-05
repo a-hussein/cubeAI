@@ -1,0 +1,10 @@
+# next steps:
+- see where i left off, and determine what is needed in order to have this solve cross
+- revisit the compression algo, and only implement if that is the last thing needed to solve
+- once implemented, create an easy to use demo file showing cross solves
+- connect to some type of UI that alreadt exists via API to visualize
+- once above is done, refactor:
+    - pydantic
+    - toml
+    - uv env
+    - break out into classes and file structures
