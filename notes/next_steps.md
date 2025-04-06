@@ -3,6 +3,10 @@
 - revisit the compression algo, and only implement if that is the last thing needed to solve
 - once implemented, create an easy to use demo file showing cross solves
 - connect to some type of UI that alreadt exists via API to visualize
+- formatter
+- linter
+- move helper functions to cube
+- create make models and solver folders
 - once above is done, refactor:
     - pydantic
     - toml
