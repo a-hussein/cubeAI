@@ -1,4 +1,6 @@
 # next steps:
+- fix pytest due to test folder structure
+- add make file for test for now (can add more later)
 - see where i left off, and determine what is needed in order to have this solve cross
 - revisit the compression algo, and only implement if that is the last thing needed to solve
 - once implemented, create an easy to use demo file showing cross solves
