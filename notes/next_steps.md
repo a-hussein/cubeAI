@@ -1,0 +1,17 @@
+# next steps:
+- see where i left off, and determine what is needed in order to have this solve cross
+- revisit the compression algo, and only implement if that is the last thing needed to solve
+- once implemented, create an easy to use demo file showing cross solves
+- connect to some type of UI that alreadt exists via API to visualize
+- formatter
+- linter
+- move helper functions to cube
+- create make models and solver folders
+- once above is done, refactor:
+    - pydantic
+    - toml
+    - uv env
+    - break out into classes and file structures
+- creative ideas to explore:
+    - randomizing 20 move scrambles, storing reverse as solutions, and teaching RL model the solutions
+    - throwing in a random move when solving cross (to account for accidental moves) and monitor how that affects solve lengths

@@ -1012,7 +1012,7 @@ class Cube:
         return _permuted
 
     def bottum_type_cross_solver(self):
-        from cubeai.test.testing_functions import do_scramble
+        from cubeai.test.helper_functions import do_scramble
 
         _cross_dict = self.identify_cross_edge_type()
         # change number here
@@ -1208,7 +1208,7 @@ class CrossSolver:
         self.solutions = []
 
     def treeify(self, cube, cur_moves):
-        from cubeai.test.testing_functions import do_scramble, sanitize
+        from cubeai.test.helper_functions import do_scramble, sanitize
 
         _combo_dict = {
         '_seven_type' : 'seven_type_cross_solver',
