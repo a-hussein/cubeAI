@@ -12,3 +12,6 @@
     - toml
     - uv env
     - break out into classes and file structures
+- creative ideas to explore:
+    - randomizing 20 move scrambles, storing reverse as solutions, and teaching RL model the solutions
+    - throwing in a random move when solving cross (to account for accidental moves) and monitor how that affects solve lengths
