@@ -1,7 +1,7 @@
 import random
 import numpy as np
-from cubeai.cube.moves import Cube, CrossSolver
-from cubeai.test.helper_functions import ( 
+from src.cube.moves import Cube, CrossSolver
+from src.test.helper_functions import ( 
     do_scramble, 
     iterate_through_scrambles_for_testing, 
     cross_solver

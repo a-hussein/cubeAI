@@ -13,3 +13,7 @@ __pycache__/
 
 # Pytest cache
 .pytest_cache/
+
+# macOS system files
+.DS_Store
+*/.DS_Store

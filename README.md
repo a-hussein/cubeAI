@@ -9,9 +9,6 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
 # timeline
 - started in novemebr 2023
 - worked until ~april 2024
-- took break until april 2025
-- everything was under dev
-- main is a back up to how it was
-- dev will continue to be greatest and latest WIP
-- will work on branches and feed into dev 
+- took break until april 2025, not much done here
+- picking back up Nov2025
 
