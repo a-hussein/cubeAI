@@ -1,6 +1,6 @@
 import random
 
-from src.test.helper_functions import ( 
+from .helper_functions import ( 
     solved_cube, 
     do_scramble, 
     iterate_through_scrambles_for_testing, 
