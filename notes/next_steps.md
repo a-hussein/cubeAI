@@ -1,19 +1,18 @@
 # next steps:
-- fix pytest due to test folder structure
-- add make file for test for now (can add more later)
-- see where i left off, and determine what is needed in order to have this solve cross
-- revisit the compression algo, and only implement if that is the last thing needed to solve
+~~- fix all failing tests due to changes in folder structure~~
+- add make file
+     - test
+     - formatter
+    - linter
+- scripts are way too long, need to condense and make it more oop
+- revisit tree alg
+- revisit the compression algo
+- front end visualizer
 - once implemented, create an easy to use demo file showing cross solves
 - connect to some type of UI that alreadt exists via API to visualize
-- formatter
-- linter
-- move helper functions to cube
-- create make models and solver folders
-- once above is done, refactor:
-    - pydantic
-    - toml
-    - uv env
-    - break out into classes and file structures
+- pydantic / dataclass
 - creative ideas to explore:
     - randomizing 20 move scrambles, storing reverse as solutions, and teaching RL model the solutions
     - throwing in a random move when solving cross (to account for accidental moves) and monitor how that affects solve lengths
+    - include an llm think-out-loud for the solver
+    - an interactive hollow knight game-like where when you hit a a cube, it gets more sovled. and you go around solving unsolved cubes. sometimes you can even throw a t-perm at it haha
