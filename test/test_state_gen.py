@@ -119,9 +119,9 @@ def test_cross_orientation():
 
         cubes.append(cube)
 
-    assert cubes[0].cross_oriented() == False
-    assert cubes[1].cross_oriented() == True
-    assert cubes[2].cross_oriented() == True
+    assert not cubes[0].cross_oriented()
+    assert cubes[1].cross_oriented()
+    assert cubes[2].cross_oriented() # used to be == True; like saying if flaf == True vs if flag:
 
 
 def test_identify_cross_edge_type():
@@ -692,7 +692,7 @@ def test_three_type_cross_solver():
     assert cubes[1].three_type_cross_solver() == [["Up", "I", "Bp"], ["U2", "I", "Bp"]]
     assert cubes[2].three_type_cross_solver() == [["Up", "I", "Bp"]]
     assert cubes[3].three_type_cross_solver() == [["I", "Bp"]]
-    assert cubes[4].three_type_cross_solver() == None
+    assert cubes[4].three_type_cross_solver() is None
     assert cubes[5].three_type_cross_solver() == [
         ["I", "Rp"],
         ["I", "Fp"],
@@ -979,11 +979,11 @@ def test_bottum_orientation_delta():
 
     cubes = iterate_through_scrambles_for_testing(scrambles)
 
-    assert cubes[0].bottum_orientation_delta() == None
+    assert cubes[0].bottum_orientation_delta() is None
     assert cubes[1].bottum_orientation_delta() == ["Dp"]
     assert cubes[2].bottum_orientation_delta() == ["D2"]
     assert cubes[3].bottum_orientation_delta() == ["D"]
-    assert cubes[4].bottum_orientation_delta() == None
+    assert cubes[4].bottum_orientation_delta() is None
 
 
 def test_cross_permuted():

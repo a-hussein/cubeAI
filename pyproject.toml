@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [tool.ruff]
-extend-exclude = [".venv"]
+extend-exclude = [".venv", "*.ipynb"]
 
 [dependency-groups]
 dev = [

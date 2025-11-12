@@ -31,7 +31,7 @@ class Cube:
         )
         return arr
 
-    def I(self):
+    def I(self): # noqa: E743
         pass
 
     def R(self):
@@ -566,15 +566,15 @@ class Cube:
 
     def combine_seven_three_orientation_delta(self, i, j, k):
         if (
-            self.seven_three_orientation_delta(i, j) != None
-            and self.seven_three_orientation_delta(i, k) != None
+            self.seven_three_orientation_delta(i, j) is not None
+            and self.seven_three_orientation_delta(i, k) is not None
         ):
             return self.seven_three_orientation_delta(
                 i, j
             ) + self.seven_three_orientation_delta(i, k)
-        elif self.seven_three_orientation_delta(i, j) != None:
+        elif self.seven_three_orientation_delta(i, j) is not None:
             return self.seven_three_orientation_delta(i, j)
-        elif self.seven_three_orientation_delta(i, k) != None:
+        elif self.seven_three_orientation_delta(i, k) is not None:
             return self.seven_three_orientation_delta(i, k)
         else:
             return ["I"]
