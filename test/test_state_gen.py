@@ -1,6 +1,7 @@
 import random
-import numpy as np
-from src.cube.moves import Cube, CrossSolver
+
+# import numpy as np
+from src.cube.moves import Cube  # CrossSolver
 from .helper_functions import (
     do_scramble,
     iterate_through_scrambles_for_testing,
@@ -121,7 +122,9 @@ def test_cross_orientation():
 
     assert not cubes[0].cross_oriented()
     assert cubes[1].cross_oriented()
-    assert cubes[2].cross_oriented() # used to be == True; like saying if flaf == True vs if flag:
+    assert cubes[
+        2
+    ].cross_oriented()  # used to be == True; like saying if flaf == True vs if flag:
 
 
 def test_identify_cross_edge_type():

@@ -19,7 +19,7 @@ def solved_cube():
 
 
 def do_scramble(moves, cube=solved_cube(), in_place=False):
-    if in_place == False:
+    if not in_place:
         cube_copy = deepcopy(cube)
         for move in range(len(moves)):
             getattr(cube_copy, moves[move])()
@@ -112,7 +112,7 @@ def cross_solver(cube, min_move_only=True, max_num_of_moves_in_solution=10):
             k.append(i)
 
     min_k = min([i[0] for i in k])
-    if min_move_only == True:
+    if min_move_only:
         min_move_only = min_k
         k = [i for i in k if i[0] == min_k]
     else:

@@ -31,7 +31,7 @@ class Cube:
         )
         return arr
 
-    def I(self): # noqa: E743
+    def I(self):  # noqa: E743
         pass
 
     def R(self):
@@ -598,7 +598,7 @@ class Cube:
 
         _combo_plus_move = []
 
-        if self.cross_oriented() == False:
+        if not self.cross_oriented():
             for i, edge in enumerate(_combo):
                 if edge[0] == "_seven_type":
                     if edge[1] == "green":
@@ -701,7 +701,7 @@ class Cube:
 
         _combo_plus_move = []
 
-        if self.cross_oriented() == False:
+        if not self.cross_oriented():
             for i, edge in enumerate(_combo):
                 if edge[0] == "_three_type":
                     if edge[1] == "green":
@@ -817,11 +817,12 @@ class Cube:
         else:
             layer_delta = color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]]
 
-        sticker_delta = (
-            color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]
-        )  # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+        # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+        # sticker_delta = (
+        #     color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]
+        # )
 
-        tops = ["_top_type", "_one_type"]
+        # tops = ["_top_type", "_one_type"]
         bottums = ["_five_type", "bottum_type"]
 
         # D delta
@@ -867,7 +868,7 @@ class Cube:
             color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]
         )  # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
 
-        tops = ["_top_type", "_one_type"]
+        # tops = ["_top_type", "_one_type"]
         bottums = ["_five_type", "bottum_type"]
 
         # D delta
@@ -914,7 +915,7 @@ class Cube:
 
         _combo_plus_move = []
 
-        if self.cross_oriented() == False:
+        if not self.cross_oriented():
             for i, edge in enumerate(_combo):
                 if edge[0] == "_one_type":
                     if edge[1] == "green":
@@ -927,7 +928,7 @@ class Cube:
                         _move.append(["R", "Rp"])  # either , not both
 
         ####################################
-        tops = ["_top_type", "_one_type"]
+        # tops = ["_top_type", "_one_type"]
         bottums = ["_five_type", "bottum_type"]
 
         # needed to offset below
@@ -958,7 +959,8 @@ class Cube:
         # 2: [0,1] threes
         # 1: [2] tops
         # 1: [3] bottums
-        x, y, z = [], [], []
+        x, y = [], []
+        # z = []
         for i in range(ones_counter):
             x.append(i)
         # current catgeory plus prior to previos + things it will interact with
@@ -1036,7 +1038,7 @@ class Cube:
 
         _combo_plus_move = []
 
-        if self.cross_oriented() == False:
+        if not self.cross_oriented():
             for i, edge in enumerate(_combo):
                 if edge[0] == "_top_type":
                     if edge[1] == "yellow_g":
@@ -1049,7 +1051,7 @@ class Cube:
                         _move.append(["R", "Rp"])  # either , not both
 
         ####################################
-        tops = ["_top_type", "_one_type"]
+        # tops = ["_top_type", "_one_type"]
         bottums = ["_five_type", "bottum_type"]
 
         # needed to offset below
@@ -1080,7 +1082,8 @@ class Cube:
         # 2: [0,1] threes
         # 1: [2] tops
         # 1: [3] bottums
-        x, y, z = [], [], []
+        x, y = [], []
+        # z = []
         for i in range(tops_counter):
             x.append(i)
         for i in range(
@@ -1145,7 +1148,7 @@ class Cube:
         g, r, b, o = 0, 1, 2, 3
         color_mapping = {"g": g, "r": r, "b": b, "o": o}
 
-        bottum_mapping = {0: ["I"], 1: ["Dp"], 2: ["D2"], 3: ["D"]}
+        # bottum_mapping = {0: ["I"], 1: ["Dp"], 2: ["D2"], 3: ["D"]}
         top_mapping = {0: ["I"], 1: ["U"], 2: ["U2"], 3: ["Up"]}
 
         _combo = self.combo()
@@ -1169,12 +1172,13 @@ class Cube:
         else:
             layer_delta = color_mapping[_combo[i][2]] - color_mapping[_combo[j][2]]
 
-        sticker_delta = (
-            color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]
-        )  # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+        # an edge type for y/w edge case is not needed because sticker will not be yellow or white for this release on sticker_delta
+        # sticker_delta = (
+        #     color_mapping[_combo[i][3]] - color_mapping[_combo[j][3]]
+        # )
 
         tops = ["_top_type", "_one_type"]
-        bottums = ["_five_type", "bottum_type"]
+        # bottums = ["_five_type", "bottum_type"]
 
         # no D delta
         res = ["I"]
@@ -1205,7 +1209,7 @@ class Cube:
 
         _combo_plus_move = []
 
-        if self.cross_oriented() == False:
+        if not self.cross_oriented():
             for i, edge in enumerate(_combo):
                 if edge[0] == "_five_type":
                     if edge[1] == "green":
@@ -1219,7 +1223,7 @@ class Cube:
 
         ####################################
         tops = ["_top_type", "_one_type"]
-        bottums = ["_five_type", "bottum_type"]
+        # bottums = ["_five_type", "bottum_type"]
 
         # needed to offset below
         sevens_threes_counter = 0
@@ -1253,7 +1257,8 @@ class Cube:
         # 2: [0,1] threes
         # 1: [2] tops
         # 1: [3] bottums
-        x, y, z = [], [], []
+        x, y = [], []
+        # z = []
         for i in range(fives_counter):  # itself
             x.append(i)
         # current catgeory minus prior to previos + things interacting with
@@ -1599,7 +1604,7 @@ class CrossSolver:
                         for sub_move in move_set:
                             _all_moves.append(sub_move)
                     final_set_of_moves = _new_cube.bottum_type_cross_solver()
-                    if final_set_of_moves == None:  # invesitage this
+                    if final_set_of_moves is None:  # invesitage this
                         final_set_of_moves = [["I"]]
                         pass
                     self.solutions.append(_all_moves + final_set_of_moves[0])
@@ -1617,7 +1622,7 @@ class CrossSolver:
         # case for just cross solver only
         if _combo_list.count("bottum_type") == 4:
             final_set_of_moves = cube.bottum_type_cross_solver()
-            if final_set_of_moves == None:  # invesitage this
+            if final_set_of_moves is None:  # invesitage this
                 final_set_of_moves = [["I"]]
                 pass
             self.solutions.append(final_set_of_moves[0])  # should we return solutions?
