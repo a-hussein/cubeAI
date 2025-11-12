@@ -1,9 +1,9 @@
 # next steps:
 ~~- fix all failing tests due to changes in folder structure~~
 - add make file
-     - test
-     - formatter
+    - formatter
     - linter
+    - test
 - scripts are way too long, need to condense and make it more oop
 - revisit tree alg
 - revisit the compression algo

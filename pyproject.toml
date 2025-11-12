@@ -8,3 +8,12 @@ dependencies = [
     "numpy>=2.3.3",
     "pytest>=8.4.2",
 ]
+
+[tool.ruff]
+extend-exclude = [".venv"]
+
+[dependency-groups]
+dev = [
+    "black>=25.11.0",
+    "ruff>=0.14.4",
+]
