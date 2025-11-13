@@ -1,7 +1,7 @@
 # Python tooling
 PYTHON=uv run
 
-.PHONY: format lint test check
+.PHONY: fmt lint test check
 
 # Auto-format code (will make changes)
 fmt:
@@ -17,4 +17,4 @@ lint:
 test:
 	$(PYTHON) pytest
 
-check: format lint test
+check: fmt lint test
