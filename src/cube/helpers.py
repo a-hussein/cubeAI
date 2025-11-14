@@ -1,5 +1,5 @@
 from copy import deepcopy
-from src.cube.moves import Cube, CrossSolver
+from .cube_representation import Cube, CrossSolver
 import random
 
 

@@ -4,22 +4,33 @@
 ~~    - formatter~~
 ~~    - linter~~
 ~~    - test~~
+
 - scripts are way too long, need to condense and make it more oop
-- revisit tree alg
+~~    - rename files approppriately~~
+~~    - add placeholder files~~
+~~    - move helper functions to cube module~~
+    - `cube.py` should just represent cube state and basic moves, no solving
+    - we should then incorporate a `cross_sovler.py` which uses Cube to solve cross
+    - and then make a`engine_solver.py` which contains the TreeNode and BFS logic
+
+
+- implement the BFS solver properly (treeify)
 - revisit the compression algo
-- front end visualizer
-- once implemented, create an easy to use demo file showing cross solves
-- connect to some type of UI that alreadt exists via API to visualize
-- pydantic / dataclass
-- creative ideas to explore:
-    - randomizing 20 move scrambles, storing reverse as solutions, and teaching RL model the solutions
-    - throwing in a random move when solving cross (to account for accidental moves) and monitor how that affects solve lengths
-    - include an llm think-out-loud for the solver
-    - an interactive hollow knight game-like where when you hit a a cube, it gets more sovled. and you go around solving unsolved cubes. sometimes you can even throw a t-perm at it haha
-
-
+- front end visualizer (refer to ui_later notes)
+- api
+    - fastapi + pydantic
+- docker container
+- clean demo scripts
+- dataclass
 
 # later:
 - set up git shortcuts
     - https://git-scm.com/book/ms/v2/Git-Basics-Git-Aliases
+- metrics.py that evaluates functions (avg move count, etc)
+- Need a good way to hash cube states to avoid revisiting
+- creative ideas to explore:
+    - randomizing 20 move scrambles, storing reverse as solutions, and teaching RL model the solutions
+    - throwing in a random move when solving cross (to account for accidental moves) and monitor how that affects solve lengths
+    - include an llm think-out-loud for the solver
+    - an interactive hollow-knight-like game where when you hit a a cube, it gets more sovled. and you go around solving unsolved cubes. sometimes you can even throw a t-perm at it haha
 

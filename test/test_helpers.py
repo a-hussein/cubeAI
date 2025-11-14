@@ -1,6 +1,6 @@
 import random
 
-from .helper_functions import (
+from cube import (  # see alpha in cube/__init__.py
     solved_cube,
     do_scramble,
     iterate_through_scrambles_for_testing,

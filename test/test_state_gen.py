@@ -1,12 +1,8 @@
 import random
 
 # import numpy as np
-from src.cube.moves import Cube  # CrossSolver
-from .helper_functions import (
-    do_scramble,
-    iterate_through_scrambles_for_testing,
-    cross_solver,
-)
+from cube import Cube  # see alpha in cube/__init__.py
+from cube import do_scramble, iterate_through_scrambles_for_testing, cross_solver
 
 
 def test_generate_states():
