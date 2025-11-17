@@ -1,5 +1,6 @@
 from copy import deepcopy
-from .cube_representation import Cube, CrossSolver
+from .cube_representation import Cube
+from .cross_solver import CrossSolver
 import random
 
 

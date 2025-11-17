@@ -59,3 +59,9 @@
 #     """Convert a cube to a hashable key. Reuse your existing encoding."""
 #     # e.g., ''.join(cube.state)
 #     return "".join(cube.state)
+
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.children = []
