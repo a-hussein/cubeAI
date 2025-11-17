@@ -1,14 +1,14 @@
 # next steps:
 ~~- fix all failing tests due to changes in folder structure~~
 ~~- add make file~~
-~~    - formatter~~
-~~    - linter~~
-~~    - test~~
+    ~~- formatter~~
+    ~~- linter~~
+    ~~- test~~
 
 - scripts are way too long, need to condense and make it more oop
-~~    - rename files approppriately~~
-~~    - add placeholder files~~
-~~    - move helper functions to cube module~~
+    ~~- rename files approppriately~~
+    ~~- add placeholder files~~
+    ~~- move helper functions to cube module~~
     - `cube.py` should just represent cube state and basic moves, no solving
     - we should then incorporate a `cross_sovler.py` which uses Cube to solve cross
     - and then make a`engine_solver.py` which contains the TreeNode and BFS logic
@@ -24,8 +24,7 @@
 - dataclass
 
 # later:
-- set up git shortcuts
-    - https://git-scm.com/book/ms/v2/Git-Basics-Git-Aliases
+~~- set up git shortcuts~~
 - metrics.py that evaluates functions (avg move count, etc)
 - Need a good way to hash cube states to avoid revisiting
 - creative ideas to explore:
@@ -33,4 +32,6 @@
     - throwing in a random move when solving cross (to account for accidental moves) and monitor how that affects solve lengths
     - include an llm think-out-loud for the solver
     - an interactive hollow-knight-like game where when you hit a a cube, it gets more sovled. and you go around solving unsolved cubes. sometimes you can even throw a t-perm at it haha
+- go down rabbit hole of git tab completion
+    - will need to look into brew and zsh etc
 
