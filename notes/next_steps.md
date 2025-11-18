@@ -13,9 +13,9 @@
     ~~- we should then incorporate a `cross_solver.py` which uses Cube to solve cross~~
     ~~- and then make a`engine_solver.py` which contains the TreeNode~~ 
 
-- need to make files more oop
-    - after restructuring files, align solvers work well and review codebase
-    - make files more oop based
+
+- after restructuring files, align solvers work well and review codebase
+- make files more oop based
 
 - implement the BFS solver properly (treeify)
 - revisit the compression algo

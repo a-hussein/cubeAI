@@ -17,4 +17,4 @@ lint:
 test:
 	$(PYTHON) pytest
 
-check: fmt lint test
+done: fmt lint test
