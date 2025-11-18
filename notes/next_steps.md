@@ -5,14 +5,17 @@
     ~~- linter~~
     ~~- test~~
 
-- scripts are way too long, need to condense and make it more oop
+- files contain more than one major purporse, need to seperate out
     ~~- rename files approppriately~~
     ~~- add placeholder files~~
     ~~- move helper functions to cube module~~
-    - `cube.py` should just represent cube state and basic moves, no solving
-    - we should then incorporate a `cross_sovler.py` which uses Cube to solve cross
-    - and then make a`engine_solver.py` which contains the TreeNode and BFS logic
+    ~~- `cube_representation.py` should just represent cube state and basic moves, no solving~~
+    ~~- we should then incorporate a `cross_solver.py` which uses Cube to solve cross~~
+    ~~- and then make a`engine_solver.py` which contains the TreeNode~~ 
 
+- need to make files more oop
+    - after restructuring files, align solvers work well and review codebase
+    - make files more oop based
 
 - implement the BFS solver properly (treeify)
 - revisit the compression algo
