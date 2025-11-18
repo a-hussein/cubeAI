@@ -1,6 +1,6 @@
 # next steps:
 ~~- fix all failing tests due to changes in folder structure~~
-~~- add make file~~
+- add make file
     ~~- formatter~~
     ~~- linter~~
     ~~- test~~
@@ -13,6 +13,10 @@
     ~~- we should then incorporate a `cross_solver.py` which uses Cube to solve cross~~
     ~~- and then make a`engine_solver.py` which contains the TreeNode~~ 
 
+- make this project more OOP
+    ~~- currently there is one class in cube_representation, make it multiple classes~~
+    - potentially move these classes to different scripts
+    - there is a lot of reused code in these scripts, make functions and reuse instead
 
 - after restructuring files, align solvers work well and review codebase
 - make files more oop based
