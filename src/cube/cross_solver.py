@@ -24,7 +24,7 @@
 
 #         This function should reuse your existing logic.
 #         """
-#         # 🔁 Call your current functions / scripts here,
+#         # Call your current functions / scripts here,
 #         # refactored into smaller helper functions as needed.
 #         solution_moves: List[Move] = []
 
@@ -39,6 +39,10 @@ import random
 
 
 class CrossSolverMixin:
+    """
+    This class uses the CrossSetupForSolverMixin class to help solve each sub-type of cross types.
+    """
+
     def seven_type_cross_solver(self):
         _cross_dict = self.identify_cross_edge_type()
         # change number here
@@ -824,11 +828,18 @@ class CrossSolverMixin:
 
 
 class CrossSolver:
+    """
+    This class solves the cross. It relies on the TreeNode class.
+    """
+
     def __init__(self):
         self.solutions = []
 
     def treeify(self, cube, cur_moves):
-        from .helpers import do_scramble, sanitize
+        from .helpers import (
+            do_scramble,
+            sanitize,
+        )  # if put at top of file, will create circular import errors, eventually need to restructure
 
         _combo_dict = {
             "_seven_type": "seven_type_cross_solver",

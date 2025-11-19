@@ -5,6 +5,11 @@ from .cross_solver import CrossSolverMixin
 
 
 class CubeCore:
+    """
+    This class holds the core functions for what defines a cube and how it moves.
+    It is used as a mixin in the Cube class along with other classes.
+    """
+
     def __init__(self, cube_state: Dict[str, List[str]]):
         self.cube_state = cube_state
         self.moves = 0
@@ -304,6 +309,11 @@ class CubeCore:
 
 
 class CubeStateMixin:
+    """
+    This class provides functions to help identify states about the cube.
+    Used as a mixin class to the Cube class.
+    """
+
     def get_state(self):
         return self.cube_state
 
@@ -516,6 +526,8 @@ class CubeStateMixin:
 
 
 class Cube(CubeCore, CubeStateMixin, CrossSetupForSolverMixin, CrossSolverMixin):
-    """The main cube object."""
+    """The main cube object.
+    Uses other set up classes as mixins.
+    """
 
     pass

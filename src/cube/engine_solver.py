@@ -62,6 +62,10 @@
 
 
 class CrossSetupForSolverMixin:
+    """
+    This class provides functions used as set up for the CrossSolverMixin class.
+    """
+
     def combo(self):
         cross_dict = self.identify_cross_edge_type()
 
@@ -324,6 +328,10 @@ class CrossSetupForSolverMixin:
 
 
 class TreeNode:
+    """
+    This class is used to support the CrossSolver class.
+    """
+
     def __init__(self, val):
         self.val = val
         self.children = []
