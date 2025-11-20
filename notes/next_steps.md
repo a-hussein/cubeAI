@@ -19,7 +19,12 @@
     ~~- move tests to seperate files~~
     - there is a lot of reused code in these scripts, make classes and functions and reuse instead
 
-- front end visualizer (refer to ui_later notes)
+- front end visualizer (refer to ui notes)
+    - hard-coded in code since twisty puzzle doesn't start off with green front yellow top
+    - configure a set up and preset
+        - see if it adds to move count
+    - allow Rp --> R'
+    
 - after restructuring files, align solvers work well and review codebase
 
 - implement the BFS solver properly (treeify)
