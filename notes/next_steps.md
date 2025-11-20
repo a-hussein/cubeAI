@@ -16,13 +16,15 @@
 - make this project more OOP
     ~~- currently there is one class in cube_representation, make it multiple classes~~
     ~~- move these classes to different files~~
+    ~~- move tests to seperate files~~
     - there is a lot of reused code in these scripts, make classes and functions and reuse instead
 
+- front end visualizer (refer to ui_later notes)
 - after restructuring files, align solvers work well and review codebase
 
 - implement the BFS solver properly (treeify)
 - revisit the compression algo
-- front end visualizer (refer to ui_later notes)
+
 - api
     - fastapi + pydantic
 - docker container
