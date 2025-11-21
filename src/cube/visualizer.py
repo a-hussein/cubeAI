@@ -270,6 +270,7 @@ per final_alg, the order will be no matter how its types in cli
     # followed up the --setup, in this case: Rp Up
     # must be in quotes
 
-make visual ARGS="R U --setup 'Rp Up'"
+# make visual a="R U --setup 'Rp Up'"
+    # everything in args must be in quotes
 
 """

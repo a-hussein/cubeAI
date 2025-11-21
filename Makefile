@@ -20,6 +20,6 @@ test:
 clean: fmt lint test
 
 visual:
-	$(UV) python src/cube/visualizer.py $(ARGS)
+	$(UV) python src/cube/visualizer.py $(a) # args
 
 
