@@ -1,20 +1,25 @@
 # Python tooling
-PYTHON=uv run
+UV=uv run
 
-.PHONY: fmt lint test check
+.PHONY: fmt lint test check visual
 
 # Auto-format code (will make changes)
 fmt:
-	$(PYTHON) ruff format .
-	$(PYTHON) black .
+	$(UV) ruff format .
+	$(UV) black .
 
 # Static checks (won't make changes)
 lint:
-	$(PYTHON) ruff check .
+	$(UV) ruff check .
 # 	$(PYTHON) .
 
 # Run test suite
 test:
-	$(PYTHON) pytest
+	$(UV) pytest
 
-done: fmt lint test
+clean: fmt lint test
+
+visual:
+	$(UV) python src/cube/visualizer.py $(ARGS)
+
+
