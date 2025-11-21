@@ -22,6 +22,8 @@ import argparse
 import webbrowser
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
+CODE_IN_SETUP = False # if True, need to hit play, else, will arrive preset up with no need to hit play (but notice that the set up moves will look like moves)
+
 # Base Twizzle editor URL (no alg here)
 BASE_URL = "https://alpha.twizzle.net/edit/?puzzle=3x3x3"
 
@@ -100,35 +102,41 @@ def build_twizzle_url(
     cli_setup: str | None = None,
 ) -> str:
     """
-    Build a Twizzle URL with a single `alg=` parameter.
-
-    Final alg order (based on your description):
-
-        CODE_DEFAULT_SETUP  +  preset_moves  + user_alg  +  cli_setup
-
-    Example:
-        CODE_DEFAULT_SETUP = "r2 L2 u2 D2"
-        preset     = None
-        user_alg   = "D R U"
-        cli_setup  = "R U F"
-
-        => "r2 L2 u2 D2 D R U R U F"
+    Build a Twizzle URL using:
+    
+        setup-alg = CODE_DEFAULT_SETUP   (always)
+        alg       = preset + moves + setup
+    
+    This uses Twizzle exactly as intended:
+    - code setup shows in the Setup panel (not as executed moves)
+    - actual moves show in the Algorithm panel
     """
     parsed = urlparse(base_url)
     query = parse_qs(parsed.query, keep_blank_values=True)
 
-    # Resolve preset to its move string if provided
+
+    if CODE_IN_SETUP: # see note in reference to this variable above
+        # Twizzle-style: setup in its own box, but must hit play
+        final_setup = _join_alg_parts(code_setup)
+        if final_setup:
+            query["setup-alg"] = [final_setup]
+        code_for_alg = None
+    else:
+        # Old-style: treat code setup as part of the main alg (lands at executed state), no need to hit play
+        final_setup = None
+        code_for_alg = code_setup
+
+    # Resolve preset moves
     preset_moves = PRESETS.get(preset) if preset else None
 
+    # Now build the REAL executable moves (this becomes Twizzle's alg=)
     final_alg = _join_alg_parts(
-        code_setup,
-        preset_moves,
-        user_alg,
-        cli_setup,
+        code_for_alg,   # only non-None when CODE_IN_SETUP is False
+        preset_moves,  # preset now BEFORE moves
+        user_alg,      # positional moves from CLI
+        cli_setup,     # --setup (optional)
     )
-
-    # Put everything in a single `alg` param
-    query["alg"] = [final_alg]
+    query["alg"] = [final_alg] if final_alg else [""]
 
     new_query = urlencode(query, doseq=True)
     return urlunparse(parsed._replace(query=new_query))
