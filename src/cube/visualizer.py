@@ -104,13 +104,13 @@ def build_twizzle_url(
 
     Final alg order (based on your description):
 
-        CODE_DEFAULT_SETUP  +  user_alg  +  preset_moves  +  cli_setup
+        CODE_DEFAULT_SETUP  +  preset_moves  + user_alg  +  cli_setup
 
     Example:
         CODE_DEFAULT_SETUP = "r2 L2 u2 D2"
+        preset     = None
         user_alg   = "D R U"
         cli_setup  = "R U F"
-        preset     = None
 
         => "r2 L2 u2 D2 D R U R U F"
     """
