@@ -25,7 +25,8 @@
         - see if it adds to move count
     ~~- allow Rp --> R'~~
     ~~- allow a flag for hthe hard-coded moves to be added to setup vs not~~
-    - create tests of cli scripts rpelicating output in url string
+    - create tests of cli scripts replicating output in url string
+    - clone twizzle and run locally
     
 - after restructuring files, align solvers work well and review codebase
 
@@ -49,4 +50,6 @@
     - an interactive hollow-knight-like game where when you hit a a cube, it gets more sovled. and you go around solving unsolved cubes. sometimes you can even throw a t-perm at it haha
 - go down rabbit hole of git tab completion
     - will need to look into brew and zsh etc
+- customize cli
+- todo in code (changes colors)
 
