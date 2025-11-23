@@ -20,3 +20,6 @@ __pycache__/
 
 # notes
 notes/
+
+# Packaging metadata
+*.egg-info/
