@@ -7,8 +7,12 @@
 I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. This project focuses on the "cross" portion which is less "algorithmic" than other parts of learning the CFOP method. However, I wanted to have a script solve the cross I would using similar logic patterns.
 
 # timeline
-- started in novemebr 2023
+- started in November 2023
 - worked until ~april 2024
 - took break until april 2025, not much done here
-- picking back up Nov2025
+- picking back up Nov 2025
+
+# developer notes
+- always run `make clean` before pushing any code
+- reference the `demo/interact_with_cube.ipynb` file to become familiar with interacting with the `cube` object
 

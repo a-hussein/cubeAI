@@ -12,6 +12,7 @@ from .helpers import (
     sanitize,
     generate_random_scramble,
     cross_solver,
+    move_notation_converter,
 )
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "sanitize",
     "generate_random_scramble",
     "cross_solver",
+    "move_notation_converter",
 ]

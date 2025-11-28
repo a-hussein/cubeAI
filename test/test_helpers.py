@@ -6,6 +6,7 @@ from cube import (  # see alpha in cube/__init__.py
     iterate_through_scrambles_for_testing,
     sanitize,
     generate_random_scramble,
+    move_notation_converter,
 )
 
 
@@ -182,3 +183,13 @@ def test_generate_random_scramble():
         "D2",
         "B2",
     ]
+
+
+def test_move_notation_converter():
+    scramble1 = ["R"]
+    scramble2 = ["R", "Up"]
+    scramble3 = ["Lp", "F", "Rp", "Up", "L", "B2", "F2", "Lp", "D2", "B2"]
+
+    assert move_notation_converter(scramble1) == "R"
+    assert move_notation_converter(scramble2) == "R Up"
+    assert move_notation_converter(scramble3) == "Lp F Rp Up L B2 F2 Lp D2 B2"

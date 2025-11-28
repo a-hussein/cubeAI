@@ -20,6 +20,17 @@ def solved_cube():
 
 
 def do_scramble(moves, cube=solved_cube(), in_place=False):
+    """
+    This function performs a set of moves on a `cube` object.
+
+    It takes input of list of strings as moves.
+
+    Input: ["R", "U", "Rp", "Up"]
+    Output: a `cube` object with the above moves applied to it.
+
+    The default is to apply the moves to a `solved_cube()`, however, one may apply it on a cube with already done moves
+
+    """
     if not in_place:
         cube_copy = deepcopy(cube)
         for move in range(len(moves)):
@@ -230,3 +241,24 @@ def compress_moves(moves):
             break
         m = tmp
     return m
+
+
+def move_notation_converter(scramble):
+    """
+    This function converts the notation that I have been using on the `cube` object to the notation used in the cli visualizer.
+    My notation has been moves as strings within a list, eg: ["R", "U",...]
+    The visualizer simply uses moves with spaces, eg: "R U..."
+
+    Input: ["R", "U"]
+    Output: "R U"
+    """
+
+    updated_scramble = ""
+    counter = 0
+    for i in scramble:
+        if counter == len(scramble) - 1:
+            updated_scramble += i
+        else:
+            updated_scramble += i + " "
+        counter += 1
+    return updated_scramble

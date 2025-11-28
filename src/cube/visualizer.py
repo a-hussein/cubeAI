@@ -22,7 +22,7 @@ import argparse
 import webbrowser
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
-CODE_IN_SETUP = False # if True, need to hit play, else, will arrive preset up with no need to hit play (but notice that the set up moves will look like moves)
+CODE_IN_SETUP = False  # if True, need to hit play, else, will arrive preset up with no need to hit play (but notice that the set up moves will look like moves)
 
 # Base Twizzle editor URL (no alg here)
 BASE_URL = "https://alpha.twizzle.net/edit/?puzzle=3x3x3"
@@ -103,10 +103,10 @@ def build_twizzle_url(
 ) -> str:
     """
     Build a Twizzle URL using:
-    
+
         setup-alg = CODE_DEFAULT_SETUP   (always)
         alg       = preset + moves + setup
-    
+
     This uses Twizzle exactly as intended:
     - code setup shows in the Setup panel (not as executed moves)
     - actual moves show in the Algorithm panel
@@ -114,8 +114,7 @@ def build_twizzle_url(
     parsed = urlparse(base_url)
     query = parse_qs(parsed.query, keep_blank_values=True)
 
-
-    if CODE_IN_SETUP: # see note in reference to this variable above
+    if CODE_IN_SETUP:  # see note in reference to this variable above
         # Twizzle-style: setup in its own box, but must hit play
         final_setup = _join_alg_parts(code_setup)
         if final_setup:
@@ -131,10 +130,10 @@ def build_twizzle_url(
 
     # Now build the REAL executable moves (this becomes Twizzle's alg=)
     final_alg = _join_alg_parts(
-        code_for_alg,   # only non-None when CODE_IN_SETUP is False
+        code_for_alg,  # only non-None when CODE_IN_SETUP is False
         preset_moves,  # preset now BEFORE moves
-        user_alg,      # positional moves from CLI
-        cli_setup,     # --setup (optional)
+        user_alg,  # positional moves from CLI
+        cli_setup,  # --setup (optional)
     )
     query["alg"] = [final_alg] if final_alg else [""]
 
