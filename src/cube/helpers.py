@@ -104,7 +104,7 @@ def generate_random_scramble(num_moves=10):
 
 def cross_solver(cube, min_move_only=True, max_num_of_moves_in_solution=10):
     """
-    An easier way to streamline the cross_solver. Usefulwith testing.
+    An easier way to streamline the cross_solver. Useful with testing.
     If min_move_only = True, then the next param doesn't matter.
     Outputs a list of potential solution(s) with repeats removed and sorted.
     """
