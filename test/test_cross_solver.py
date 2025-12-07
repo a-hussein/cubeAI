@@ -468,8 +468,9 @@ def test_bottum_type_cross_solver():
     ]  # gamma
 
 
-def test_treeify():
+def test_treeify_cross_solver():
     # 8 moves with len(all_moves) <=5
+    # however, if compression worked, this would be seven!
     _cube = do_scramble(
         [
             "F2",
