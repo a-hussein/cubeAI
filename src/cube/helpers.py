@@ -134,6 +134,7 @@ def cross_solver(cube, min_move_only=True, max_num_of_moves_in_solution=10):
 
 
 def compress_moves(moves):
+    # unsure if this is fully operational, but works for now on the demo 8-move solution -> 7-move
     m = moves
     while True:
         n = len(m)

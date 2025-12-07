@@ -13,6 +13,7 @@ from .helpers import (
     generate_random_scramble,
     cross_solver,
     move_notation_converter,
+    compress_moves
 )
 
 __all__ = [
