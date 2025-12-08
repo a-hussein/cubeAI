@@ -1,20 +1,4 @@
-"""
-Simple Twizzle Editor wrapper.
 
-Usage (CLI):
-    python twizzle_wrapper.py R U R' U'
-
-This will open alpha.twizzle.net/edit with that alg in your default browser.
-
-Usage (from your solver code):
-    from twizzle_wrapper import open_in_twizzle
-
-    alg = "R U R' U R U2 R'"
-    open_in_twizzle(alg)
-
-https://alpha.twizzle.net/edit/?setup-alg=r+r+L2
-
-"""
 
 from __future__ import annotations
 
@@ -221,55 +205,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-"""
-per final_alg, the order will be no matter how its types in cli
-    - CODE_DEFAULT_SETUP
-        - this is set up in this file
-    - preset
-        - this is set up in this file and is triggered via key word
-    - moves
-        - this could use quotes as optional
-        - this will need spaces, eg: R U Rp Up
-        - can also "'" notation: R U R\' U\'
-    - setup
-        - this will always need to be quotes with spaces
-        - eg: "R U Rp Up"
-
-
-# uv run python src/cube/ui.py R
-    # this will run the default CODE_DEFAULT_SETUP so green front yellow top
-    # followed by R
-    # could be in quotes but dont need to be
-
-# uv run python src/cube/ui.py Rp
-    # this will run the default CODE_DEFAULT_SETUP so green front yellow top
-    # followed by R prime
-    # could be in quotes but dont need to be
-
-# uv run python src/cube/ui.py R\'
-    # this will run the default CODE_DEFAULT_SETUP so green front yellow top
-    # followed by R prime
-
-# uv run python src/cube/ui.py --preset checkered
-    # this will run the default CODE_DEFAULT_SETUP so green front yellow top
-    # followed by checkered moves
-
-# uv run python src/cube/ui.py R U --preset checkered
-    # this will run the default CODE_DEFAULT_SETUP so green front yellow top
-    # R U
-    # followed by checkered moves
-    # doesnt matter if R U before/after --preset
-
-# uv run python src/cube/ui.py R U --setup "Rp Up"
-    # this will run the default CODE_DEFAULT_SETUP so green front yellow top
-    # followed by R U
-    # could be in quotes but dont need to be
-    # followed up the --setup, in this case: Rp Up
-    # must be in quotes
-
-# make visual a="R U --setup 'Rp Up'"
-    # everything in args must be in quotes
-
-"""
