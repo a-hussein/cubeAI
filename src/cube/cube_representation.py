@@ -321,6 +321,12 @@ class CubeStateMixin:
         return self.moves
 
     def get_edge_count(self) -> Dict[str, int]:
+        """
+        Tells me how many similar stickered edges of a face are on that face.
+        For example, if cross is solved for white, then will at least have 4 white
+        and green/red/blue/orange with at least 1
+
+        """
         edge_counts = {}
         edge_values = {1, 3, 5, 7}
 
@@ -332,8 +338,9 @@ class CubeStateMixin:
         return edge_counts
 
     def cross_oriented(self, face="white"):
-        r"""
-        insert
+        """
+        Tells me if i have cross (defaulted to white), if i have the white edges oriented for that face.
+        Notice, this is oriented only, so a solved cross with D moves will still return True.
         """
 
         orientation = ["green", "red", "blue", "orange"]
@@ -358,6 +365,11 @@ class CubeStateMixin:
 
     # making a function to identify what type of white cross edge (in this case, white) do i have
     def identify_cross_edge_type(self, face="white"):
+        """
+        This function is the soul for the following funciton:
+            `engine_solver.CrossSetupForSolverMixin.combo()`
+        """
+
         _edge_count = 0
         orientation = [
             "green",
@@ -510,11 +522,14 @@ class CubeStateMixin:
         return cross_edge_types
 
     def cross_permuted(self):
-        # this function is used so that we can identify which bottum algo to use
-        # we want to orient the bottum layer before applying the algo, so we must first know how many are permuted
-        # this is a shortcut becuase knowing how many are permuted when not oriented lets us know which bottum algo to use
-        # usually we would not permute and then orient, but will do for bottum type
-        # this function will let us know how many bottum pieces are permuted and is useful when assuming NOT oriented AND 4 white edges in bottum layers
+        """
+        this function is used so that we can identify which bottum algo to use (recall bottum is when we do D moves and/or fixed moves for specific cases)
+        we want to orient the bottum layer before applying the algo, so we must first know how many are permuted
+        this is a shortcut because knowing how many are permuted when not oriented lets us know which bottum algo to use
+        usually we would not permute and then orient, but will do for bottum type
+        this function will let us know how many bottum pieces are permuted and is useful when assuming NOT oriented AND 4 white edges in bottum layers
+        """
+
         _combo = self.combo()
 
         _permuted = []
@@ -523,6 +538,55 @@ class CubeStateMixin:
                 _permuted.append(i)
 
         return _permuted
+
+    def cross_solved(self, face="white"):
+        # needs to be tested
+        """
+        Tells me if the white cross is fully solved.
+        Could have done this by simply checking cube
+        """
+
+        # first flag
+        oriented_permuted_flag = None
+        oriented = self.cross_oriented()
+        permuted = self.cross_permuted()
+
+        if (
+            oriented
+            and permuted[0] == 0
+            and permuted[1] == 1
+            and permuted[2] == 2
+            and permuted[3] == 3
+        ):
+            oriented_permuted_flag = True
+        else:
+            pass
+
+        # second flag, although above is probably sufficient
+        cube_state_flag = None
+        _cube_state = self.cube_state
+
+        _cube_state_w_items = [
+            _cube_state[face][1],
+            _cube_state[face][3],
+            _cube_state[face][5],
+            _cube_state[face][7],
+        ]
+        second_flag_alpha = all(i == "w" for i in _cube_state_w_items)
+
+        edge_piece_i_care_about_for_cross_to_be_solved = 5
+        x = edge_piece_i_care_about_for_cross_to_be_solved
+        _cube_state_face_items = [
+            _cube_state["green"][x] == "g",
+            _cube_state["red"][x] == "r",
+            _cube_state["blue"][x] == "b",
+            _cube_state["orange"][x] == "o",
+        ]
+        second_flag_beta = all(_cube_state_face_items)
+
+        cube_state_flag = second_flag_alpha and second_flag_beta
+
+        return True if oriented_permuted_flag and cube_state_flag else False
 
 
 class Cube(CubeCore, CubeStateMixin, CrossSetupForSolverMixin, CrossSolverMixin):

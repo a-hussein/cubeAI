@@ -1,11 +1,23 @@
-
-
 class CrossSetupForSolverMixin:
     """
     This class provides functions used as set up for the CrossSolverMixin class.
     """
 
     def combo(self):
+        """
+        This is the heart of identifying cross edge types to solve.
+        it returns a list of lists that represent each white t
+
+        This soul feeding this function is found here:
+            `cube_representation.CubeStateMixin.identify_cross_edge_type()`
+
+        Essentially, it tells me the:
+            - type of white edge i have (seven, three, etc)
+            - the face that white edge exists on
+            - the face the contains the colored edge of the white piece
+            - the color of that piece
+        """
+
         cross_dict = self.identify_cross_edge_type()
 
         _combo = []

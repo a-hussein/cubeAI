@@ -91,7 +91,7 @@ def test_edge_count():
     }
 
 
-def test_cross_orientation():
+def test_cross_oriented():
     moves = [
         ["R", "Dp", "Rp", "D", "R"],  # False
         ["D"],  # True
