@@ -540,7 +540,7 @@ class CubeStateMixin:
         return _permuted
 
     def cross_solved(self, face="white"):
-        # needs to be tested
+        # TODO: needs to be tested
         """
         Tells me if the white cross is fully solved.
         Could have done this by simply checking cube
