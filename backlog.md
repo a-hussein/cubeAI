@@ -15,6 +15,7 @@
         - turn this into a `make demo moves` command that creats a script that does above
 
 - misc
+    - readme gif visualizer
     - run thousands of cubes and see if any solve in more than 8 moves
     - docker container
     - try exceptions where needed
