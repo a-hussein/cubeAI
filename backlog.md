@@ -17,8 +17,6 @@
 - misc
     - run thousands of cubes and see if any solve in more than 8 moves
     - docker container
-    - clean up readme
-        - credit for UI to `https://github.com/cubing/cubing.js/`
     - try exceptions where needed
 
 - refactoring

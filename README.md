@@ -1,18 +1,17 @@
 # Rubik's Cube Cross Solver
 
-## I am working on developing a Rubik's Cube solver that solves a Rubik's Cube the way I would. I used to compete in tournaments when I was younger (far from the best, but was a fun hobby back in the day). 
+## Overview
+I am working on developing a Rubik's Cube solver that solves the cross portion of the CFOP method in an intuitive manner in 8 moves or less. I used to compete in tournaments when I was youngerm my WCA profile can be founde [here](https://www.worldcubeassociation.org/persons/2013HUSS01).
 
-### My WCA profile can be founde here: https://www.worldcubeassociation.org/persons/2013HUSS01
+I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. This project focuses on the "cross" portion which is less "algorithmic" than other parts of learning the CFOP method, and more intuitive in nature.
 
-I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. This project focuses on the "cross" portion which is less "algorithmic" than other parts of learning the CFOP method. However, I wanted to have a script solve the cross I would using similar logic patterns.
-
-# timeline
-- started in November 2023
-- worked until ~april 2024
-- took break until april 2025, not much done here
-- picking back up Nov 2025
-
-# developer notes
+# Developer Notes
 - always run `make clean` before pushing any code
-- reference the `demo/interact_with_cube.ipynb` file to become familiar with interacting with the `cube` object
+- go through this [demo notebook](https://github.com/a-hussein/cubeAI/blob/main/demo/interact_with_cube.ipynb) for an interactive walk through of the important cube functions
+    - also, for a sample scramble and solution visualized
+- this project uses the Twizzle cube editor for visualization, which is powered by
+[cubing.js](https://github.com/cubing/cubing.js), an open-source project
+
+# Backlog
+- A list of outstanding backlog items can be found [here](https://github.com/a-hussein/cubeAI/blob/main/backlog.md)
 
