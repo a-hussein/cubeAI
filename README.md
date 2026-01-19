@@ -13,18 +13,18 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
     - generating a scrmable for the cross portion of the cube
 
 ### Sample Scramble
-Sample Scramble: 
-
 `F2 L D2 L' R2 U2 B2 R' U2 F2 R' D B2 R F2 B' L F U D'`
 <video src="https://github.com/user-attachments/assets/d570fe33-23ff-42eb-afc6-cc4a635ec0ca" autoplay loop muted playsinline></video>
 
 
 ### Sample Solution
+`F U2 B2 R B Dp Bp`
+https://github.com/user-attachments/assets/7a423272-eec1-4390-912a-fc489f709142
+<video src="https://github.com/user-attachments/assets/7a423272-eec1-4390-912a-fc489f709142" autoplay loop muted playsinline></video>
 
 
 ## Developer Notes
 - always run `make clean` before pushing any code
-
 - this project uses the Twizzle cube editor for visualization, which is powered by
 [cubing.js](https://github.com/cubing/cubing.js), an open-source project
 
