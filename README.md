@@ -16,7 +16,8 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
 Sample Scramble: 
 
 `F2 L D2 L' R2 U2 B2 R' U2 F2 R' D B2 R F2 B' L F U D'`
-<video src="assets/scramble.mov" autoplay loop muted playsinline></video>
+https://github.com/user-attachments/assets/d570fe33-23ff-42eb-afc6-cc4a635ec0ca
+
 
 
 ### Sample Solution
