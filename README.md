@@ -1,18 +1,31 @@
 # Rubik's Cube Cross Solver
 
-## I am working on developing a Rubik's Cube solver that solves a Rubik's Cube the way I would. I used to compete in tournaments when I was younger (far from the best, but was a fun hobby back in the day). 
+## Overview
+I am working on developing a Rubik's Cube solver that solves the cross portion of the CFOP method in an intuitive manner in 8 moves or less. I used to compete in tournaments when I was younger (my WCA profile can be found [here](https://www.worldcubeassociation.org/persons/2013HUSS01)).
 
-### My WCA profile can be founde here: https://www.worldcubeassociation.org/persons/2013HUSS01
+I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. As mentioned, this project focuses on the "cross" portion which is less "algorithmic" than other parts of learning the CFOP method, and more intuitive in nature.
 
-I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. This project focuses on the "cross" portion which is less "algorithmic" than other parts of learning the CFOP method. However, I wanted to have a script solve the cross I would using similar logic patterns.
+## Major Features
+- Go through this [demo notebook](demo/interact_with_cube.ipynb) for an interactive walkthrough of the most important cube features such as:
+    - cube object
+    - cube state
+    - scrambling a cube
+    - visualizing a cube
+    - generating a cross solution
 
-# timeline
-- started in November 2023
-- worked until ~april 2024
-- took break until april 2025, not much done here
-- picking back up Nov 2025
+### Sample Scramble
+`F2 L D2 L' R2 U2 B2 R' U2 F2 R' D B2 R F2 B' L F U D'`
+<video src="https://github.com/user-attachments/assets/d570fe33-23ff-42eb-afc6-cc4a635ec0ca" autoplay loop muted playsinline></video>
 
-# developer notes
+### Sample Solution
+`F U2 B2 R B Dp Bp`
+<video src="https://github.com/user-attachments/assets/7a423272-eec1-4390-912a-fc489f709142" autoplay loop muted playsinline></video>
+
+
+## Developer Notes
 - always run `make clean` before pushing any code
-- reference the `demo/interact_with_cube.ipynb` file to become familiar with interacting with the `cube` object
+- this project uses the Twizzle cube editor for visualization, which is powered by
+[cubing.js](https://github.com/cubing/cubing.js), an open-source project
 
+## Backlog
+- A list of outstanding backlog items can be found [here](backlog.md)
