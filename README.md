@@ -7,7 +7,7 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
 
 ## Developer Notes
 - always run `make clean` before pushing any code
-- go through this [demo notebook](https://github.com/a-hussein/cubeAI/blob/main/demo/interact_with_cube.ipynb) for an interactive walk through of the important cube functions
+- go through this ![demo notebook](demo/interact_with_cube.ipynb) for an interactive walk through of the important cube functions
     - also, for a sample scramble and solution visualized
 - this project uses the Twizzle cube editor for visualization, which is powered by
 [cubing.js](https://github.com/cubing/cubing.js), an open-source project
