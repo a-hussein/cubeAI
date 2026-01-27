@@ -17,7 +17,7 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
 `F2 L D2 L' R2 U2 B2 R' U2 F2 R' D B2 R F2 B' L F U D'`
 <video src="https://github.com/user-attachments/assets/d570fe33-23ff-42eb-afc6-cc4a635ec0ca" autoplay loop muted playsinline></video>
 
-### Sample Solution
+### Sample Solution (notice the white-cross is now solved)
 `F U2 B2 R B Dp Bp`
 <video src="https://github.com/user-attachments/assets/7a423272-eec1-4390-912a-fc489f709142" autoplay loop muted playsinline></video>
 

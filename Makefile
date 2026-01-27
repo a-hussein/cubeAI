@@ -1,7 +1,7 @@
 # Python tooling
 UV=uv run
 
-.PHONY: fmt lint test check visual
+.PHONY: fmt lint test check visual demo
 
 # Auto-format code (will make changes)
 fmt:
@@ -22,4 +22,6 @@ clean: fmt lint test
 visual:
 	$(UV) python src/cube/visualizer.py $(a) # args
 
+demo:
+	$(UV) python demo/demo_script.py $(b)
 

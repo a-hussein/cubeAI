@@ -11,7 +11,7 @@
 
 - demo script
     - create a .py script that all you do is add moves and it does scramble -> visualize -> solution -> visualize
-        - this is  equivalent to converting the `demo/many_scrambles.ipynb` notebook into a .py script and seeing the summary
+        - this is  equivalent to converting the `demo/specific_scrambles.ipynb` notebook into a .py script and seeing the summary
         - turn this into a `make demo moves` command that creats a script that does above
 
 - misc
