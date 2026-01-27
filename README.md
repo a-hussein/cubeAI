@@ -3,7 +3,7 @@
 ## Overview
 I am working on developing a Rubik's Cube solver that solves the cross portion of the CFOP method in an intuitive manner in 8 moves or less. I used to compete in tournaments when I was younger (my WCA profile can be found [here](https://www.worldcubeassociation.org/persons/2013HUSS01)).
 
-I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. As mentioned, this project focuses on the "cross" portion which is less "algorithmic" than other parts of learning the CFOP method, and more intuitive in nature.
+I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and average ~15 seconds. As mentioned, this project focuses on the "cross" portion which is practice is "algorithmic" than other parts of learning the CFOP method, and more intuitive in nature. However, when creating the solver via code, was actually quite algorithmic when translating processed into modular steps.
 
 ## Major Features
 - Go through this [demo notebook](demo/interact_with_cube.ipynb) for an interactive walkthrough of the most important cube features such as:
@@ -12,6 +12,8 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
     - scrambling a cube
     - visualizing a cube
     - generating a cross solution
+- One can also use the following `make` command to run a demo on a specific scramble, eg:
+    - `make demo moves="R U F"`
 
 ### Sample Scramble
 `F2 L D2 L' R2 U2 B2 R' U2 F2 R' D B2 R F2 B' L F U D'`

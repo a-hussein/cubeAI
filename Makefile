@@ -23,5 +23,5 @@ visual:
 	$(UV) python src/cube/visualizer.py $(a) # args
 
 demo:
-	$(UV) python demo/demo_script.py $(b)
+	$(UV) python demo/demo_script.py $(moves)
 
