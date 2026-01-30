@@ -13,6 +13,8 @@
     - docker container
     - run thousands of cubes and see if any solve in more than 8 moves
     - try/exceptions where needed
+    - versioning strategy (0.x.y rules)
+    - .whl file for pip 
 
 - refactoring
     - `enginer_solver.py`
