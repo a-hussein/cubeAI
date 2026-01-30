@@ -34,7 +34,9 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
 
 ## Run with Docker
 "build once, run anywhere”
-- Build Image: `docker build -t cubeai:dev .`
-- Run Container (and delete): `docker run --rm -it cubeai:dev`
-- Run custom scrambles: `docker run --rm -it cubeai:dev make demo moves="<moves>"`
-    - Insert your moves where it says `<moves>`, for example: `docker run --rm -it cubeai:dev make demo moves="R U Fp"`
+
+- After cloning the repo and entering into the repo root, run the below:
+    - Build the Docker Image: `docker build -t cubeai:dev .`
+    - Run Container (and delete): `docker run --rm -it cubeai:dev`
+    - Run Custom Scrambles: `docker run --rm -it cubeai:dev make demo moves="<moves>"`
+        - Insert your moves where it says `<moves>`, for example: `docker run --rm -it cubeai:dev make demo moves="R U Fp"`
