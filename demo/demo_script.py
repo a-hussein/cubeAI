@@ -18,11 +18,10 @@ DEFAULT_SCRAMBLE = ["R2", "L", "U", "D", "F", "B"]
 
 
 def main(your_scramble):
-
     move_converted = move_notation_converter(your_scramble)
 
     if os.getenv("NO_TWIZZLE") == "1":
-        print(f"Sramble:")
+        print("Scramble:")
     open_in_twizzle(move_converted)
 
     cube = do_scramble(your_scramble)
@@ -53,7 +52,7 @@ def main(your_scramble):
     )
 
     if os.getenv("NO_TWIZZLE") == "1":
-        print(f"Solution:")
+        print("Solution:")
     open_in_twizzle(scramble_plus_solution)
 
 
