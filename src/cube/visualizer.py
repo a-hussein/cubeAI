@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import argparse
 import webbrowser
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
@@ -134,6 +135,7 @@ def open_in_twizzle(
     """
     Convenience wrapper: build URL and open in browser. Returns the URL.
     """
+
     url = build_twizzle_url(
         user_alg=alg,
         base_url=base_url,
@@ -141,6 +143,12 @@ def open_in_twizzle(
         preset=preset,
         cli_setup=cli_setup,
     )
+
+    # docker print statement
+    if os.getenv("NO_TWIZZLE") == "1":
+        print(f"\tIn case of docker run, printing Twizzle url: {url}")
+        return
+
     webbrowser.open(url)
     return url
 

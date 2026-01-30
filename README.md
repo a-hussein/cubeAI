@@ -31,3 +31,10 @@ I solve the rubik's cube using the CFOP method (Cross / F2L / OLL / PLL) and ave
 
 ## Backlog
 - A list of outstanding backlog items can be found [here](backlog.md)
+
+## Run with Docker
+"build once, run anywhere”
+- Build Image: `docker build -t cubeai:dev .`
+- Run Container (and delete): `docker run --rm -it cubeai:dev`
+- Run custom scrambles: `docker run --rm -it cubeai:dev make demo moves="<moves>"`
+    - Insert your moves where it says `<moves>`, for example: `docker run --rm -it cubeai:dev make demo moves="R U Fp"`

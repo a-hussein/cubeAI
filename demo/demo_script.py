@@ -4,6 +4,7 @@ Essentially, script version of `demo/specific_scramble.ipynb`
 """
 
 import sys
+import os
 
 from cube import (
     move_notation_converter,
@@ -17,7 +18,11 @@ DEFAULT_SCRAMBLE = ["R2", "L", "U", "D", "F", "B"]
 
 
 def main(your_scramble):
+
     move_converted = move_notation_converter(your_scramble)
+
+    if os.getenv("NO_TWIZZLE") == "1":
+        print(f"Sramble:")
     open_in_twizzle(move_converted)
 
     cube = do_scramble(your_scramble)
@@ -46,6 +51,9 @@ def main(your_scramble):
     scramble_plus_solution = (
         move_converted + " " + move_notation_converter(final_solution["cube"])
     )
+
+    if os.getenv("NO_TWIZZLE") == "1":
+        print(f"Solution:")
     open_in_twizzle(scramble_plus_solution)
 
 
